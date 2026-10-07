@@ -1,0 +1,22 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*~
+
+# Secrets
+.env
+.env.*
+*.pem
+*.key
+
+# Build output from static site generators (MkDocs, Docusaurus, etc.)
+site/
+_site/
+build/
+node_modules/
+.cache/
