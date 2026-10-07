@@ -20,3 +20,8 @@ _site/
 build/
 node_modules/
 .cache/
+
+# Python
+__pycache__/
+*.pyc
+.venv/

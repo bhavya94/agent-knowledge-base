@@ -1,0 +1,49 @@
+$ python3 wordfreq.py -n 8 ../../AGENTS.md
+    18  the
+    10  and
+     7  is
+     6  to
+     5  a
+     5  agent
+     5  base
+     5  knowledge
+[exit 0]
+
+$ printf 'Café café naïve don’t rock'\''n'\''roll' | python3 wordfreq.py
+     2  café
+     1  don’t
+     1  naïve
+     1  rock'n'roll
+[exit 0]
+
+$ printf 'ok � bad' | python3 wordfreq.py
+     1  bad
+     1  ok
+[exit 0]
+
+$ echo 'notes notes' | python3 wordfreq.py ../../README.md - -n 3
+     3  notes
+     1  agent
+     1  agents
+[exit 0]
+
+$ python3 wordfreq.py -n 100000 ../../notes/*.md | head -2
+    25  the
+    18  and
+[exit 0]
+
+$ python3 wordfreq.py missing.txt
+wordfreq: missing.txt: No such file or directory
+[exit 1]
+
+$ python3 wordfreq.py -n 0
+usage: wordfreq.py [-h] [-n N] [files [files ...]]
+wordfreq.py: error: -n must be >= 1
+[exit 2]
+
+$ python3 -m unittest test_wordfreq 2>&1 | tail -3
+Ran 10 tests in 0.773s
+
+OK
+[exit 0]
+
