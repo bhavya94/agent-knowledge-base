@@ -28,8 +28,32 @@ Deliverable: a judge with reported κ/α/F1 against humans, plus the prompt-sear
 5. **Evaluate** — compare student vs. frontier on held-out judge evals; report cost per query and
    quality gap.
 
-Open decisions: target task/domain, compute budget (local vs. rented GPUs), training stack
-(TRL / Unsloth / verl).
+## Decisions (2026-10-07)
+- **Task:** grounded QA over research papers — [QASPER](https://huggingface.co/datasets/allenai/qasper)
+  (Dasigi et al., 2021; CC BY 4.0; 5,049 questions over 1,585 NLP papers; extractive / abstractive /
+  yes-no / unanswerable answers with evidence; ~44% of questions have >1 human answer).
+- **Input format:** retrieve-then-answer — question + top-k retrieved paragraphs (~2–3k tokens), not the
+  full paper. Keeps GRPO affordable; faithfulness is judged against the provided context.
+- **Annotation:** single annotator (me). Reliability = intra-rater κ (re-label the pilot blind after ≥1 week);
+  human-vs-human reference from QASPER's multi-answer questions; other LLM judges reported as
+  non-human raters. Judge target: agree with me about as well as I agree with myself.
+- **Compute:** laptop (M1, 8 GB) for orchestration, labeling, and API calls only. Rented single GPU for
+  student inference, SFT, and GRPO.
+- **Stack (proposed):** DSPy (MIPROv2, GEPA) for the judge; MLflow for tracking; TRL + vLLM for SFT/GRPO
+  (Unsloth if memory-tight); small open student (~1.7B, step up to ~4B if the gap is large).
+
+## Plan
+0. **Scope** — verify current small-model options and GPU/API prices; task spec; retrieval baseline.
+1. **Rubric + labels** — rubric: faithfulness, correctness vs. gold, completeness, handling of unanswerable.
+   Generate answers from frontier, small, and deliberately weak models. Pilot 25, re-label later for κ,
+   refine; then ~200-item held-out test set. Deterministic answer-F1 vs. gold reported alongside.
+2. **Judge** — per-criterion judges; baseline → MIPROv2 → GEPA → ACE; select on held-out agreement;
+   degradation tests.
+3. **Agentic + cheap judge** — tool-using judge (evidence lookup) vs. plain on agreement and cost; a cheap
+   judge for use as the GRPO reward.
+4. **Post-train** — baseline student; frontier-prompt baseline; on-policy sampling → critic-panel repair →
+   SFT on reasoning traces → GRPO with judge reward.
+5. **Report** — student vs. frontier: judge scores, answer-F1, cost per 1k queries.
 
 
 ## Method notes (general practice, domain-neutral)
