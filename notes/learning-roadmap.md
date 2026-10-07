@@ -31,19 +31,12 @@ Deliverable: a judge with reported κ/α/F1 against humans, plus the prompt-sear
 Open decisions: target task/domain, compute budget (local vs. rented GPUs), training stack
 (TRL / Unsloth / verl).
 
-## References
-- [Shopify — Sidekick's continual learning loop](https://shopify.engineering/sidekicks-continual-learning-loop)
-  — the end-to-end version of this roadmap. Rubric with anchored levels (completeness, execution,
-  response quality, safety); 2 experts blind-score 25 samples, Cohen's κ (~0.2 = rubric is ambiguous);
-  judge target = agree with humans as well as humans agree with each other. Calibrate with DSPy +
-  GEPA/ACE; several small targeted judges rather than one. Validate judges by backtesting past A/B
-  results and by deliberately degrading one behavior. Mine low-scoring production traces → frontier
-  critic panel + arbiter writes repair instructions → replay → SFT on full reasoning traces → GRPO
-  with judge reward; unfixable cases go to human experts. Prompt/harness first, weights only once
-  that plateaus. ~$27M → ~$1M/yr serving cost.
-- [ICML 2026 Expo — Model Optimization Flywheel (McNamara, Mazza-Anthony, Sun)](https://icml.cc/virtual/2026/75732)
-  — talk version of the above; adds on-policy distillation and gist-token prompt compression.
-- [Toloka — CV parser fine-tuned with Shopify's Tangle](https://toloka.ai/blog/fine-tuning-for-agentic-workflows-building-a-production-cv-parser-with-shopifys-tangle/)
-  — structured extraction. Training labels synthetic (frontier models + automated validation); humans
-  label only the holdout. Per-field multiset F1: small model 0.94 vs. frontier 0.93; ~$0.80 vs.
-  $10–30 per 1k CVs. Tangle (open source) orchestrates ingest → fine-tune → eval.
+
+## Method notes (general practice, domain-neutral)
+- Pilot the rubric with 2 annotators on ~25 items; low κ means the rubric is ambiguous — fix it before scaling.
+- Judge target: agree with humans about as well as humans agree with each other.
+- Prefer several small per-criterion judges over one monolithic judge.
+- Validate a judge with degradation tests: deliberately worsen one behavior; only its criterion should drop.
+- Training labels can be synthetic (frontier models + automated checks); humans label the held-out test set.
+- Optimize prompt/harness first; move to weights only once that plateaus.
+- SFT on full reasoning traces, not just final answers. Report cost per 1k queries alongside quality.
