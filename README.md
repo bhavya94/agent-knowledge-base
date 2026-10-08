@@ -8,5 +8,6 @@ Shared, version-controlled memory, notes, and skills for my AI coding agents.
 | `memory/` | Durable facts (one per file), indexed in `memory/MEMORY.md` |
 | `skills/` | Agent skills: `explainer`, `reviewer`, `demo`, `remember`, `kb-sync`, `stakeholder-comms`, `learn-org-patterns` |
 | `conventions/` | Code structure and style conventions |
-| `notes/` | Longer-form notes: AI coding, communication, learning roadmap |
+| `notes/` | Longer-form notes: AI coding, communication |
+| `learning/` | Course and paper notes, plus the evals → post-training roadmap |
 | `examples/` | Worked runs of the Build → Explainer → Reviewer → Demo loop |
