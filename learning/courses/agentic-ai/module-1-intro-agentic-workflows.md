@@ -17,7 +17,7 @@ with no tools, no iteration, and no way to check its own work.
   2. **Tool use:** the LLM calls external functions or APIs.
   3. **Planning:** the LLM decides the sequence of actions up front.
   4. **Multi-agent collaboration:** specialized agents, each with its own tools, work on one task.
-     Example: OpenAI Dots, launched at OpenAI Dev Day 2026.
+     My example (not from the course): OpenAI Dots, launched at OpenAI Dev Day 2026.
 
 ## Why it matters
 - Decomposition makes the system **evaluable per subtask**, not only end to end.
