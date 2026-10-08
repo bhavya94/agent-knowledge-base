@@ -43,6 +43,8 @@ Deliverable: a judge with reported κ/α/F1 against humans, plus the prompt-sear
   (Unsloth if memory-tight); small open student (~1.7B, step up to ~4B if the gap is large).
 
 ## Plan
+- **Prerequisite (started 2026-10-08):** DeepLearning.AI coursework before Phase 0.
+  Log courses and takeaways that change the plan here.
 0. **Scope** — verify current small-model options and GPU/API prices; task spec; retrieval baseline.
 1. **Rubric + labels** — rubric: faithfulness, correctness vs. gold, completeness, handling of unanswerable.
    Generate answers from frontier, small, and deliberately weak models. Pilot 25, re-label later for κ,
