@@ -17,6 +17,7 @@ with no tools, no iteration, and no way to check its own work.
   2. **Tool use:** the LLM calls external functions or APIs.
   3. **Planning:** the LLM decides the sequence of actions up front.
   4. **Multi-agent collaboration:** specialized agents, each with its own tools, work on one task.
+     Example: OpenAI Dots, launched at OpenAI Dev Day 2026.
 
 ## Why it matters
 - Decomposition makes the system **evaluable per subtask**, not only end to end.
@@ -34,5 +35,4 @@ with no tools, no iteration, and no way to check its own work.
   The `reviewer` skill is the reflection pattern with a separate critic.
 
 ## Open questions
-- "OpenAI Dots" (an example of multi-agent collaboration). I'm not sure what this referred to; confirm.
 - Agentic applications: the module covered examples, but I didn't capture them.
