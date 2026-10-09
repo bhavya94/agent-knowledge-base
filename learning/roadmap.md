@@ -41,10 +41,17 @@ Deliverable: a judge with reported κ/α/F1 against humans, plus the prompt-sear
   student inference, SFT, and GRPO.
 - **Stack (proposed):** DSPy (MIPROv2, GEPA) for the judge; MLflow for tracking; TRL + vLLM for SFT/GRPO
   (Unsloth if memory-tight); small open student (~1.7B, step up to ~4B if the gap is large).
+- **Phase B eval set (2026-10-09):** LiveCodeBench filtered to post-model-cutoff problems —
+  unit-test-verifiable for clean GRPO rewards and contamination-resistant via time-sliced releases.
+  Paired with QASPER: QASPER covers the judge track (faithfulness needs a judge), LiveCodeBench
+  covers the verifiable training track. Train and eval slices stay disjoint from day one.
 
 ## Plan
 - **Prerequisite (started 2026-10-08):** DeepLearning.AI coursework before Phase 0.
-  Log courses and takeaways that change the plan here.
+  Ranked shortlist (~20–25h): 1. Agentic AI (Ng) → 2. DSPy → 3. Evaluating AI Agents →
+  4. Fine-tuning & RL for LLMs → 5. GRPO → 6. Post-training of LLMs → 7. MCP → 8. LangGraph.
+  Courses #2–#3 feed Phase A; #4–#6 feed Phase B. Agentic AI modules 1–2 done, notes in
+  learning/courses/agentic-ai/. Log takeaways that change the plan here.
 0. **Scope** — verify current small-model options and GPU/API prices; task spec; retrieval baseline.
 1. **Rubric + labels** — rubric: faithfulness, correctness vs. gold, completeness, handling of unanswerable.
    Generate answers from frontier, small, and deliberately weak models. Pilot 25, re-label later for κ,
@@ -52,10 +59,22 @@ Deliverable: a judge with reported κ/α/F1 against humans, plus the prompt-sear
 2. **Judge** — per-criterion judges; baseline → MIPROv2 → GEPA → ACE; select on held-out agreement;
    degradation tests.
 3. **Agentic + cheap judge** — tool-using judge (evidence lookup) vs. plain on agreement and cost; a cheap
-   judge for use as the GRPO reward.
+   judge for use as the GRPO reward. Open design decision: offline eval (scores completed outputs)
+   vs live sentinel (watches the trajectory, can intervene) — same architecture, different trust model.
+   Reflection is self-critique (correlated blind spots, optimizes quality); a sentinel is a separate
+   watcher (optimizes safety: block/halt/escalate). Decide explicitly.
 4. **Post-train** — baseline student; frontier-prompt baseline; on-policy sampling → critic-panel repair →
    SFT on reasoning traces → GRPO with judge reward.
 5. **Report** — student vs. frontier: judge scores, answer-F1, cost per 1k queries.
+
+## Learning topics (queue)
+- Alignment at training time — RLHF, DPO, constitutional AI; how alignment is handled during training.
+- RL gyms — simulated environments for testing agents across scenarios (AutoGym, SkillGym).
+- Red teaming agents — adversarial verification that an agent does what it's supposed to do.
+- Recursive self-improvement vs self-healing — self-healing fixes outputs in a fixed capability
+  envelope; RSI improves the improvement machinery itself.
+- Sentinel / oversight agents — a monitor agent watching the main agent's trajectory for safety
+  and policy compliance; catches deceptive or out-of-bounds actions.
 
 
 ## Method notes (general practice, domain-neutral)
