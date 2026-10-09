@@ -10,6 +10,7 @@ how to prompt, which tools and connectors to use, how to structure context, and 
 
 ## Core skills (see `skills/`)
 - **Code structure / DRY** — `conventions/code-structure.md`.
+- **Pull requests** — `conventions/pull-requests.md`: small, focused, proven with screenshots.
 - **explainer** — walks through what the agent wrote, with Mermaid diagrams and a decision log.
 - **reviewer** — adversarial checks before anything is called done.
 - **demo** — spins up the local server/UI/terminal, shows it working, captures screenshots/recordings.

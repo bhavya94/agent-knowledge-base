@@ -20,6 +20,8 @@ I direct, review, and own the design decisions.
 2. **Explainer** — run the explainer skill: what was built, Mermaid diagrams, decision log.
 3. **Reviewer** — run the reviewer skill: adversarial check before anything is called done.
 4. **Demo** — run the demo skill: prove it works end to end, with captures.
+5. **PR** — follow `conventions/pull-requests.md`: about 300 lines or fewer, one purpose,
+   screenshots as proof, concise description.
 Nothing is "done" until the demo proves it.
 
 ## Before irreversible actions
