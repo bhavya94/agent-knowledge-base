@@ -16,7 +16,10 @@ early and stops at M4.
 - Critic criteria come from M2 error analysis, never invented up front (roadmap: criteria drift).
 - QASPER test split stays untouched. DSPy/GEPA, MLflow, tool-using critics and sentinels are deferred to
   later roadmap phases.
-- Repo is local only until Bhavya confirms creating a public GitHub repo.
+- Public repo: github.com/bhavya94/reflective-qa (created 2026-10-09, approved by Bhavya). One PR per milestone,
+  branch → `main`; M0 is PR #1.
+- Model access: Anthropic API key only. Never route project calls through Max subscription credentials
+  (Anthropic's credential policy); `claude -p` is allowed but not reproducible. Key decision still open as of 2026-10-09.
 
 **Why:** Turns course practice into the first slice of `learning/roadmap.md` without skipping the
 roadmap's error-analysis-first order.
