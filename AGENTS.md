@@ -44,6 +44,9 @@ imported into every Claude Code session via `~/.claude/CLAUDE.md`. All paths abo
 
 - **Memory**: read `~/agent-knowledge-base/memory/MEMORY.md` at the start of a task. Save durable
   facts with the `remember` skill — never into a tool-private memory store.
+  **Save proactively, without being asked:** when I correct you, state a preference, make a decision,
+  or when you learn something non-obvious a future session would need. Before finishing a task,
+  check whether anything from it belongs in memory. Update or delete stale memories rather than piling on new ones.
 - **Skills**: `~/agent-knowledge-base/skills/<name>/SKILL.md`.
 - **Sync**: after changing files here, commit and push to `main`. This is pre-authorized for this repo only.
 - **The repo is public.** Never write secrets, credentials, customer data, confidential employer
