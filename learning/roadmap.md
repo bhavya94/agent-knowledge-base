@@ -4,10 +4,13 @@ Goal: build concrete, public, end-to-end projects in evals and post-training.
 Track A produces the judge that Track B depends on, so do A first.
 
 ## Track A — Evals and LLM judges
-1. **Rubric** — pick a task; write a rubric with clear, scorable criteria and examples per level.
-2. **Ground truth** — curate a labeled set (~200–500 items) with multiple annotators.
-3. **Agreement** — Cohen's κ (2 raters), Fleiss' κ / Krippendorff's α (many raters, missing labels,
-   ordinal scales); precision/recall/F1 of judge vs. consensus labels. Resolve disagreements; refine rubric.
+1. **Error analysis** — generate outputs from the system being judged, read ~100, open-code what goes
+   wrong, cluster into failure modes. Criteria come from observed outputs, not a priori ("criteria drift").
+2. **Ground truth** — one trusted domain expert labels outputs Pass/Fail per failure mode (~50 Pass /
+   ~50 Fail each, ≥30% negatives). Code checks first; LLM judges only for what code can't check.
+3. **Agreement** — judge vs. expert: TPR/TNR (not raw accuracy) plus Cohen's κ; dev split to iterate,
+   test split once. Ceiling = the expert's self-agreement (blind re-label). Fleiss' κ / α only if
+   more raters join.
 4. **Judge prompt** — baseline hand-written judge, then optimize with DSPy (MIPROv2), GEPA
    (reflective prompt evolution), and Agentic Context Engineering (evolving playbooks).
 5. **Tracking** — log every candidate prompt and its metrics to Comet ML / Opik (or W&B Weave, MLflow);
@@ -20,11 +23,14 @@ Deliverable: a judge with reported κ/α/F1 against humans, plus the prompt-sear
 ## Track B — Post-training with the judge
 1. **Base** — small open model (Qwen or Liquid LFM); optionally warm-start by distilling from a
    frontier model.
-2. **On-policy distillation** — sample from the student, score with the Track A judge.
-3. **Self-correction** — below a score threshold, use the judge feedback plus a frontier model to
-   produce a corrected response that passes the judge. Use a "council of models" (multiple
-   frontier models propose; judge or vote selects).
-4. **Train** — SFT on corrected data; then GRPO with the judge as the reward.
+2. **SFT warm start** — frontier answers with reasoning, filtered by the judge (rejection sampling).
+3. **Self-correction** — student answers below threshold are repaired by a frontier "council"
+   (judge or vote selects) and fed back into SFT.
+4. **GRPO** — reward = per-question checklist rubric graded by a cheap training judge (Rubrics as
+   Rewards). The validated frontier judge is a separate gold judge, never the reward; watch for
+   train-vs-gold divergence (reward hacking); consider rubric dropout.
+   On-policy distillation (per-token teacher logprobs) needs an open-weight same-family teacher —
+   stretch goal.
 5. **Evaluate** — compare student vs. frontier on held-out judge evals; report cost per query and
    quality gap.
 
@@ -34,9 +40,10 @@ Deliverable: a judge with reported κ/α/F1 against humans, plus the prompt-sear
   yes-no / unanswerable answers with evidence; ~44% of questions have >1 human answer).
 - **Input format:** retrieve-then-answer — question + top-k retrieved paragraphs (~2–3k tokens), not the
   full paper. Keeps GRPO affordable; faithfulness is judged against the provided context.
-- **Annotation:** single annotator (me). Reliability = intra-rater κ (re-label the pilot blind after ≥1 week);
-  human-vs-human reference from QASPER's multi-answer questions; other LLM judges reported as
-  non-human raters. Judge target: agree with me about as well as I agree with myself.
+- **Annotation (revised 2026-10-09):** single domain expert (me) — standard practice, not a compromise.
+  Binary Pass/Fail per failure mode on *model outputs*; judge reported as TPR/TNR + κ vs. my labels.
+  Ceiling = my blind re-label agreement. QASPER human answers + evidence are references and the
+  source for per-question checklist rubrics, not the items being labeled.
 - **Compute:** laptop (M1, 8 GB) for orchestration, labeling, and API calls only. Rented single GPU for
   student inference, SFT, and GRPO.
 - **Stack (proposed):** DSPy (MIPROv2, GEPA) for the judge; MLflow for tracking; TRL + vLLM for SFT/GRPO
@@ -53,18 +60,21 @@ Deliverable: a judge with reported κ/α/F1 against humans, plus the prompt-sear
   Courses #2–#3 feed Phase A; #4–#6 feed Phase B. Agentic AI modules 1–2 done, notes in
   learning/courses/agentic-ai/. Log takeaways that change the plan here.
 0. **Scope** — verify current small-model options and GPU/API prices; task spec; retrieval baseline.
-1. **Rubric + labels** — rubric: faithfulness, correctness vs. gold, completeness, handling of unanswerable.
-   Generate answers from frontier, small, and deliberately weak models. Pilot 25, re-label later for κ,
-   refine; then ~200-item held-out test set. Deterministic answer-F1 vs. gold reported alongside.
-2. **Judge** — per-criterion judges; baseline → MIPROv2 → GEPA → ACE; select on held-out agreement;
-   degradation tests.
+1. **Error analysis** — answers from frontier, small, and deliberately weak models; read and annotate
+   ~100; cluster into failure modes (expected: unfaithful claims, wrong vs. evidence, incomplete,
+   wrong answer type, "unanswerable" shortcut). Answer-F1 vs. gold reported alongside.
+2. **Judges** — code checks first (format, unanswerable, quote-in-context, F1); one binary judge per
+   remaining failure mode, ~100 labels each; baseline → MIPROv2 → GEPA → ACE scored on TPR/TNR;
+   dev to iterate, test once; blind re-label for the ceiling; degradation tests.
 3. **Agentic + cheap judge** — tool-using judge (evidence lookup) vs. plain on agreement and cost; a cheap
    judge for use as the GRPO reward. Open design decision: offline eval (scores completed outputs)
    vs live sentinel (watches the trajectory, can intervene) — same architecture, different trust model.
    Reflection is self-critique (correlated blind spots, optimizes quality); a sentinel is a separate
    watcher (optimizes safety: block/halt/escalate). Decide explicitly.
-4. **Post-train** — baseline student; frontier-prompt baseline; on-policy sampling → critic-panel repair →
-   SFT on reasoning traces → GRPO with judge reward.
+4. **Post-train** — baseline student; frontier-prompt baseline; closed-book (question-only) baseline for
+   contamination; SFT on judge-filtered frontier answers with reasoning → council repair of student
+   failures → GRPO with per-question checklist reward (rubrics built from QASPER references + evidence),
+   cheap training judge, frontier gold judge for eval.
 5. **Report** — student vs. frontier: judge scores, answer-F1, cost per 1k queries.
 
 ## Learning topics (queue)
@@ -78,10 +88,20 @@ Deliverable: a judge with reported κ/α/F1 against humans, plus the prompt-sear
 
 
 ## Method notes (general practice, domain-neutral)
-- Pilot the rubric with 2 annotators on ~25 items; low κ means the rubric is ambiguous — fix it before scaling.
-- Judge target: agree with humans about as well as humans agree with each other.
-- Prefer several small per-criterion judges over one monolithic judge.
+- Error analysis before criteria; label outputs of the system being judged.
+- One trusted expert labeling beats many outsourced labelers; low self-agreement means the criterion is ambiguous.
+- Judge target: agree with the expert about as well as the expert agrees with themselves (TPR/TNR, not accuracy).
+- Prefer several small binary per-failure-mode judges over one monolithic Likert judge.
+- RL against a judge gets hacked: keep a separate gold judge and watch for divergence.
 - Validate a judge with degradation tests: deliberately worsen one behavior; only its criterion should drop.
 - Training labels can be synthetic (frontier models + automated checks); humans label the held-out test set.
 - Optimize prompt/harness first; move to weights only once that plateaus.
 - SFT on full reasoning traces, not just final answers. Report cost per 1k queries alongside quality.
+
+## Sources (industry practice, 2026-10-09)
+- [Shankar et al. — Who Validates the Validators? (criteria drift)](https://arxiv.org/pdf/2404.12272)
+- [Husain — validate-evaluator (binary judges, TPR/TNR, single expert)](https://skills.sh/hamelsmu/evals-skills/validate-evaluator)
+- [Databricks — Align LLM judges with human feedback](https://docs.databricks.com/gcp/en/mlflow3/genai/eval-monitor/align-judges)
+- [Rubrics as Rewards (ICLR 2026)](https://arxiv.org/html/2507.17746v2)
+- [Thinking Machines — On-Policy Distillation](https://thinkingmachines.ai/blog/on-policy-distillation/)
+- [Rubric Dropout — reward hacking in rubric-as-reward RL](https://hub.baai.ac.cn/paper/b0256a30-0c5b-49c7-8c0d-4b07a9a80168)
