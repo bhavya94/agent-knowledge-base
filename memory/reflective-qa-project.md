@@ -16,8 +16,9 @@ early and stops at M4.
 - Critic criteria come from M2 error analysis, never invented up front (roadmap: criteria drift).
 - QASPER test split stays untouched. DSPy/GEPA, MLflow, tool-using critics and sentinels are deferred to
   later roadmap phases.
-- Public repo: github.com/bhavya94/reflective-qa (created 2026-10-09, approved by Bhavya). One PR per milestone,
-  branch → `main`; M0 is PR #1.
+- Public repo: github.com/bhavya94/reflective-qa (created 2026-10-09, approved by Bhavya). PRs follow
+  `conventions/pull-requests.md`; a milestone too big for one PR becomes a stack. M0 = #2 → #3 → #4
+  (#1 closed as superseded).
 - Model access: Anthropic API key only. Never route project calls through Max subscription credentials
   (Anthropic's credential policy); `claude -p` is allowed but not reproducible. Key decision still open as of 2026-10-09.
 
