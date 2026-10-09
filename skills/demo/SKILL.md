@@ -14,7 +14,8 @@ Show the change working in the real system, not just in unit tests.
    command transcripts, request/response pairs, metrics or plots for ML work. The screenshots are the
    PR's proof, so follow `~/agent-knowledge-base/conventions/pull-requests.md`: UI screenshots for UI;
    for terminal-testable changes, an image of the command, the function or API call, and its output,
-   with the call and result highlighted; a local database for data changes.
+   with the call and result highlighted (`~/agent-knowledge-base/scripts/term-shot.sh`); a local database
+   for data changes.
 4. **Report** — a short `README.md` in that folder: what was demonstrated, steps to reproduce,
    expected vs. observed results, links to captures.
 
