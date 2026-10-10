@@ -7,3 +7,4 @@ One line per memory: `- [Title](file.md) — one-line hook`. Content lives in th
 - [Learning note workflow](learning-note-workflow.md) — distill pasted notes into 4 questions, label own observations, no empty templates
 - [reflective-qa project](reflective-qa-project.md) — QASPER reflection agent, M0–M4 plan, error analysis before critic criteria
 - [Local tooling](local-tooling.md) — freeze in ~/.local/bin, Homebrew taps blocked by old CLT, no `timeout` on macOS
+- [KB is Claude Code only](kb-claude-code-only.md) — don't wire the knowledge base into Codex, Gemini, or Cursor
