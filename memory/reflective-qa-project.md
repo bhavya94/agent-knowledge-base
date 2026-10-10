@@ -19,9 +19,10 @@ early and stops at M4.
 - Public repo: github.com/bhavya94/reflective-qa (created 2026-10-09, approved by Bhavya). PRs follow
   `conventions/pull-requests.md`; a milestone too big for one PR becomes a stack. M0 is on `main` as of
   2026-10-10: #2, then #5 (#3 and #4 had merged into their stack bases, so #5 re-landed them). #1 was closed
-  as superseded. Branches auto-delete on merge. Next: M1, blocked on the model-access decision.
-- Model access: Anthropic API key only. Never route project calls through Max subscription credentials
-  (Anthropic's credential policy); `claude -p` is allowed but not reproducible. Key decision still open as of 2026-10-09.
+  as superseded. Branches auto-delete on merge. Next: M1.
+- Model access: Anthropic API key, decided by Bhavya 2026-10-10. Bhavya puts the key in `~/reflective-qa/.env`
+  (git-ignored); agents never handle or print it. Never route project calls through Max subscription credentials
+  (Anthropic's credential policy). Get Bhavya's approval on estimated cost before any paid run.
 
 **Why:** Turns course practice into the first slice of `learning/roadmap.md` without skipping the
 roadmap's error-analysis-first order.
