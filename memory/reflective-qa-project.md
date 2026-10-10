@@ -17,8 +17,9 @@ early and stops at M4.
 - QASPER test split stays untouched. DSPy/GEPA, MLflow, tool-using critics and sentinels are deferred to
   later roadmap phases.
 - Public repo: github.com/bhavya94/reflective-qa (created 2026-10-09, approved by Bhavya). PRs follow
-  `conventions/pull-requests.md`; a milestone too big for one PR becomes a stack. M0 = #2 → #3 → #4
-  (#1 closed as superseded).
+  `conventions/pull-requests.md`; a milestone too big for one PR becomes a stack. M0 is on `main` as of
+  2026-10-10: #2, then #5 (#3 and #4 had merged into their stack bases, so #5 re-landed them). #1 was closed
+  as superseded. Branches auto-delete on merge. Next: M1, blocked on the model-access decision.
 - Model access: Anthropic API key only. Never route project calls through Max subscription credentials
   (Anthropic's credential policy); `claude -p` is allowed but not reproducible. Key decision still open as of 2026-10-09.
 
