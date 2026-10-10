@@ -4,6 +4,20 @@ Learning-relevant items from The Batch (DeepLearning.AI) and TLDR AI, curated fo
 evals → post-training track. Only items that go beyond the existing plan are listed.
 Updated by the daily newsletter scan.
 
+## 2026-10-09 — TLDR AI, "GPT-6.1 Ultrafast, Gemini universal agent, speculative decoding"
+
+- **Gemini Agent (Google)** — universal agent across Workspace and enterprise tools (knowledge work,
+  media creation, coding, multi-step workflows) with persistent context, multi-agent orchestration,
+  model routing, governance, and cost controls.
+  https://cloud.google.com/blog/products/ai-machine-learning/welcome-to-gemini-at-work-2026
+  Relevant: production reference for multi-agent orchestration plus persistent context (agent memory)
+  and governance, sitting next to the sentinel/oversight-agents topic.
+- **"OpenAI Cannot Make AI Safe on Its Own" (former OpenAI safety researchers)** — open letter urging
+  preserved independent evaluator access, protection of chain-of-thought monitorability, and clear
+  rules for external safety collaboration. https://mikitabalesni.com/letter/letter.pdf
+  Relevant: chain-of-thought monitorability as a training-time alignment stance; pairs with the
+  Gemini 4 Argon sentinel-design note from Oct 9.
+
 ## 2026-10-09 — The Batch, "OpenAI's DevDay, Google's First Gemini 4 Model, Black Forest Labs Dives Into Robots"
 
 - **Gemini 4 Argon safety stack (Google)** — production sentinel architecture: activation probes
