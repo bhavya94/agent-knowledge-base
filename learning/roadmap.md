@@ -85,6 +85,13 @@ Deliverable: a judge with reported κ/α/F1 against humans, plus the prompt-sear
   envelope; RSI improves the improvement machinery itself.
 - Sentinel / oversight agents — a monitor agent watching the main agent's trajectory for safety
   and policy compliance; catches deceptive or out-of-bounds actions.
+- Decision models — fast, structured decisions inside agent loops (tool selection, completion checks,
+  Pass/Fail scoring) via typed outputs in one pass, not open-ended generation. Hot as of Oct 2026:
+  Jev (TypeSafe, $0.042/M in), StartLux-Decision (open-source, tops Decision Index 0.2.1),
+  AutoTrust JEV/GEV family (Apache-2.0 adapters; GEV-26B-Decide escalates low-confidence calls to System 2).
+  Learn: decision-head architectures, calibration, and where they beat frontier LLMs (high-volume typed
+  decisions, ~40x cheaper, 3-5x faster) vs hard-coded rules. Implement: swap one high-frequency judge
+  call in reflective-qa for a decision model; compare cost/latency/agreement.
 
 
 ## Method notes (general practice, domain-neutral)
