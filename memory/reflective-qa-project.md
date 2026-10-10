@@ -9,7 +9,7 @@ type: project
 early and stops at M4.
 
 - **M0** setup + data loading + price check. **M1** baselines: BM25 evidence recall@k, one-shot answers
-  (Sonnet 5.5 strong, Haiku 4.5 weak), closed-book run, code checks, answer-F1 by type.
+  (Sonnet 5.5 strong, Haiku 5.5 weak), closed-book run, code checks, answer-F1 by type.
   Models (decided 2026-10-10): Sonnet 5.5 strong writer and separate critic; Haiku 5.5 weak writer, made weak
   with fewer paragraphs (k = 5). Retrieval: BM25, k = 20 (PR #6).
   **M2** error analysis: Bhavya reads ~100 outputs, finds failure modes, labels Pass/Fail per mode.
