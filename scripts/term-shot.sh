@@ -16,6 +16,11 @@ fi
 
 out=$1
 export CMD=$2 HIGHLIGHT=${3:-}
-"${FREEZE:-$HOME/.local/bin/freeze}" --execute "bash $0 --inner" --window --wrap 120 --padding 20 --margin 0 \
-  --output "$out" </dev/null >/dev/null
+# freeze kills commands after 10 s unless told otherwise; TERM_SHOT_TIMEOUT overrides the 300 s used here.
+log=$("${FREEZE:-$HOME/.local/bin/freeze}" --execute "bash $0 --inner" --execute.timeout "${TERM_SHOT_TIMEOUT:-300s}" \
+  --window --wrap 120 --padding 20 --margin 0 --output "$out" </dev/null 2>&1) || true
+if [[ $log == *"could not execute"* || ! -s $out ]]; then
+  echo "term-shot: freeze failed: $log" >&2
+  exit 1
+fi
 echo "$out"
