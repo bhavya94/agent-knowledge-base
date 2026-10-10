@@ -17,6 +17,11 @@ If you can spawn a fresh subagent, do so, so the review isn't biased by having w
 4. **Repo bar** — check past Senior/Staff review comments in the repo history
    (`gh pr list --state merged`, `gh api repos/{owner}/{repo}/pulls/{n}/comments`) and apply them.
 5. **Cost & ops** — performance, infra cost, observability, rollback.
+6. **Agent failure modes** — the mistakes coding agents make most (see `AGENTS.md` → Agent rules):
+   - **Silent assumptions** — behavior the request didn't specify, chosen without asking.
+   - **Bloat** — could this be much shorter? Unneeded abstractions, flags, or handling for impossible cases.
+   - **Orthogonal edits** — diff lines that don't trace to the request, including changed or deleted comments.
+   - **Leftovers** — imports, functions, or files that this change made dead.
 
 ## Output
 A ranked list of findings — `severity | file:line | issue | concrete failure scenario | fix`.

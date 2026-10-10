@@ -19,6 +19,17 @@ Start with a line linking the PR and the commit the explainer describes.
 4. **Cost & risk** — runtime/infra cost implications, failure modes, rollback path.
 5. **Open questions** — anything the user must decide.
 
+## Format
+Pick the richest format the change deserves. Each step is easier to understand than the one before
+(Karpathy's ladder, `notes/ai-coding.md`):
+1. **Text** — always, at about 80% of ASD-STE100 (see `AGENTS.md` → Communication).
+2. **Diagrams** — always at least one Mermaid diagram (section 2).
+3. **Interactive HTML** — for non-trivial changes or stakeholder audiences: one self-contained page next to
+   the explainer (`<YYYY-MM-DD>-<topic>.html`) with clickable diagrams, before/after comparisons, or a
+   walk-through of real data. The same public/private rule applies. Share it elsewhere only when the user asks.
+4. **Video** — opt-in, for large design changes or teaching: a short Manim (3Blue1Brown-style) explainer
+   with narration from a local text-to-speech model. Ask before spending the time.
+
 ## Rules
 - Every claim must be traceable to the code. Draft with `path:line`; once the PR's commit is pushed, convert
   to commit-pinned links with `~/agent-knowledge-base/scripts/explainer-permalinks.py`.

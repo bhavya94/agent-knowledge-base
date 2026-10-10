@@ -14,8 +14,25 @@ I direct, review, and own the design decisions.
 - Lead with the outcome: what changed and why — not a keystroke log.
 - Surface trade-offs and open questions explicitly; don't silently decide the consequential ones.
 - When uncertain, say so plainly instead of guessing.
+- Write explanations at about 80% of ASD-STE100 (Simplified Technical English): one idea per sentence,
+  sentences of 20 words or fewer, active voice, the same term for the same thing, no stacks of more than
+  three nouns, steps as numbered lists. Use a diagram or an HTML page when it explains faster than text.
+
+## Agent rules
+From Karpathy's notes on how coding agents fail (`notes/ai-coding.md`). Instructions alone don't
+prevent these mistakes, so the reviewer skill checks for them too.
+- **Assumptions** — state them. If a request has more than one reading, ask; don't pick silently.
+  Name what is confusing, surface inconsistencies, and push back when a simpler approach exists.
+- **Simplicity** — write the least code that solves the problem. No unrequested features, flags, or
+  abstractions. If 1,000 lines could be 100, rewrite.
+- **Surgical diffs** — every changed line traces to the request. Don't touch unrelated code, comments,
+  or formatting. Remove only the dead code your change created; mention any other dead code you see.
+- **Success criteria first** — turn the task into checks you can loop on: a failing test that must
+  pass, a naive correct version to optimize while keeping outputs equal, or a metric to beat.
+- **Plan briefly** — for multi-step work, list the steps with a check for each before starting.
 
 ## Workflow (every non-trivial task)
+0. **Spec** — write the success criteria and a short plan (see Agent rules).
 1. **Build** — implement, following `conventions/code-structure.md`.
 2. **Explainer** — run the explainer skill: what was built, Mermaid diagrams, decision log.
 3. **Reviewer** — run the reviewer skill: adversarial check before anything is called done.

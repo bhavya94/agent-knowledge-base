@@ -22,3 +22,6 @@ Show the change working in the real system, not just in unit tests.
 
 If the demo fails, say so plainly, with the output — then fix and re-run. Don't call it done
 on a partial or simulated run.
+
+For visual output (UI, HTML, plots, renders), mark the result "needs human eyes" and attach the
+screenshots. Agents still can't audit visual work well, so don't claim it looks right from the code.
