@@ -10,7 +10,10 @@ A PR should be easy to review and verifiable on its own. A project's existing co
   - The first PR targets `main`; each later PR targets the branch of the PR below it, so every diff shows
     only its own change.
   - Every PR description starts with its position, e.g. "Stack 2/3, based on #12".
-  - Merge bottom-up. After each merge, retarget the next PR to `main`.
+  - Merge bottom-up, and only merge a PR whose base is `main`. A stacked PR merged while its base is still
+    the branch below lands on that branch, not on `main` (happened with reflective-qa #3 and #4, 2026-10-10).
+  - Once per repo, run `gh repo edit --delete-branch-on-merge`. GitHub then deletes each merged branch and
+    retargets the next PR in the stack to `main` automatically.
 - **Each PR is independently verifiable:** it builds, its tests pass, and its demo runs without any later PR.
 
 ## What gets merged
