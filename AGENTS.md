@@ -16,7 +16,9 @@ I direct, review, and own the design decisions.
 - When uncertain, say so plainly instead of guessing.
 - Write explanations at about 80% of ASD-STE100 (Simplified Technical English): one idea per sentence,
   sentences of 20 words or fewer, active voice, the same term for the same thing, no stacks of more than
-  three nouns, steps as numbered lists. Use a diagram or an HTML page when it explains faster than text.
+  three nouns, steps as numbered lists.
+- Show, don't just tell: when a picture or interactive view explains faster than text, build a transient
+  HTML page with the `visualize` skill. Prefer it over Mermaid for real data, comparisons, or many states.
 
 ## Agent rules
 From Karpathy's notes on how coding agents fail (`notes/ai-coding.md`). Instructions alone don't

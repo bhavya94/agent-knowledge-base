@@ -45,6 +45,7 @@ community rules file based on the Jan post: [forrestchang/andrej-karpathy-skills
   the team approaches problems, then apply that bar to new work.
 - **experiment-loop** — autonomous keep-or-discard experiments against one fixed metric and budget.
 - **kb-lint** — health check for this repo: index drift, broken links, contradictions, stale claims.
+- **visualize** — transient single-file HTML pages to explain or visualize; checked with headless Chrome.
 
 ## Action items
 - [x] Personal GitHub repo of agent notes and skills (this repo).
