@@ -52,13 +52,25 @@ Deliverable: a judge with reported κ/α/F1 against humans, plus the prompt-sear
   unit-test-verifiable for clean GRPO rewards and contamination-resistant via time-sliced releases.
   Paired with QASPER: QASPER covers the judge track (faithfulness needs a judge), LiveCodeBench
   covers the verifiable training track. Train and eval slices stay disjoint from day one.
+- **Early start: reflective-qa (approved 2026-10-09):** turns roadmap Phases 0–1 into real work
+  early without skipping the error-analysis-first order, as practice for Agentic AI Module 2 (reflection).
+  Public repo: [bhavya94/reflective-qa](https://github.com/bhavya94/reflective-qa); a reflection agent for
+  grounded QA on QASPER (dev split, text-only questions). Milestones M0–M4: M0 (setup, data loading,
+  price check) merged to main 2026-10-10; M1 part 1 done (BM25 evidence recall@k baseline + explainer);
+  M2 is my error analysis (~100 outputs, failure modes, Pass/Fail per mode) feeding M3 critic criteria;
+  M4 compares one-shot vs self-critique vs code-feedback vs separate critic. Scope limits: QASPER test
+  split stays untouched; DSPy/GEPA, MLflow, tool-using critics, sentinels deferred to later roadmap phases.
+  Model access: Anthropic API key held by me in a git-ignored .env; agents never handle it; cost approval
+  before any paid run.
 
 ## Plan
 - **Prerequisite (started 2026-10-08):** DeepLearning.AI coursework before Phase 0.
   Ranked shortlist (~20–25h): 1. Agentic AI (Ng) → 2. DSPy → 3. Evaluating AI Agents →
   4. Fine-tuning & RL for LLMs → 5. GRPO → 6. Post-training of LLMs → 7. MCP → 8. LangGraph.
   Courses #2–#3 feed Phase A; #4–#6 feed Phase B. Agentic AI modules 1–2 done, notes in
-  learning/courses/agentic-ai/. Log takeaways that change the plan here.
+  learning/courses/agentic-ai/. Reflection-module practice spun out as reflective-qa
+  (see Decisions 2026-10-10) instead of lab-only exercises. Dropped Pro ($30/mo), auditing free
+  (videos only), certificates don't matter. Log takeaways that change the plan here.
 0. **Scope** — verify current small-model options and GPU/API prices; task spec; retrieval baseline.
 1. **Error analysis** — answers from frontier, small, and deliberately weak models; read and annotate
    ~100; cluster into failure modes (expected: unfaithful claims, wrong vs. evidence, incomplete,
