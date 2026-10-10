@@ -11,3 +11,4 @@ Shared, version-controlled memory, notes, and skills for my AI coding agents.
 | `notes/` | Longer-form notes: AI coding, communication |
 | `learning/` | Course and paper notes, plus the evals → post-training roadmap |
 | `examples/` | Worked runs of the Build → Explainer → Reviewer → Demo loop |
+| `projects/` | Per-project PR explainers (public projects only), e.g. `projects/reflective-qa/explainers/` |

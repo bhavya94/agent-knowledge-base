@@ -5,8 +5,10 @@ description: Write up what was just built — summary, Mermaid diagrams, and a d
 
 # Explainer
 
-Produce `docs/explainers/<YYYY-MM-DD>-<topic>.md` in the project (or the location the project already
-uses). Audience: a senior engineer or stakeholder who wasn't in the session.
+Produce `~/agent-knowledge-base/projects/<repo>/explainers/<YYYY-MM-DD>-<topic>.md`, never in the project
+repo (`conventions/pull-requests.md`). The knowledge base is public: for a private or employer repo, post the
+explainer as a PR comment instead. Audience: a senior engineer or stakeholder who wasn't in the session.
+Start with a line linking the PR and the commit the explainer describes.
 
 ## Sections
 1. **Summary** — 3–5 sentences: the problem, what was built, the outcome.
@@ -18,5 +20,7 @@ uses). Audience: a senior engineer or stakeholder who wasn't in the session.
 5. **Open questions** — anything the user must decide.
 
 ## Rules
-- Every claim must be traceable to the code (cite `path:line`).
+- Every claim must be traceable to the code. Draft with `path:line`; once the PR's commit is pushed, convert
+  to commit-pinned links with `~/agent-knowledge-base/scripts/explainer-permalinks.py`.
+- Link other PRs with full URLs: a bare `#4` in the knowledge base points at the knowledge base's own #4.
 - Explain the *why*, not a changelog of edits.
