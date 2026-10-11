@@ -22,7 +22,8 @@ Start with a line linking the PR and the commit the explainer describes.
 ## Format
 Pick the richest format the change deserves. Each step is easier to understand than the one before
 (Karpathy's ladder, `notes/ai-coding.md`):
-1. **Text** — always, at about 80% of ASD-STE100 (see `AGENTS.md` → Communication).
+1. **Text** — always, at about 80% of ASD-STE100 (see `AGENTS.md` → Communication). Run
+   `python3 ~/agent-knowledge-base/scripts/ste-check.py <explainer>.md` and fix the text until it passes.
 2. **Diagrams** — always at least one Mermaid diagram (section 2).
 3. **Interactive HTML** — whenever it explains better than Mermaid (real data, comparisons, many states), not
    only for stakeholders. Build it with the `visualize` skill and save it next to the explainer

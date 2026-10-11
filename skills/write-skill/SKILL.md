@@ -32,7 +32,8 @@ When you adapt a skill from another repo, reuse its tests if it has them. Say wh
 3. Don't add "unless it matters" clauses. They reopen the rule. Write a real exception as its own condition.
 4. Frontmatter: `name` matches the folder (lowercase and hyphens). `description` starts with "Use when" and
    lists triggers and symptoms. Don't summarize the steps there: an agent may follow the summary and skip the body.
-5. Write at about 80% of ASD-STE100 (`AGENTS.md` → Communication). One good example beats several weak ones.
+5. Write at about 80% of ASD-STE100 (`AGENTS.md` → Communication), and check it with `scripts/ste-check.py`.
+   One good example beats several weak ones.
 6. Link to other skills and `AGENTS.md` rules by name. Don't repeat them.
 
 ## 3. Verify (refactor)

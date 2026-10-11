@@ -36,6 +36,7 @@ Render it with headless Chrome and look at the screenshot before showing the use
 ```
 
 Fix anything broken or empty. For a PDF instead of a screenshot, use `--print-to-pdf=<file>`.
+Then run `python3 ~/agent-knowledge-base/scripts/ste-check.py <dir>/index.html` and fix the text until it passes.
 Visual quality still needs human eyes (`demo` skill), so say what you checked and what you couldn't.
 
 ## Show

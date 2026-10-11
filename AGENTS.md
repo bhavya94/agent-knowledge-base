@@ -16,7 +16,9 @@ I direct, review, and own the design decisions.
 - When uncertain, say so plainly instead of guessing.
 - Write explanations at about 80% of ASD-STE100 (Simplified Technical English): one idea per sentence,
   sentences of 20 words or fewer, active voice, the same term for the same thing, no stacks of more than
-  three nouns, steps as numbered lists.
+  three nouns, steps as numbered lists. Explainers, PR descriptions, `visualize` pages, and stakeholder drafts
+  must pass `scripts/ste-check.py` before you share them: at least 80% of sentences at 20 words or fewer, and
+  none over 30. Rewrite the passive sentences it lists where the active voice works.
 - Show, don't just tell: when a picture or interactive view explains faster than text, build a transient
   HTML page with the `visualize` skill. Prefer it over Mermaid for real data, comparisons, or many states.
 

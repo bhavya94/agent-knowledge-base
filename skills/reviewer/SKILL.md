@@ -23,6 +23,8 @@ If you can spawn a fresh subagent, do so, so the review isn't biased by having w
    - **Orthogonal edits** — diff lines that don't trace to the request, including changed or deleted comments.
    - **Leftovers** — imports, functions, or files that this change made dead.
    - **Unproven claims** — "tests pass" or "fixed" with no fresh output behind it (`demo` → proof table).
+7. **Prose** — the explainer, the PR description, and any `visualize` page pass
+   `~/agent-knowledge-base/scripts/ste-check.py` (`AGENTS.md` → Communication).
 
 ## Output
 A ranked list of findings — `severity | file:line | issue | concrete failure scenario | fix`.

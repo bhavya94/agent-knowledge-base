@@ -64,3 +64,6 @@ Link the explainer in the knowledge base for the why.
 ```
 
 - No changelogs or file-by-file lists. The diff and the explainer already cover them.
+- Write at about 80% of ASD-STE100 (`AGENTS.md` → Communication). Save the body to a file, run
+  `python3 ~/agent-knowledge-base/scripts/ste-check.py <body.md>`, and fix it until it passes. Then use
+  `gh pr create --body-file <body.md>`, or `gh pr edit <N> --body-file <body.md>` for a later edit.

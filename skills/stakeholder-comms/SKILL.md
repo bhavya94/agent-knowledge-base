@@ -23,5 +23,6 @@ Match length to channel: Slack ≤ 5 lines plus a link; email ≤ 1 screen; desi
 - Every number is sourced; assumptions are labeled.
 - No jargon the audience won't know; no blame; credit others by name.
 - It's clear who should do what next.
+- It passes `python3 ~/agent-knowledge-base/scripts/ste-check.py <draft.md>` (`AGENTS.md` → Communication).
 
 Never send anything yourself. Hand the draft to the user.
