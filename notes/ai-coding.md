@@ -34,7 +34,9 @@ community rules file based on the Jan post: [forrestchang/andrej-karpathy-skills
 ## Outside skill repos (checked 2026-10-11)
 - [anthropics/skills](https://github.com/anthropics/skills) — official. `skill-creator` already comes through the
   claude.ai skill sync, so don't also install its plugin. The document skills (docx, pdf, pptx, xlsx) are proprietary: use, don't copy.
-- [anthropics/claude-plugins-official](https://github.com/anthropics/claude-plugins-official) — installed: `playground`.
+- [anthropics/claude-plugins-official](https://github.com/anthropics/claude-plugins-official) — installed: `playground`,
+  `frontend-design`, and `playwright`. The Playwright plugin runs `@playwright/mcp@latest` and opens a visible Chrome window.
+- Native design support on claude.ai: Claude Design, and the Design, Design System, and Dashboard artifact types.
 - [obra/superpowers](https://github.com/obra/superpowers) (MIT) — adapted three parts: `debug`, `write-skill`, and
   the Evidence before claims rule. We don't install the whole plugin: it duplicates our workflow and costs tokens.
 - Community lists such as [awesome-agent-skills](https://github.com/VoltAgent/awesome-agent-skills) — browse
