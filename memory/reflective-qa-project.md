@@ -23,8 +23,10 @@ early and stops at M4.
   2026-10-10: #2, then #5 (#3 and #4 had merged into their stack bases, so #5 re-landed them). #1 was closed
   as superseded. Branches auto-delete on merge. M1 code (retrieval #6, scoring #7, answering #8, batch runner #9) is on
   `main` as of 2026-10-11, 36 tests. Budget: $20 of API credits for M1–M4, so runs use a seeded 200-question
-  sample and `baselines run` needs `--max-dollars`. Next: a 20-question pilot (~$0.20, awaiting Bhavya's OK),
-  then the full M1 baselines (~$2 estimated).
+  sample and `baselines run` needs `--max-dollars`. M1 baselines ran 2026-10-11 (PR #11): Sonnet 5.5 k=20 answer-F1
+  0.512, closed-book 0.274, Haiku 5.5 k=5 0.425. Spent $1.25 of $20 (track with `report` / row `cost`). Pilot found
+  a bracketed-citation bug (fixed, #10). Leads for M2: yes/no over-abstention, Haiku over-abstains (29.5%), long answers.
+  Next: M2 error analysis by Bhavya, with a labeling tool.
 - Model access: Anthropic API key, decided by Bhavya 2026-10-10. Bhavya puts the key in `~/reflective-qa/.env`
   (git-ignored); agents never handle or print it. Never route project calls through Max subscription credentials
   (Anthropic's credential policy). Get Bhavya's approval on estimated cost before any paid run.
