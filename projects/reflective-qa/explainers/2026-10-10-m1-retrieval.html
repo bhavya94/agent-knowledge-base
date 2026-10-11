@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
 <title>BM25 Step by Step</title>
 <style>
   :root {
@@ -58,8 +59,8 @@
   .row { display: grid; grid-template-columns: 44px minmax(0, 1fr) 56px; gap: 10px; align-items: center; padding: 6px 4px;
          border-bottom: 1px solid var(--grid); cursor: pointer; border-radius: 6px; }
   .row:hover { background: color-mix(in srgb, var(--ink) 4%, transparent); }
-  .row.out { opacity: 0.38; }
-  .rank { color: var(--muted); font-variant-numeric: tabular-nums; font-size: 13px; }
+  .row.out .bar { opacity: 0.35; }
+  .rank { color: var(--ink-2); font-variant-numeric: tabular-nums; font-size: 13px; }
   .label { font-size: 13px; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .gold { font-size: 12px; font-weight: 600; color: var(--ink); border: 1px solid var(--ink); border-radius: 999px;
           padding: 0 7px; margin-right: 6px; }
@@ -108,7 +109,7 @@
     <p id="qpaper" style="margin-top:0"></p>
 
     <h3>Step 1. Clean the question</h3>
-    <p>BM25 drops very common words (stopwords) and cuts each word to its stem, so “modalities” matches “modal”.</p>
+    <p id="stem-note"></p>
     <div class="chips" id="words"></div>
 
     <h3>Step 2. Weigh each word</h3>
@@ -123,7 +124,7 @@
     <div class="slider">
       <label for="k">Paragraphs passed to the model (k): <b id="kval"></b></label>
       <input type="range" id="k" min="1" max="20" value="5">
-      <span style="color:var(--muted);font-size:13px">Part 2 uses k = 20.</span>
+      <span style="color:var(--muted);font-size:13px">M1 part 2 (answering) uses k = 20.</span>
     </div>
     <div class="chips" id="legend" aria-label="Word colors"></div>
     <div class="rows" id="rows"></div>
@@ -131,12 +132,12 @@
   </div>
 
   <h2>Across all 759 dev questions</h2>
-  <p>Recall is the share of the gold evidence paragraphs that are in the top k. The gray line is k paragraphs picked at random.</p>
+  <p><span id="metric-def"></span> The gray line is k paragraphs picked at random.</p>
   <div class="seg" id="metric" role="group" aria-label="Metric"></div>
   <div class="card"><div class="chips" id="chart-legend"></div><svg id="chart" viewBox="0 0 640 300" width="100%" role="img" aria-labelledby="chart-title"></svg>
     <details><summary>Table view</summary><table id="table"></table></details></div>
-  <p>At k = 20 the search finds 90% of the gold evidence, against 58% for random paragraphs. It uses about 11,700
-    characters of the paper (about 2,900 tokens). Example 3 shows what it misses: evidence that uses different words.</p>
+  <p><span id="chart-caption"></span> It uses about 11,700 characters of the paper (about 2,900 tokens).
+    Example 3 shows what it misses: evidence that uses different words.</p>
 
   <h2>The formula</h2>
   <div class="card">
@@ -155,7 +156,7 @@ const DATA = {"k1": 1.5, "b": 0.75, "examples": [{"question": "What modalities a
 const TAKEAWAYS = [
   "The gold paragraph ranks first, but only just: 1.46 against 1.29. “modal” and “support” give most of its points: 1.17 of 1.46. “Macaw” is the paper's own system name. It is in 21 of 32 paragraphs, so its weight is low.",
   "The gold paragraph ranks 10th. It shares only “people” with the question, a weak word in this paper. The question words “how” and “do” are not on the library's short stopword list, and here they lift wrong paragraphs. Across all 759 questions, a longer stopword list changed recall by less than 1 point.",
-  "The gold paragraph says “we compare eight different models”. It never says “baseline”, so it scores 0 and ranks 28th of 30. BM25 matches words, not meaning. A search model that understands meaning could find this paragraph."
+  "The gold paragraph says “we compare eight different models”. It never says “baseline”, so it scores 0. So do 28 of the other 29 paragraphs. Their order is arbitrary, so its rank of 28th is chance. BM25 matches words, not meaning. A search model that understands meaning could find this paragraph."
 ];
 const TAB_NAMES = ["1. Found first", "2. Found 10th", "3. Missed"];
 const colors = ["--s1", "--s2", "--s3", "--s4", "--s5", "--s6"];
@@ -188,6 +189,10 @@ function renderExample() {
   const termColor = (t) => `var(${colors[ex.terms.indexOf(t) % colors.length]})`;
   document.getElementById("qtext").textContent = "“" + ex.question + "”";
   document.getElementById("qpaper").textContent = `Paper: ${ex.paper} · ${ex.n} paragraphs`;
+
+  const stemmed = ex.words.find((w) => w.kept && w.stem !== w.word.toLowerCase());
+  document.getElementById("stem-note").textContent = "BM25 drops very common words (stopwords). It also cuts each word to " +
+    "its stem, so other forms of a word match" + (stemmed ? `: “${stemmed.word}” becomes “${stemmed.stem}”.` : ".");
 
   const words = document.getElementById("words"); words.replaceChildren();
   for (const w of ex.words) {
@@ -222,26 +227,30 @@ function renderExample() {
 }
 
 function renderRows() {
-  const ex = DATA.examples[current], k = +kInput.value;
+  const ex = DATA.examples[current], k = +kInput.value, top = Math.min(k, ex.n);
   const termColor = (t) => `var(${colors[ex.terms.indexOf(t) % colors.length]})`;
   document.getElementById("kval").textContent = k;
   const shown = ex.paragraphs.filter((r) => r.rank <= 20 || r.gold);
   const max = Math.max(...shown.map((r) => r.score), 1e-9);
   const rows = document.getElementById("rows"); rows.replaceChildren();
+  const gap = (from, to) => {
+    const skipped = ex.paragraphs.filter((q) => q.rank >= from && q.rank <= to);
+    if (!skipped.length) return;
+    const zero = skipped.every((q) => q.score === 0) ? ", all scoring 0" : "";
+    rows.append(el("div", { class: "gap" }, `${skipped.length} more paragraph${skipped.length === 1 ? "" : "s"}${zero}`));
+  };
+  const cut = top === ex.n ? `All ${ex.n} paragraphs above this line go to the model`
+    : top === 1 ? "The top paragraph above this line goes to the model"
+    : `The top ${top} paragraphs above this line go to the model`;
   let prev = 0;
   for (const r of shown) {
-    if (r.rank > prev + 1) {
-      const skipped = ex.paragraphs.filter((q) => q.rank > prev && q.rank < r.rank);
-      const zero = skipped.every((q) => q.score === 0) ? ", all scoring 0" : "";
-      rows.append(el("div", { class: "gap" }, `${skipped.length} more paragraphs${zero}`));
-    }
-    if (prev === k) rows.append(el("div", { class: "cut" }, `Top ${k} above this line go to the model`));
+    gap(prev + 1, r.rank - 1);
     prev = r.rank;
-    const row = el("div", { class: "row" + (r.rank > k ? " out" : ""), tabindex: "0", role: "button",
-                            "aria-expanded": String(open === r.id) });
+    const row = el("div", { class: "row" + (r.rank > top ? " out" : ""), tabindex: "0", role: "button",
+                            "aria-expanded": String(open === r.id), "data-id": r.id });
     const label = el("div", { class: "label" });
     if (r.gold) label.append(el("span", { class: "gold" }, "Gold evidence"));
-    label.append(document.createTextNode(r.passage.slice(0, 110)));
+    label.append(document.createTextNode(plain(r.passage).slice(0, 300)));
     const bar = el("div", { class: "bar" });
     for (const t of ex.terms) {
       const c = r.contrib[t]; if (!c) continue;
@@ -252,13 +261,20 @@ function renderRows() {
     }
     const mid = el("div"); mid.append(label, bar);
     row.append(el("div", { class: "rank" }, "#" + r.rank), mid, el("div", { class: "score" }, r.score.toFixed(2)));
-    const toggle = () => { open = open === r.id ? null : r.id; renderRows(); };
+    const toggle = () => { open = open === r.id ? null : r.id; renderRows(); rows.querySelector(`[data-id="${r.id}"]`).focus(); };
     row.addEventListener("click", toggle);
     row.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); } });
     rows.append(row);
     if (open === r.id) rows.append(detail(ex, r, termColor));
+    if (r.rank === top) rows.append(el("div", { class: "cut" }, cut));
   }
+  gap(prev + 1, ex.n);
 }
+
+// Row labels only: the detail view keeps the raw text, because the highlight offsets point into it.
+const REFS = { BIB: "[ref]", FIG: "[figure]", TAB: "[table]", SEC: "[section]" };
+const plain = (s) => s.replace(/\$[^$]*\$/g, "[math]").replace(/\bINLINEFORM\d+\b/g, "[math]")
+  .replace(/\b(BIB|FIG|TAB|SEC)REF\d+\b/g, (m, t) => REFS[t]);
 
 function detail(ex, r, termColor) {
   const box = el("div", { class: "detail" }), p = el("p");
@@ -322,6 +338,14 @@ function renderChart() {
     return n;
   };
   svg.replaceChildren(s("title", { id: "chart-title" }, `${METRICS[metric]} at k, BM25 vs random paragraphs`));
+  const end = DATA.recall[DATA.recall.length - 1], pct = (v) => Math.round(v * 100) + "%";
+  document.getElementById("metric-def").textContent = metric === "recall"
+    ? "Recall is the share of the gold evidence paragraphs that are in the top k."
+    : "All evidence found is the share of questions where the top k holds every gold evidence paragraph.";
+  document.getElementById("chart-caption").textContent = metric === "recall"
+    ? `At k = 20 the search finds ${pct(end.recall)} of the gold evidence, against ${pct(end.random_recall)} for random paragraphs.`
+    : `At k = 20 the search finds all the gold evidence for ${pct(end.all_found)} of questions, against ` +
+      `${pct(end.random_all_found)} for random paragraphs.`;
   for (const v of [0, 0.25, 0.5, 0.75, 1]) {
     svg.append(s("line", { x1: L, x2: W - R, y1: y(v), y2: y(v), stroke: v === 0 ? css("--axis") : css("--grid"), "stroke-width": 1 }));
     svg.append(s("text", { x: L - 8, y: y(v) + 4, "text-anchor": "end" }, Math.round(v * 100) + "%"));
@@ -364,7 +388,7 @@ function renderChart() {
   table.append(head);
   for (const r of DATA.recall) {
     const tr = el("tr");
-    for (const v of [r.k, r.recall.toFixed(2), r.all_found.toFixed(2), r.random_recall.toFixed(2), r.random_all_found.toFixed(2),
+    for (const v of [r.k, pct(r.recall), pct(r.all_found), pct(r.random_recall), pct(r.random_all_found),
                      r.median_chars.toLocaleString("en-US")]) tr.append(el("td", { class: "num" }, String(v)));
     table.append(tr);
   }
