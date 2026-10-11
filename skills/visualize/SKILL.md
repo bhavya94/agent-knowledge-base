@@ -13,7 +13,8 @@ many states, real data, comparisons, or something to click through.
 - Real data: eval scores, distributions, confusion matrices, cost vs. quality.
 - Before/after comparisons of outputs, prompts, or diffs.
 - Anything the user would otherwise read three paragraphs to understand.
-Use Mermaid when a static box-and-arrow diagram is enough.
+Use Mermaid when a static box-and-arrow diagram is enough. Use the `playground` plugin when the page's job is
+to set options with controls and copy out a prompt.
 
 ## Build
 1. **One question per page.** Put the answer in the title, e.g. "Why recall@5 drops on long papers".

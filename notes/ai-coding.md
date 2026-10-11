@@ -31,6 +31,16 @@ Sources: [notes from Claude coding (Jan 2026)](https://x.com/karpathy/status/201
 community rules file based on the Jan post: [forrestchang/andrej-karpathy-skills](https://github.com/forrestchang/andrej-karpathy-skills)
 (no license, so not copied here).
 
+## Outside skill repos (checked 2026-10-11)
+- [anthropics/skills](https://github.com/anthropics/skills) — official. `skill-creator` already comes through the
+  claude.ai skill sync, so don't also install its plugin. The document skills (docx, pdf, pptx, xlsx) are proprietary: use, don't copy.
+- [anthropics/claude-plugins-official](https://github.com/anthropics/claude-plugins-official) — installed: `playground`.
+- [obra/superpowers](https://github.com/obra/superpowers) (MIT) — adapted three parts: `debug`, `write-skill`, and
+  the Evidence before claims rule. We don't install the whole plugin: it duplicates our workflow and costs tokens.
+- Community lists such as [awesome-agent-skills](https://github.com/VoltAgent/awesome-agent-skills) — browse
+  only. A skill runs with the agent's permissions, and registries have shipped malicious ones
+  ([Snyk, 2026](https://snyk.io/blog/toxicskills-malicious-ai-agent-skills-clawhub)). Read every file before you install.
+
 ## Setup
 - Opus 5.5 for coding; GPT 5.6 Sol for most other tasks. Harness: Claude Code.
 - This repo is the single source of agent notes, memory, and skills — updated continuously.
@@ -46,6 +56,8 @@ community rules file based on the Jan post: [forrestchang/andrej-karpathy-skills
 - **experiment-loop** — autonomous keep-or-discard experiments against one fixed metric and budget.
 - **kb-lint** — health check for this repo: index drift, broken links, contradictions, stale claims.
 - **visualize** — transient single-file HTML pages to explain or visualize; checked with headless Chrome.
+- **debug** — root cause before any fix; stop and ask after three failed fixes. Adapted from Superpowers.
+- **write-skill** — test a skill against a baseline before you ship it. Adapted from Superpowers.
 
 ## Action items
 - [x] Personal GitHub repo of agent notes and skills (this repo).
