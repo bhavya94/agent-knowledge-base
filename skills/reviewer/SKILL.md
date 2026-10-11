@@ -22,6 +22,7 @@ If you can spawn a fresh subagent, do so, so the review isn't biased by having w
    - **Bloat** — could this be much shorter? Unneeded abstractions, flags, or handling for impossible cases.
    - **Orthogonal edits** — diff lines that don't trace to the request, including changed or deleted comments.
    - **Leftovers** — imports, functions, or files that this change made dead.
+   - **Unproven claims** — "tests pass" or "fixed" with no fresh output behind it (`demo` → proof table).
 
 ## Output
 A ranked list of findings — `severity | file:line | issue | concrete failure scenario | fix`.

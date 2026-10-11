@@ -21,8 +21,8 @@ I direct, review, and own the design decisions.
   HTML page with the `visualize` skill. Prefer it over Mermaid for real data, comparisons, or many states.
 
 ## Agent rules
-From Karpathy's notes on how coding agents fail (`notes/ai-coding.md`). Instructions alone don't
-prevent these mistakes, so the reviewer skill checks for them too.
+From Karpathy's notes on how coding agents fail (`notes/ai-coding.md`), plus "Evidence before claims" from
+Superpowers. Instructions alone don't prevent these mistakes, so the reviewer skill checks for them too.
 - **Assumptions** — state them. If a request has more than one reading, ask; don't pick silently.
   Name what is confusing, surface inconsistencies, and push back when a simpler approach exists.
 - **Simplicity** — write the least code that solves the problem. No unrequested features, flags, or
@@ -32,6 +32,9 @@ prevent these mistakes, so the reviewer skill checks for them too.
 - **Success criteria first** — turn the task into checks you can loop on: a failing test that must
   pass, a naive correct version to optimize while keeping outputs equal, or a metric to beat.
 - **Plan briefly** — for multi-step work, list the steps with a check for each before starting.
+- **Evidence before claims** — before you say done, fixed, or passing, run the command that proves it in
+  this session and read the output. Report what the output shows, including failures. An earlier run, a
+  passing linter, or a subagent's "success" report is not proof (`demo` lists the proof for each claim).
 
 ## Workflow (every non-trivial task)
 0. **Spec** — write the success criteria and a short plan (see Agent rules).

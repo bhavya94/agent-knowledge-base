@@ -23,5 +23,17 @@ Show the change working in the real system, not just in unit tests.
 If the demo fails, say so plainly, with the output — then fix and re-run. Don't call it done
 on a partial or simulated run.
 
+Proof for common claims (`AGENTS.md` → Evidence before claims). Adapted from Superpowers'
+`verification-before-completion`; see `THIRD_PARTY_NOTICES.md`.
+
+| Claim | Proof | Not proof |
+|---|---|---|
+| Tests pass | A fresh run with 0 failures | An earlier run; "should pass" |
+| Bug fixed | The original symptom is gone when you re-run it | "The code changed" |
+| Regression test works | It fails without the fix and passes with it | It passes once |
+| Build works | The build command exits 0 | The linter passes |
+| A subagent finished | Its diff, checked by you | Its report |
+| Requirements met | Each item in the spec, checked | The tests pass |
+
 For visual output (UI, HTML, plots, renders), mark the result "needs human eyes" and attach the
 screenshots. Agents still can't audit visual work well, so don't claim it looks right from the code.
