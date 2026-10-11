@@ -104,6 +104,11 @@ Deliverable: a judge with reported κ/α/F1 against humans, plus the prompt-sear
   Learn: decision-head architectures, calibration, and where they beat frontier LLMs (high-volume typed
   decisions, ~40x cheaper, 3-5x faster) vs hard-coded rules. Implement: swap one high-frequency judge
   call in reflective-qa for a decision model; compare cost/latency/agreement.
+- How GPT actually works (foundations, do early) — context window, transformer architecture, the
+  attention mechanism, the role of probability (next-token prediction; sampling via temperature/top-p/top-k),
+  KV cache (what it is, how it makes decoding fast, why prompt caching and prefix matching behave the way
+  they do). Then extend to Jev-like decision models: how typed/non-autoregressive outputs differ from
+  autoregressive generation, decision heads, and why the same transformer backbone serves both.
 
 
 ## Method notes (general practice, domain-neutral)
