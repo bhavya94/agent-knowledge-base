@@ -32,7 +32,7 @@ It gives a paragraph points for each question word that the paragraph contains:
 2. **Repeats help, but less each time.** The second "dataset" adds fewer points than the first (parameter k1 = 1.5).
 3. **Long paragraphs get a small penalty**, so they do not win only because they contain more words (b = 0.75).
 
-The score is the sum over question words: IDF × tf / (tf + k1 × (1 − b + b × length / average length)), where tf is
+The score is the sum over question words of IDF × tf / (tf + k1 × (1 − b + b × length / average length)). Here tf is
 the number of times the word is in the paragraph. Before scoring, very common words are dropped and words are cut to
 their stems, so "modalities" matches "modal". BM25 matches words, not meaning: a paragraph that says "we compare eight
 models" scores 0 for "What was the baseline?". A meaning-based (dense) search could find it; BM25 is the cheap,
@@ -100,8 +100,8 @@ flowchart LR
 
 ## Cost & risk
 - No model calls. The dev evaluation runs in about 4.3 s on the M1, mostly the 200 random draws.
-- Context at k = 20 drives the input cost of every model call in M1 to M4: about 2.9k tokens per question,
-  roughly $0.006 per call on Sonnet 5.5 at $2 per million input tokens.
+- Context at k = 20 drives the input cost of every model call in M1 to M4. That is about 2.9k tokens per question,
+  or roughly $0.006 per call on Sonnet 5.5 at $2 per million input tokens.
 - About 14% of top-20 slots go to paragraphs with a BM25 score of 0, so their order is arbitrary. In review,
   ordering ties by paper position instead moved "all found" at k = 20 by under one point (0.852 vs 0.858).
 - Recall counts paragraph IDs, so it can't credit a retrieved paragraph that repeats evidence in different

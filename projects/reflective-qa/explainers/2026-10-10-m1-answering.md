@@ -10,9 +10,9 @@ Sonnet 5.5 with 20 paragraphs, Sonnet 5.5 with no paragraphs (closed-book), and 
 The PR makes no model calls.
 
 ## In plain words
-1. **The prompt** tells the model to use only the given paragraphs, to keep answers short, to copy a phrase
-   when one answers the question, to say "Yes" or "No" for yes/no questions, and to say "Unanswerable" when the
-   paragraphs don't hold the answer.
+1. **The prompt** tells the model to use only the given paragraphs and to keep answers short. The model must copy
+   a phrase when one answers the question, and say "Yes" or "No" for yes/no questions. If the paragraphs don't hold
+   the answer, it must say "Unanswerable".
 2. **Closed-book** gives no paragraphs and asks for a best guess. It measures what the model already knows about
    these 2020-era papers. If its score is high, the other runs partly measure memory, not reading.
 3. **Structured output** forces the reply into `{"answer": ..., "evidence": [...]}`, so parsing never guesses.
