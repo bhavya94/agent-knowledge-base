@@ -1,15 +1,17 @@
 #!/usr/bin/env bash
 # Render a command and its output as a PNG, for PR proof (conventions/pull-requests.md).
 # The command line is shown in bold yellow; output matching the optional regex is highlighted green.
-# Lines wrap at 120 columns, and $HOME is shown as ~ so screenshots don't leak local paths.
+# Lines wrap at 120 columns. $HOME, plain or dash-encoded as in /private/tmp/.../-Users-name/, is shown as ~ in both
+# the command and its output, so screenshots don't leak local paths or the username.
 # Usage: term-shot.sh <output.png> '<command>' ['<highlight regex>']
 # Requires freeze (github.com/charmbracelet/freeze); set FREEZE to override its path.
 set -euo pipefail
 
 if [[ ${1:-} == --inner ]]; then
   set +e  # demos include failure cases: a failing step must not stop the rest of the command
-  printf '\033[1;33m$ %s\033[0m\n' "$CMD"
-  eval "$CMD" 2>&1 | sed "s#$HOME#~#g" | GREP_COLOR='1;32' GREP_COLORS='mt=1;32' \
+  hide_home() { sed -e "s#$HOME#~#g" -e "s#${HOME//\//-}#~#g"; }
+  printf '\033[1;33m$ %s\033[0m\n' "$(printf '%s' "$CMD" | hide_home)"
+  eval "$CMD" 2>&1 | hide_home | GREP_COLOR='1;32' GREP_COLORS='mt=1;32' \
     grep --color=always -E "${HIGHLIGHT:-^\$}|$" || true
   exit 0
 fi
