@@ -1,6 +1,6 @@
 # M1: answer prompt, request builder and reply parsing
 
-**PR:** [reflective-qa#8](https://github.com/bhavya94/reflective-qa/pull/8) · **Code at:** [`7aeabb3`](https://github.com/bhavya94/reflective-qa/tree/7aeabb34a5e38f73fd7a15b1a4fd59de62c8afa1)
+**PR:** [reflective-qa#8](https://github.com/bhavya94/reflective-qa/pull/8) · **Code at:** [`c4eb07c`](https://github.com/bhavya94/reflective-qa/tree/c4eb07c92c6a764560e2456aae149ebea1b6ddd8)
 
 ## Summary
 The baselines need one fixed way to ask a model a question and read its answer. This PR builds the request:
@@ -31,10 +31,10 @@ flowchart LR
     PM --> A["Answer: text, cited IDs,<br/>status, model, tokens"]
 ```
 
-- **Prompt** ([`src/reflective_qa/answering.py:14-21`](https://github.com/bhavya94/reflective-qa/blob/7aeabb34a5e38f73fd7a15b1a4fd59de62c8afa1/src/reflective_qa/answering.py#L14-L21)) and **reply schema** ([`answering.py:23-28`](https://github.com/bhavya94/reflective-qa/blob/7aeabb34a5e38f73fd7a15b1a4fd59de62c8afa1/src/reflective_qa/answering.py#L23-L28)).
-- **Request** ([`answering.py:58-70`](https://github.com/bhavya94/reflective-qa/blob/7aeabb34a5e38f73fd7a15b1a4fd59de62c8afa1/src/reflective_qa/answering.py#L58-L70)): passages are written as `[s3p0] Section. text`, using the same `passage_text` the
+- **Prompt** ([`src/reflective_qa/answering.py:14-21`](https://github.com/bhavya94/reflective-qa/blob/c4eb07c92c6a764560e2456aae149ebea1b6ddd8/src/reflective_qa/answering.py#L14-L21)) and **reply schema** ([`answering.py:23-28`](https://github.com/bhavya94/reflective-qa/blob/c4eb07c92c6a764560e2456aae149ebea1b6ddd8/src/reflective_qa/answering.py#L23-L28)).
+- **Request** ([`answering.py:58-70`](https://github.com/bhavya94/reflective-qa/blob/c4eb07c92c6a764560e2456aae149ebea1b6ddd8/src/reflective_qa/answering.py#L58-L70)): passages are written as `[s3p0] Section. text`, using the same `passage_text` the
   retriever indexes. The same dict works for a direct call and for a Batch API request.
-- **Parsing** ([`answering.py:73-83`](https://github.com/bhavya94/reflective-qa/blob/7aeabb34a5e38f73fd7a15b1a4fd59de62c8afa1/src/reflective_qa/answering.py#L73-L83)): a refusal or a reply cut off at `max_tokens` becomes an empty answer with that
+- **Parsing** ([`answering.py:73-83`](https://github.com/bhavya94/reflective-qa/blob/c4eb07c92c6a764560e2456aae149ebea1b6ddd8/src/reflective_qa/answering.py#L73-L83)): a refusal or a reply cut off at `max_tokens` becomes an empty answer with that
   reason, checked before reading any content. A reply that isn't valid JSON is marked `invalid_json`. Cited IDs
   are kept as written, so scoring counts a made-up ID as a wrong citation.
 
