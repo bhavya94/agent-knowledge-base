@@ -8,6 +8,8 @@ For course and paper notes in `learning/`:
 - Bhavya often pastes rough notes into chat instead of writing in the file. Distill them into the four-question
   format (`learning/README.md`) using only their content. Don't add course material they didn't write.
   Connect it to `learning/roadmap.md` under "How I'd use it".
+- "Delete that .md file" after pasting notes means: replace the empty template with the distilled note.
+  It does not mean drop the module's note.
 - Label Bhavya's own observations as "My example (not from the course)" so they stay distinct from course content.
 - Never commit an empty template. Stage explicit paths, not `git add -A`, while untracked templates exist.
 - After committing a module: check it off in the course `README.md`, then create the next module's
