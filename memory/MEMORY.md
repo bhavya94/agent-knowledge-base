@@ -9,5 +9,5 @@ One line per memory: `- [Title](file.md) — one-line hook`. Content lives in th
 - [Local tooling](local-tooling.md) — freeze in ~/.local/bin, Homebrew taps blocked by old CLT, no `timeout` on macOS
 - [KB is Claude Code only](kb-claude-code-only.md) — don't wire the knowledge base into Codex, Gemini, or Cursor
 - [KB changes reach sessions](kb-changes-reach-sessions.md) — skills reload live; AGENTS.md needs a restart; plugins need /reload-plugins
-- [Public pages for newcomers](public-pages-for-newcomers.md) — explain task, method and scores before results; no milestone names
+- [Public pages for newcomers](public-pages-for-newcomers.md) — pages and READMEs: task, method, scores before results; no milestone names
 - [OOP and modular code](oop-modular-code.md) — classes own state + behavior; one subpackage per responsibility; CLI out of library code
