@@ -46,13 +46,11 @@ later evolution of this one. The half-built labeling server is parked on the loc
   https://bhavya94.github.io/reflective-qa/ (built by `uv run rqa site`; publishing to `gh-pages` is a
   manual commit of `site/index.html` on top of `gh-pages`). Code: PRs #17 (data) and #18 (page), merged into
   `main` 2026-10-11 (79 tests); the page was rewritten for a new reader after Bhavya's feedback ([[public-pages-for-newcomers]]).
-- Code layout (2026-10-11, refactor stack PRs #19–#23, opened, not yet merged): one package per responsibility
+- Code layout (refactor stack PRs #19–#23, merged 2026-10-11, 90 tests): one package per responsibility
   (data, retrieval, agent, runs, eval, experiments, site) and one `rqa` command; `tests/test_layers.py` enforces
   the layers and `tests/test_fingerprints.py` pins the run-file fingerprints. Paid commands: `uv run --env-file .env
   rqa baselines|reflect run ... --max-dollars N`. See [[oop-modular-code]].
-  **Pending (approved by Bhavya 2026-10-11):** once Bhavya says #19–#23 are merged, update
-  `skills/code-lab/references/reflective-qa-lab.md` to the new layout and `rqa` commands. It still names the old
-  modules (`baselines.py`, `scoring.py`, `checks.py`, …).
+  `skills/code-lab/references/reflective-qa-lab.md` matches this layout (updated after the merge).
 - Model access: Anthropic API key, decided by Bhavya 2026-10-10. Bhavya puts the key in `~/reflective-qa/.env`
   (git-ignored); agents never handle or print it. Never route project calls through Max subscription credentials
   (Anthropic's credential policy). Get Bhavya's approval on estimated cost before any paid run.
