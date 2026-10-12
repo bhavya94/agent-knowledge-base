@@ -55,10 +55,15 @@ Deliverable: a judge with reported κ/α/F1 against humans, plus the prompt-sear
 - **Early start: reflective-qa (approved 2026-10-09):** turns roadmap Phases 0–1 into real work
   early without skipping the error-analysis-first order, as practice for Agentic AI Module 2 (reflection).
   Public repo: [bhavya94/reflective-qa](https://github.com/bhavya94/reflective-qa); a reflection agent for
-  grounded QA on QASPER (dev split, text-only questions). Milestones M0–M4: M0 (setup, data loading,
-  price check) merged to main 2026-10-10; M1 part 1 done (BM25 evidence recall@k baseline + explainer);
-  M2 is my error analysis (~100 outputs, failure modes, Pass/Fail per mode) feeding M3 critic criteria;
-  M4 compares one-shot vs self-critique vs code-feedback vs separate critic. Scope limits: QASPER test
+  grounded QA on QASPER (dev split, text-only questions). Milestones M0–M3 all done 2026-10-11
+  (18 PRs, #2–#18 merged, #1 closed unmerged): M0 setup; M1 BM25 recall@k + one-shot/closed-book
+  baselines (Sonnet 5.5 0.512 answer-F1, Haiku 5.5 0.425, closed-book 0.274); M2 reflection agent
+  (code checks + critic + one revise round); M3 experiment one-shot vs code-feedback vs self-critique
+  vs separate critic. Headline result (negative, done right — paired comparison, bootstrap CI):
+  one reflection round did NOT measurably move answer-F1, all 95% CIs include zero. Critics catch
+  wrong "Unanswerable" answers (+0.07 to +0.18 F1 on those), but rewording already-given answers
+  usually scores lower (−0.07 to −0.14); the two effects cancel. Code-feedback shortening of long
+  answers helps where it applies (+0.106 F1 on 15 long Sonnet answers). Scope limits: QASPER test
   split stays untouched; DSPy/GEPA, MLflow, tool-using critics, sentinels deferred to later roadmap phases.
   Model access: Anthropic API key held by me in a git-ignored .env; agents never handle it; cost approval
   before any paid run.
@@ -67,8 +72,8 @@ Deliverable: a judge with reported κ/α/F1 against humans, plus the prompt-sear
 - **Prerequisite (started 2026-10-08):** DeepLearning.AI coursework before Phase 0.
   Ranked shortlist (~20–25h): 1. Agentic AI (Ng) → 2. DSPy → 3. Evaluating AI Agents →
   4. Fine-tuning & RL for LLMs → 5. GRPO → 6. Post-training of LLMs → 7. MCP → 8. LangGraph.
-  Courses #2–#3 feed Phase A; #4–#6 feed Phase B. Agentic AI modules 1–2 done, notes in
-  learning/courses/agentic-ai/. Reflection-module practice spun out as reflective-qa
+  Courses #2–#3 feed Phase A; #4–#6 feed Phase B. Agentic AI modules 1–3 done (module 3: tool use),
+  notes in learning/courses/agentic-ai/. Reflection-module practice spun out as reflective-qa
   (see Decisions 2026-10-10) instead of lab-only exercises. Dropped Pro ($30/mo), auditing free
   (videos only), certificates don't matter. Log takeaways that change the plan here.
 0. **Scope** — verify current small-model options and GPU/API prices; task spec; retrieval baseline.
@@ -103,7 +108,10 @@ Deliverable: a judge with reported κ/α/F1 against humans, plus the prompt-sear
   AutoTrust JEV/GEV family (Apache-2.0 adapters; GEV-26B-Decide escalates low-confidence calls to System 2).
   Learn: decision-head architectures, calibration, and where they beat frontier LLMs (high-volume typed
   decisions, ~40x cheaper, 3-5x faster) vs hard-coded rules. Implement: swap one high-frequency judge
-  call in reflective-qa for a decision model; compare cost/latency/agreement.
+  call in reflective-qa for a decision model; compare cost/latency/agreement. Framing (2026-10-11):
+  harness-level, not training — phase one is integration work (model-tier routing, low-confidence
+  escalation, cost-latency budgets in the agent loop), zero training needed. The cheap-judge-as-GRPO-reward
+  step and the sentinel pattern are both decision-model-shaped; training decision models themselves is phase two.
 - How GPT actually works (foundations, do early) — context window, transformer architecture, the
   attention mechanism, the role of probability (next-token prediction; sampling via temperature/top-p/top-k),
   KV cache (what it is, how it makes decoding fast, why prompt caching and prefix matching behave the way
