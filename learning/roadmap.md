@@ -144,3 +144,4 @@ Deliverable: a judge with reported κ/α/F1 against humans, plus the prompt-sear
 - [Rubrics as Rewards (ICLR 2026)](https://arxiv.org/html/2507.17746v2)
 - [Thinking Machines — On-Policy Distillation](https://thinkingmachines.ai/blog/on-policy-distillation/)
 - [Rubric Dropout — reward hacking in rubric-as-reward RL](https://hub.baai.ac.cn/paper/b0256a30-0c5b-49c7-8c0d-4b07a9a80168)
+- [Surge AI — sudo L7](https://surgehq.ai/blog/sudo-l7) — staff-level coding-agent benchmark: expert rubrics across 8 behavior dimensions, grader models with executable checks as evidence; tasks from private production repos.
