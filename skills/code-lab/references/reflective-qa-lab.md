@@ -3,7 +3,8 @@
 > This is the worked example backing the `code-lab` skill's Phase 1–5 for the
 > `bhavya94/reflective-qa` repo (the experiment and the package refactor, PRs #19–#23, all
 > merged). The skill verifies this against the repo before each session. If the repo moved on,
-> recon wins.
+> recon wins. The parts go top-down: the map, the main loop, the result, then the details.
+> For a lab on one PR, use only the parts of each that touch that PR.
 
 # reflective-qa: Hands-On Code Lab
 
@@ -73,7 +74,113 @@ into packages; the tests below still prove what each original PR built.
 
 ---
 
-## Part 2 — The free tour (no API key, ~45 minutes)
+## Part 2 — The reflection loop, breakpoint by breakpoint (~60 minutes)
+
+This is the core session. You have two ways to run it; do the free one first.
+
+### 2a. Free: walk the loop with the built-in lab rat (no API calls)
+
+`_probe()` on `ReflectionAgent` exists for exactly this — a fixed Context you can
+drive through the whole loop without spending a cent. In your Debug Console
+(or a scratch script under `/tmp`, never committed):
+
+```python
+from reflective_qa.agent.checks import CodeChecks
+from reflective_qa.agent.critic import CriticConfig
+from reflective_qa.agent.reflection import ReflectionAgent, Setup
+from reflective_qa.agent.writer import Writer
+
+setup = Setup("lab", "sonnet-k20", CriticConfig("claude-sonnet-5-5", "medium", 4000, True))
+agent = ReflectionAgent(setup, Writer.load_all()["sonnet-k20"], CodeChecks.from_config())
+probe = agent._probe()                   # fixed Context; draft trips several checks
+probe.findings                           # read these first: what did the checks flag?
+agent.critic_requests({"probe": probe})  # inspect the exact prompt the critic would get
+```
+
+`ReflectionAgent.load_all()` gives you the six configured setups instead.
+
+Set breakpoints and step through, in execution order:
+
+1. **`ReflectionExperiment.contexts`** (experiments/reflection.py) — the assembly line.
+   For each sampled question it pulls the first answer, re-runs BM25 (`writer.k`
+   paragraphs), and calls `ReflectionAgent.context`, which runs the checks. Inspect:
+   `drafts[q.id]["predicted_answer"]`, the retrieved passages (do the top-k look
+   relevant?), the findings. *This is where you'd spot a retrieval problem vs. a writing
+   problem.*
+2. **`CodeChecks.run`** (agent/checks.py) — read the probe's `findings`. Part 4, Exercise 1 goes deeper.
+3. **`Critic.request`** (agent/critic.py) — read the full prompt text in the
+   debugger. Notice the critic sees *everything the writer saw* ("They are
+   everything the writer saw") plus the draft plus, optionally, the check
+   findings — and is told the automatic checks "can be wrong."
+4. **`Critic.parse`** — verdict → problems. Feed it a fake "revise with no
+   problems" reply and watch it become "pass" (Part 4, Exercise 3 has the test).
+5. **`ReflectionAgent.problems`** — the routing decision: critic's problems, or the raw
+   check findings when there's no critic (`sonnet-code-feedback` setup), or `[]`
+   when the critic passed. **Only drafts with a non-empty list get revised.**
+6. **`Writer.revise_request`** (agent/writer.py) — the money shot. Read the assembled
+   prompt: original request + draft + `REVISE_INSTRUCTION` + findings. Notice the comment
+   above `REVISE_INSTRUCTION`: the instruction is repeated because the 20-question pilot
+   showed revisions drifting long and hedged. *Prompt engineering driven by observed
+   failure, not vibes.*
+7. **`ReflectionExperiment.final_answers`** — revision wins if it succeeded, else the
+   draft stands. Cost counted is *reflection only*, not the draft.
+8. **`ReflectionExperiment.report`** + **`analyze`** — per-question F1 deltas,
+   better/worse counts, and the paired-bootstrap 95% CI (`RevisionAnalysis` in
+   eval/analysis.py). This is where the experiment's conclusion comes from.
+
+### 2b. Paid: three real questions, pocket money
+
+Once the free walk makes sense, run the real thing small. This needs the first-answer
+files on disk (under `data/runs/`, gitignored — from your earlier paid runs) and `.env`
+with the key:
+
+```bash
+uv run --env-file .env rqa reflect estimate sonnet-code-feedback --questions 3
+uv run --env-file .env rqa reflect run sonnet-code-feedback --questions 3 --max-dollars 0.50
+uv run rqa reflect report sonnet-code-feedback --questions 3
+```
+
+**Why this is safe:** `estimate` prints the cost before anything is spent (it counts
+tokens with the free `count_tokens` endpoint); `run` *refuses* if the estimate exceeds
+`--max-dollars`; samples are prefixes, so these 3 questions are the first 3 of your
+200-question sample. If your 200-question runs are on disk, `estimate` shows $0.00 and
+`run` submits nothing — the fingerprint cache at work. Then open
+`data/runs/reflect-sonnet-code-feedback-*.jsonl` and read the actual revisions. There's no
+substitute for reading three real trajectories.
+
+**Breakpoints for the paid run:** `BatchRunner.run` in runs/batch.py — the budget guard,
+which refuses before anything is submitted — then `_submit_and_collect`, the Batch API
+submit → poll → collect cycle and the "never pay twice" resume logic (answered questions
+are skipped; a submitted batch ID is saved before waiting).
+
+---
+
+## Part 3 — Understand the experiment's result yourself (the payoff)
+
+The README's results table says reflection didn't move answer-F1. Don't take it on
+faith — reproduce the reasoning:
+
+1. Run `uv run rqa reflect report` (free — reads your existing run files).
+2. Look at the `better / worse` counts and the change-by-kind split
+   (`abstain to answer`, `answer to abstain`, `reworded`) on each setup's last line.
+3. The story the numbers tell: critics *do* catch wrong "Unanswerable" answers
+   (those revisions gain +0.07 to +0.18), but rewording already-given answers
+   usually scores lower (−0.07 to −0.14). The two effects cancel.
+4. Open `RevisionAnalysis.analyze` in eval/analysis.py and trace how the bootstrap CI is
+   built — 5000 resamples of the per-question deltas, and `Revision.kind` for the split.
+   Every CI including zero is why the README says "no setup changed answer-F1 measurably."
+
+**The deep lesson:** this is what a *negative result done right* looks like —
+same questions, same drafts, paired comparison, quantified uncertainty, and a
+mechanistic explanation (not just "it didn't work" but *which* revisions help
+and which hurt). That's the standard your replay's Phase A judge work should
+be held to.
+
+---
+
+## Part 4 — The details, one class at a time (no API key, ~45 minutes)
+
+Each exercise zooms into a call you traced in Part 2: its key test, an edge case, and one break-it.
 
 ### Exercise 1: checks — the cheapest feedback in the system
 
@@ -130,8 +237,8 @@ That's why the code derives both from one dict. Revert.
 **What to notice:** `_probe()` builds a *fixed fake question* whose draft trips
 several checks, then `fingerprint` hashes the *actual requests* that setup
 would send for it. Change any prompt, schema, model setting, or check behavior
-→ new hash → new files, never mixed results. And the subtle bit the test name
-tells you: `max_words` only enters the hash where findings are actually shown —
+→ new hash → new files, never mixed results. And the subtle bit, pinned by
+`test_the_word_limit_counts_only_where_findings_are_shown`: `max_words` only enters the hash where findings are actually shown —
 a critic that never sees findings keeps its paid reviews when the word limit
 changes. That's money-aware engineering.
 
@@ -141,110 +248,6 @@ test still passes: it compares two hashes computed in the same run. The pin in
 `test_fingerprints.py` fails, because the hash no longer matches the files your paid runs
 are stored under. This is the test *working as designed*: it noticed your prompt edit.
 Revert.
-
----
-
-## Part 3 — The reflection loop, breakpoint by breakpoint (~60 minutes)
-
-This is the core session. You have two ways to run it; do the free one first.
-
-### 3a. Free: walk the loop with the built-in lab rat (no API calls)
-
-`_probe()` on `ReflectionAgent` exists for exactly this — a fixed Context you can
-drive through the whole loop without spending a cent. In your Debug Console
-(or a scratch script under `/tmp`, never committed):
-
-```python
-from reflective_qa.agent.checks import CodeChecks
-from reflective_qa.agent.critic import CriticConfig
-from reflective_qa.agent.reflection import ReflectionAgent, Setup
-from reflective_qa.agent.writer import Writer
-
-setup = Setup("lab", "sonnet-k20", CriticConfig("claude-sonnet-5-5", "medium", 4000, True))
-agent = ReflectionAgent(setup, Writer.load_all()["sonnet-k20"], CodeChecks.from_config())
-probe = agent._probe()                   # fixed Context; draft trips several checks
-probe.findings                           # read these first: what did the checks flag?
-agent.critic_requests({"probe": probe})  # inspect the exact prompt the critic would get
-```
-
-`ReflectionAgent.load_all()` gives you the six configured setups instead.
-
-Set breakpoints and step through, in execution order:
-
-1. **`ReflectionExperiment.contexts`** (experiments/reflection.py) — the assembly line.
-   For each sampled question it pulls the first answer, re-runs BM25 (`writer.k`
-   paragraphs), and calls `ReflectionAgent.context`, which runs the checks. Inspect:
-   `drafts[q.id]["predicted_answer"]`, the retrieved passages (do the top-k look
-   relevant?), the findings. *This is where you'd spot a retrieval problem vs. a writing
-   problem.*
-2. **`CodeChecks.run`** (agent/checks.py) — you already know this from Exercise 1.
-3. **`Critic.request`** (agent/critic.py) — read the full prompt text in the
-   debugger. Notice the critic sees *everything the writer saw* ("They are
-   everything the writer saw") plus the draft plus, optionally, the check
-   findings — and is told the automatic checks "can be wrong."
-4. **`Critic.parse`** — verdict → problems. Feed it a fake "revise with no
-   problems" reply and watch it become "pass" (you saw the test).
-5. **`ReflectionAgent.problems`** — the routing decision: critic's problems, or the raw
-   check findings when there's no critic (`sonnet-code-feedback` setup), or `[]`
-   when the critic passed. **Only drafts with a non-empty list get revised.**
-6. **`Writer.revise_request`** (agent/writer.py) — the money shot. Read the assembled
-   prompt: original request + draft + `REVISE_INSTRUCTION` + findings. Notice the comment
-   above `REVISE_INSTRUCTION`: the instruction is repeated because the 20-question pilot
-   showed revisions drifting long and hedged. *Prompt engineering driven by observed
-   failure, not vibes.*
-7. **`ReflectionExperiment.final_answers`** — revision wins if it succeeded, else the
-   draft stands. Cost counted is *reflection only*, not the draft.
-8. **`ReflectionExperiment.report`** + **`analyze`** — per-question F1 deltas,
-   better/worse counts, and the paired-bootstrap 95% CI (`RevisionAnalysis` in
-   eval/analysis.py). This is where the experiment's conclusion comes from.
-
-### 3b. Paid: three real questions, pocket money
-
-Once the free walk makes sense, run the real thing small. This needs the first-answer
-files on disk (under `data/runs/`, gitignored — from your earlier paid runs) and `.env`
-with the key:
-
-```bash
-uv run --env-file .env rqa reflect estimate sonnet-code-feedback --questions 3
-uv run --env-file .env rqa reflect run sonnet-code-feedback --questions 3 --max-dollars 0.50
-uv run rqa reflect report sonnet-code-feedback --questions 3
-```
-
-**Why this is safe:** `estimate` prints the cost before anything is spent (it counts
-tokens with the free `count_tokens` endpoint); `run` *refuses* if the estimate exceeds
-`--max-dollars`; samples are prefixes, so these 3 questions are the first 3 of your
-200-question sample. If your 200-question runs are on disk, `estimate` shows $0.00 and
-`run` submits nothing — the fingerprint cache at work. Then open
-`data/runs/reflect-sonnet-code-feedback-*.jsonl` and read the actual revisions. There's no
-substitute for reading three real trajectories.
-
-**Breakpoints for the paid run:** `BatchRunner.run` in runs/batch.py — the budget guard,
-which refuses before anything is submitted — then `_submit_and_collect`, the Batch API
-submit → poll → collect cycle and the "never pay twice" resume logic (answered questions
-are skipped; a submitted batch ID is saved before waiting).
-
----
-
-## Part 4 — Understand the experiment's result yourself (the payoff)
-
-The README's results table says reflection didn't move answer-F1. Don't take it on
-faith — reproduce the reasoning:
-
-1. Run `uv run rqa reflect report` (free — reads your existing run files).
-2. Look at the `better / worse` counts and the change-by-kind split
-   (`abstain to answer`, `answer to abstain`, `reworded`) on each setup's last line.
-3. The story the numbers tell: critics *do* catch wrong "Unanswerable" answers
-   (those revisions gain +0.07 to +0.18), but rewording already-given answers
-   usually scores lower (−0.07 to −0.14). The two effects cancel.
-4. Open `RevisionAnalysis.analyze` in eval/analysis.py and trace how the bootstrap CI is
-   built — 5000 resamples of the per-question deltas, and `Revision.kind` for the split.
-   Every CI including zero is why the README says "no setup changed answer-F1 measurably."
-
-**The deep lesson:** this is what a *negative result done right* looks like —
-same questions, same drafts, paired comparison, quantified uncertainty, and a
-mechanistic explanation (not just "it didn't work" but *which* revisions help
-and which hurt). That's the standard your replay's Phase A judge work should
-be held to.
 
 ---
 
@@ -277,5 +280,5 @@ be held to.
 | `uv run --env-file .env rqa reflect run <setup> --max-dollars X` | paid, capped | the real loop |
 | `uv run rqa reflect report` | free | scoring the runs |
 
-Total suggested time: ~2.5 hours across Parts 2–4. Do it in one sitting if you
-can — the loop only clicks when the whole thing is in your head at once.
+Total suggested time: ~2.5 hours across Parts 1–4. Stop at any part boundary; each part
+builds only on the parts before it.
