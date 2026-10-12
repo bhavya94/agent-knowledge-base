@@ -46,6 +46,8 @@ Superpowers. Instructions alone don't prevent these mistakes, so the reviewer sk
 4. **Demo** — run the demo skill: prove it works end to end, with captures.
 5. **PR** — follow `conventions/pull-requests.md`: about 300 lines or fewer, one purpose,
    screenshots as proof, concise description.
+6. **Lab** — after the PR opens, offer a short code-lab on its change (`code-lab` skill), so I
+   understand each PR before I merge it.
 Nothing is "done" until the demo proves it.
 
 ## Before irreversible actions

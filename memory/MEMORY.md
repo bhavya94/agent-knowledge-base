@@ -11,3 +11,4 @@ One line per memory: `- [Title](file.md) — one-line hook`. Content lives in th
 - [KB changes reach sessions](kb-changes-reach-sessions.md) — skills reload live; AGENTS.md needs a restart; plugins need /reload-plugins
 - [Public pages for newcomers](public-pages-for-newcomers.md) — pages and READMEs: task, method, scores before results; no milestone names
 - [OOP and modular code](oop-modular-code.md) — classes own state + behavior; one subpackage per responsibility; CLI out of library code
+- [Teach code top-down](teach-code-top-down.md) — code labs: one PR at a time, main flow and classes first, edge cases last
