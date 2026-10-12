@@ -44,3 +44,8 @@ A refactor changes structure, not behavior. Prove that, don't assert it.
 ## Tests
 - Test behavior through public interfaces; avoid mocking internals.
 - Each bug fix gets a regression test that fails without the fix.
+- **Use realistic test data**, not `foo`, `bar`, or `test1`. Pick values the code meets in real use: a real
+  question, text with punctuation and Unicode, an ID in the real format. For example, write
+  `question="Which datasets do they evaluate on?"`, not `question="foo"`. Realistic data shows what the code is for,
+  and it finds bugs that placeholders hide. Keep each value as small as the test allows. Never copy customer or
+  employer data: take values from a public dataset or write your own.

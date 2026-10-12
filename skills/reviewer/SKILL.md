@@ -12,7 +12,7 @@ If you can spawn a fresh subagent, do so, so the review isn't biased by having w
 1. **Correctness** — edge cases, error paths, concurrency, off-by-one, null/empty inputs, data leakage
    (train/test, PII).
 2. **Tests** — do they test behavior rather than implementation? Would they fail if the feature broke?
-   Run them.
+   Is the test data realistic, not `foo` or `bar` (`conventions/code-structure.md` → Tests)? Run them.
 3. **Design** — does it follow `conventions/code-structure.md` (layout, classes, refactors) and the codebase's
    existing patterns? Is it DRY? Is there a simpler design?
 4. **Repo bar** — check past Senior/Staff review comments in the repo history
