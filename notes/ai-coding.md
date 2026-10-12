@@ -60,6 +60,7 @@ community rules file based on the Jan post: [forrestchang/andrej-karpathy-skills
 - **visualize** — transient single-file HTML pages to explain or visualize; checked with headless Chrome.
 - **debug** — root cause before any fix; stop and ask after three failed fixes. Adapted from Superpowers.
 - **write-skill** — test a skill against a baseline before you ship it. Adapted from Superpowers.
+- **code-lab** — interactive hands-on IDE session: the user runs the code with breakpoints while the agent guides one step at a time. Worked example in `skills/code-lab/references/` (reflective-qa).
 
 ## Action items
 - [x] Personal GitHub repo of agent notes and skills (this repo).
