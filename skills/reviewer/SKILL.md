@@ -13,7 +13,8 @@ If you can spawn a fresh subagent, do so, so the review isn't biased by having w
    (train/test, PII).
 2. **Tests** — do they test behavior rather than implementation? Would they fail if the feature broke?
    Run them.
-3. **Design** — does it follow existing patterns in the codebase? Is it DRY? Is there a simpler design?
+3. **Design** — does it follow `conventions/code-structure.md` (layout, classes, refactors) and the codebase's
+   existing patterns? Is it DRY? Is there a simpler design?
 4. **Repo bar** — check past Senior/Staff review comments in the repo history
    (`gh pr list --state merged`, `gh api repos/{owner}/{repo}/pulls/{n}/comments`) and apply them.
 5. **Cost & ops** — performance, infra cost, observability, rollback.
