@@ -109,6 +109,13 @@ Deliverable: a judge with reported κ/α/F1 against humans, plus the prompt-sear
   KV cache (what it is, how it makes decoding fast, why prompt caching and prefix matching behave the way
   they do). Then extend to Jev-like decision models: how typed/non-autoregressive outputs differ from
   autoregressive generation, decision heads, and why the same transformer backbone serves both.
+- REA — Reverse Engineer Anything ([morluto/rea](https://github.com/morluto/rea), [rea.tools](https://rea.tools))
+  — open-source MCP server + CLI giving coding agents decompiler access (Ghidra/Hopper/IDA/JADX
+  backends; analysis runs locally, nothing uploaded; native paths are read-only). Output format is
+  evidence-first: evidence, limitations, unknowns — eval-harness thinking applied to agent tool use.
+  Hit #1 on GitHub Trending Oct 2026 (~57k stars in 8 days). Adjacent to red-teaming: only point it
+  at software you own or are licensed to analyze. Tinker: run analyze-javascript-application against
+  an Electron app; probe where agent conclusions hold vs. need verification.
 
 
 ## Method notes (general practice, domain-neutral)
