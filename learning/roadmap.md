@@ -76,6 +76,11 @@ Deliverable: a judge with reported κ/α/F1 against humans, plus the prompt-sear
   notes in learning/courses/agentic-ai/. Reflection-module practice spun out as reflective-qa
   (see Decisions 2026-10-10) instead of lab-only exercises. Dropped Pro ($30/mo), auditing free
   (videos only), certificates don't matter. Log takeaways that change the plan here.
+  **Tooling order (2026-10-12):** DSPy first. It is a program optimizer (typed signatures,
+  MIPROv2/GEPA prompt search), not an agent framework; ReAct is a 2022 paper pattern, not a library.
+  LangGraph later, when loops stop being fixed pipelines: hand-rolled module-level code breaks down
+  with retries, conditional edges, multi-step tool calls, or parallel branches (the reflective-qa
+  design verdict). First DSPy porting exercise at course #2: reflective-qa's revise_request assembly.
 0. **Scope** — verify current small-model options and GPU/API prices; task spec; retrieval baseline.
 1. **Error analysis** — answers from frontier, small, and deliberately weak models; read and annotate
    ~100; cluster into failure modes (expected: unfaithful claims, wrong vs. evidence, incomplete,
