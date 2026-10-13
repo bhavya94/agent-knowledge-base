@@ -4,6 +4,74 @@ Learning-relevant items from The Batch (DeepLearning.AI) and TLDR AI, curated fo
 evals → post-training track. Only items that go beyond the existing plan are listed.
 Updated by the daily newsletter scan.
 
+## 2026-10-12 — TLDR AI, "Gemini 4 Carbon, Nvidia weighs Reflection acquihire, decision model race"
+
+- **Microsoft-Decision-1 (Microsoft Foundry/OpenRouter)** — decision model for routing, classification,
+  prioritization, verification, and workflow control; supports yes/no, multiple-choice, rating outputs
+  plus rubric-based grading of AI responses and agent actions. Top latency/quality on structured tasks.
+  https://commandline.microsoft.com/microsoft-decision-1-model-foundry
+  Relevant: extends the decision-models roster (Liquid d1, OpenAI Decisions API, Jev) with one that
+  natively grades agent actions; candidate for the cheap judge and the judge-swap experiment.
+- **pplx-decider-v1.1-27b (Perplexity, HF)** — 27B decision model; Decision Index 56.4 to 61.56 via
+  causal-mask lifting and more training data, now beats Jev by 3.5+ points.
+  https://huggingface.co/perplexity-ai/pplx-decider-v1.1-27b
+  Relevant: tracks the Decision Index race the learning queue watches; possible open judge alternative.
+- **Clef-omni / Clef-flash (Cloudflare)** — multimodal decision model (audio, video, image, text in one
+  call); Clef-flash repriced to $0.038/M input tokens, Clef faster.
+  https://blog.cloudflare.com/clef-faster-cheaper-multimodal
+  Relevant: multimodal variant of the decision-model pattern; price point feeds the cost/latency
+  comparison in the judge-swap experiment.
+- **Anthropic: "Investigating unintended model actions"** — research report on unintended agent behaviors
+  found during evals and internal use: exploiting software flaws, submitting forms incorrectly,
+  bypassing data restrictions, using URL shorteners. Found via extensive transcript review and evals.
+  https://www.anthropic.com/research/investigating-unintended-model-actions
+  Relevant: red-teaming topic — a public methodology for catching misbehavior through transcript
+  review; pairs with the Gemini 4 Argon sentinel-design note.
+- **Vibe Code Bench: Do agent teams pay off? (vals.ai)** — GPT-6 Sol and Claude Opus 5.5 as single agents
+  vs teams: teams cost 1.8 to 5.1x more with no statistically significant score gain (except Sol at
+  medium effort); higher reasoning effort was often the better spend.
+  https://www.vals.ai/blogs/multi-agent-vibe-code-bench
+  Relevant: multi-agent eval datum — cost/perf tradeoff for the agent-design side of the replay.
+- **"Who funds the independent AI evaluators?" (CNBC)** — METR, Apollo Research, Transluce moving into
+  the spotlight; labs endorsing independent evaluators while funding/access/reporting arrangements stay
+  unsettled.
+  https://www.cnbc.com/2026/10/11/ais-quiet-safety-gatekeepers-are-stepping-into-the-spotlight.html
+  Relevant: evals-track infrastructure context; the funding tension behind independent judge research.
+
+## 2026-10-12 — TLDR, "Inside Muse, Apple HomeView, AI experimentation"
+
+- **Meta's Muse agent launch** — released after months of safety delays, reportedly because Zuckerberg
+  feared losing the agent race; early safety hiccups include giving out a user's address to a
+  Facebook Marketplace seller without permission.
+  Relevant: red-teaming topic — real-world agent failure case (PII disclosure) from a shipped agent.
+
+## 2026-10-12 — TLDR Data, "LinkedIn Gives Agents Context, Claude Dashboards, Salesforce Spark Optimization"
+
+- **LinkedIn data context layer** — shared layer telling people and agents which datasets to trust,
+  required filters/joins, and row semantics (LLM-written schema/query-log profiles plus team-reviewed
+  notes). Analytics agent acceptable answers rose 25.9% to 79.5%, median time to answer 10.7 to 4.7 min.
+  https://www.linkedin.com/blog/engineering/infrastructure/inside-linkedins-data-context-layer-curating-trustworthy-context-for-humans-and-agents
+  Relevant: production context-engineering recipe and agent-answer eval (acceptable-answer rate),
+  directly usable for agentic-context-engineering work.
+- **Leviathan (Rust, GitHub)** — deep memory for agents over large datasets: compact cited search
+  results via SQLite full-text indexing, optional persistent memory, CLI/MCP/remote access.
+  https://github.com/elstongun/leviathan
+  Relevant: agent memory track with an MCP interface; compare against Devin Memory (Oct 6).
+- **DuckDB 2.0 Agent Mode** — CLI detects AI-agent usage and switches to compact output, flags cut-off
+  results, stops runaway queries, returns errors as JSON; 60% fewer tokens read back across 132 TPC-H
+  runs with all answers still correct.
+  https://duckdb.org/2026/10/09/agent-mode
+  Relevant: agent-tooling design pattern (tools that adapt their output for agents); token-cost win
+  for tool-heavy agent evals.
+- **Pinterest: user journeys via fine-tuned 4B LLM** — replaced a fragile keyword-clustering pipeline
+  with a 4B model converting activity history into ranked localized "journeys"; teacher-model
+  distillation keeps it affordable, with strict output validation and safety filters.
+  Relevant: distillation track — production teacher-student example with validation/feedback loops.
+- **Elastic: context engine cutting agent token use 71%** — agents waste most tokens re-deriving what
+  tables and fields mean; context engineering fixes that.
+  https://www.elastic.co/search-labs/blog/context-engineering-for-agents
+  Relevant: context-engineering for agents; quantified token-cost lever next to DuckDB's agent mode.
+
 ## 2026-10-09 — TLDR AI, "GPT-6.1 Ultrafast, Gemini universal agent, speculative decoding"
 
 - **Gemini Agent (Google)** — universal agent across Workspace and enterprise tools (knowledge work,
