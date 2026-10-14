@@ -4,6 +4,41 @@ Learning-relevant items from The Batch (DeepLearning.AI) and TLDR AI, curated fo
 evals → post-training track. Only items that go beyond the existing plan are listed.
 Updated by the daily newsletter scan.
 
+## 2026-10-14 — TLDR AI, "OpenAI dev arrested 🚨, Pi API 🤖, OpenCode 2.0 🧑‍💻"
+
+- **"How Anthropic's Dynamic Workflows Coordinate Claude Agents" (latent.space)** — Claude writes
+  the program that manages the multi-agent workflow: task splits, info passing, result checks.
+  Oct 12 demo assigned stock tickers to separate agents, reviewed findings, then wrote a report;
+  found more detail but cost much more than one agent. Session spending limits exist, but the
+  running model does not know its budget.
+  https://www.latent.space/p/claude-dynamic-workflows
+  Relevant: multi-agent orchestration pattern for the agentic-AI-dev track; a fresh cost/detail
+  tradeoff datum alongside the Vibe Code Bench finding.
+- **LFM2.5-24B-A2B (Liquid AI)** — 24B-parameter reasoning model, 2B active; matches or beats
+  Qwen3.6-35B-A3B on five of eight benchmarks at up to 1.7x speed; built for fast, private
+  on-device agents with tool usage. Available on Hugging Face.
+  https://www.liquid.ai/blog/lfm2-5-24b-a2b
+  Relevant: new open-model candidate for Track B's student slot (Liquid LFM was already in the
+  roster); eval numbers feed the open-model comparison.
+- **OpenCode 2.0** — open-source coding agent: server now a single background process, programmatic
+  clients autodiscover the local service, usable as a library via the SDK.
+  https://anoma.ly/notes/opencode-2-0/
+  Relevant: alternative AI-coding harness to trial next to Pi and Muse Code; library mode means it
+  can be scripted into eval tooling.
+- **CLiF: Continual Learning from Full-Stack Trajectories (CopilotKit)** — captures agent traces
+  plus user actions via the AG-UI protocol for continual learning.
+  https://www.copilotkit.ai/blog/introducing-clif
+  Relevant: trajectory-capture tooling for Track A (agentic judges / trajectory evals) and for the
+  Track B self-correction loop on real trajectories.
+- **"Are Harnesses Worth the Cost?" (Naresh Jain, martinfowler.com)** — behavioral-harness
+  experiment: GPT-6 Sol went 10/10 with and without a harness (harness used ~10.5x tokens, no
+  quality gain); GPT-6 Luna went 3/10 unharnessed to 10/10 harnessed, matching Sol reliability at
+  33% lower cost per run ($0.273 vs $0.406).
+  https://martinfowler.com/articles/are-harnesses-worth-the-cost.html
+  Relevant: hard datum for the harness-design decision (deterministic shell around probabilistic
+  reasoning); cheap-model-plus-harness as a cost lever mirrors the Vibe Code Bench result.
+
+
 ## 2026-10-12 — TLDR AI, "Gemini 4 Carbon, Nvidia weighs Reflection acquihire, decision model race"
 
 - **Microsoft-Decision-1 (Microsoft Foundry/OpenRouter)** — decision model for routing, classification,
