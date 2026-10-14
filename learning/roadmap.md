@@ -67,6 +67,12 @@ Deliverable: a judge with reported κ/α/F1 against humans, plus the prompt-sear
   split stays untouched; DSPy/GEPA, MLflow, tool-using critics, sentinels deferred to later roadmap phases.
   Model access: Anthropic API key held by me in a git-ignored .env; agents never handle it; cost approval
   before any paid run.
+- **Models / tooling (2026-10-13):** trialing **Muse Code** ($5/mo, vs Claude Max ~$100+/mo) as the
+  cheaper daily driver - trial task is a real reflective-qa task (known expected outputs, so model
+  quality differences show immediately); the switch decision waits on the comparison. Also
+  experimenting with **Muse Wonder** via API ($4/$20 per 1M tokens, 1M context, Active Memory) as
+  a **writer/judge candidate for the evals track** - it joins Sonnet/Haiku 5.5 in the judge
+  candidate set; cost/latency/agreement will decide.
 
 ## Plan
 - **Prerequisite (started 2026-10-08):** DeepLearning.AI coursework before Phase 0.
@@ -76,6 +82,11 @@ Deliverable: a judge with reported κ/α/F1 against humans, plus the prompt-sear
   notes in learning/courses/agentic-ai/. Reflection-module practice spun out as reflective-qa
   (see Decisions 2026-10-10) instead of lab-only exercises. Dropped Pro ($30/mo), auditing free
   (videos only), certificates don't matter. Log takeaways that change the plan here.
+  **Tooling order (2026-10-12):** DSPy first. It is a program optimizer (typed signatures,
+  MIPROv2/GEPA prompt search), not an agent framework; ReAct is a 2022 paper pattern, not a library.
+  LangGraph later, when loops stop being fixed pipelines: hand-rolled module-level code breaks down
+  with retries, conditional edges, multi-step tool calls, or parallel branches (the reflective-qa
+  design verdict). First DSPy porting exercise at course #2: reflective-qa's revise_request assembly.
 0. **Scope** — verify current small-model options and GPU/API prices; task spec; retrieval baseline.
 1. **Error analysis** — answers from frontier, small, and deliberately weak models; read and annotate
    ~100; cluster into failure modes (expected: unfaithful claims, wrong vs. evidence, incomplete,
@@ -136,6 +147,9 @@ Deliverable: a judge with reported κ/α/F1 against humans, plus the prompt-sear
 - Training labels can be synthetic (frontier models + automated checks); humans label the held-out test set.
 - Optimize prompt/harness first; move to weights only once that plateaus.
 - SFT on full reasoning traces, not just final answers. Report cost per 1k queries alongside quality.
+- Hands-on labs (code-lab skill, built 2026-10-11, refined 2026-10-12): the user drives in the IDE,
+  the agent navigates one step per message. Teach top-down (main flow end-to-end first, then
+  details); scope a lab to one PR; reflective-qa is the worked example.
 
 ## Sources (industry practice, 2026-10-09)
 - [Shankar et al. — Who Validates the Validators? (criteria drift)](https://arxiv.org/pdf/2404.12272)
