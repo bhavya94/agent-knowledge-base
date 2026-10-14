@@ -67,6 +67,12 @@ Deliverable: a judge with reported κ/α/F1 against humans, plus the prompt-sear
   split stays untouched; DSPy/GEPA, MLflow, tool-using critics, sentinels deferred to later roadmap phases.
   Model access: Anthropic API key held by me in a git-ignored .env; agents never handle it; cost approval
   before any paid run.
+- **Models / tooling (2026-10-13):** trialing **Muse Code** ($5/mo, vs Claude Max ~$100+/mo) as the
+  cheaper daily driver - trial task is a real reflective-qa task (known expected outputs, so model
+  quality differences show immediately); the switch decision waits on the comparison. Also
+  experimenting with **Muse Wonder** via API ($4/$20 per 1M tokens, 1M context, Active Memory) as
+  a **writer/judge candidate for the evals track** - it joins Sonnet/Haiku 5.5 in the judge
+  candidate set; cost/latency/agreement will decide.
 
 ## Plan
 - **Prerequisite (started 2026-10-08):** DeepLearning.AI coursework before Phase 0.
@@ -141,6 +147,9 @@ Deliverable: a judge with reported κ/α/F1 against humans, plus the prompt-sear
 - Training labels can be synthetic (frontier models + automated checks); humans label the held-out test set.
 - Optimize prompt/harness first; move to weights only once that plateaus.
 - SFT on full reasoning traces, not just final answers. Report cost per 1k queries alongside quality.
+- Hands-on labs (code-lab skill, built 2026-10-11, refined 2026-10-12): the user drives in the IDE,
+  the agent navigates one step per message. Teach top-down (main flow end-to-end first, then
+  details); scope a lab to one PR; reflective-qa is the worked example.
 
 ## Sources (industry practice, 2026-10-09)
 - [Shankar et al. — Who Validates the Validators? (criteria drift)](https://arxiv.org/pdf/2404.12272)
