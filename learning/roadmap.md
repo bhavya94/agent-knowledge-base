@@ -46,7 +46,9 @@ Deliverable: a judge with reported κ/α/F1 against humans, plus the prompt-sear
   source for per-question checklist rubrics, not the items being labeled.
 - **Compute:** laptop (M1, 8 GB) for orchestration, labeling, and API calls only. Rented single GPU for
   student inference, SFT, and GRPO.
-- **Stack (proposed):** DSPy (MIPROv2, GEPA) for the judge; MLflow for tracking; TRL + vLLM for SFT/GRPO
+- **Stack (proposed):** DSPy (MIPROv2, GEPA) for the judge; MLflow for tracking; Arize Phoenix
+  (2026-10-15 digest; github.com/Arize-ai/phoenix) as an open alternative for OTel eval tracing,
+  versioned datasets, experiments, and prompt replay; TRL + vLLM for SFT/GRPO
   (Unsloth if memory-tight); small open student (~1.7B, step up to ~4B if the gap is large).
 - **Phase B eval set (2026-10-09):** LiveCodeBench filtered to post-model-cutoff problems —
   unit-test-verifiable for clean GRPO rewards and contamination-resistant via time-sliced releases.
@@ -145,7 +147,9 @@ Deliverable: a judge with reported κ/α/F1 against humans, plus the prompt-sear
 - RL against a judge gets hacked: keep a separate gold judge and watch for divergence.
 - Validate a judge with degradation tests: deliberately worsen one behavior; only its criterion should drop.
 - Training labels can be synthetic (frontier models + automated checks); humans label the held-out test set.
-- Optimize prompt/harness first; move to weights only once that plateaus.
+- Optimize prompt/harness first; move to weights only once that plateaus. Concrete RSI loop to
+  study (2026-10-15 digest): Google Harness² (github.com/google-research/harness2) — agents refine
+  prompts, tools, memory, and orchestration with evidence carried across tasks, no weight changes.
 - SFT on full reasoning traces, not just final answers. Report cost per 1k queries alongside quality.
 - Hands-on labs (code-lab skill, built 2026-10-11, refined 2026-10-12): the user drives in the IDE,
   the agent navigates one step per message. Teach top-down (main flow end-to-end first, then
