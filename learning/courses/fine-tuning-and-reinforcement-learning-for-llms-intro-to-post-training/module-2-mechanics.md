@@ -1,0 +1,34 @@
+# Module 2 — Mechanics: Tokens, Loss, LoRA, PPO and GRPO
+
+**Course:** Fine-tuning & RL for LLMs: Intro to Post-training (DeepLearning.AI, Sharon Zhou, AMD) **Date:** 2026-10-15 **Verdict:** the math module. Everything here is load-bearing for actually running Phase B.
+
+## What problem?
+Fine-tuning and RL look like black boxes from the API surface: pass data, get model. When training misbehaves (loss explodes, model memorizes, RL collapses), you cannot debug what you cannot decompose.
+
+## What idea?
+**Tokens first.** Models never see text: a tokenizer (BPE subwords, ~50K vocab for GPT-3 class) converts text to token IDs, embeddings are learned per token, and generation samples from a distribution over the vocabulary (greedy, temperature sampling, beam search). Tokenization quirks have real consequences: models stumble on letter-level tasks (counting Rs in "strawberry") because they see chunks, not characters. Post-training rule: freeze the tokenizer and embeddings for small behavioral changes and always during RL; retrain them only for large domain shifts with genuinely new vocabulary.
+
+**Fine-tuning math.** Loss is cross-entropy (negative log-likelihood) computed **only on target outputs**, never inputs: loss masking. The log is load-bearing: it penalizes low confidence (0.12 on the correct token → loss ~2.12; 0.68 → ~0.39) and turns probability products into numerically stable sums. Teacher forcing feeds the correct previous token during training, enabling one parallel forward pass. The gradient of cross-entropy is beautifully simple (predicted probability minus target probability), and backprop turns it into per-weight nudges; optimizers (AdamW, default fine-tuning LR ~5e-5) average those nudges over batches so single examples cannot cause catastrophic forgetting. The HuggingFace `SFTTrainer` with completion-only loss is the canonical implementation of exactly this loop.
+
+**Hyperparameters.** Learning rate is king: too high → chaotic loss, gibberish, NaN; too low → nothing learned. Schedulers (cosine annealing, linear decay with warmup) manage it. Epochs: post-training runs multiple epochs over small, high-quality data; too many (15 in the example) memorizes and erases prior capability. Batch size trades update noise against GPU memory. Monitoring is by loss curves: both falling and converging is healthy; validation rising while training falls is overfitting; both plateaued high is underfitting. Reproducibility via seeds is what separates a real win from noise (86% vs 91% can be luck).
+
+**PEFT / LoRA.** Full fine-tuning costs 2-3x model memory (gradients plus optimizer states) and one GPU per served task. The insight: the weight update ΔW is mostly noise; an SVD shows its signal concentrated in the first few singular values. LoRA freezes the base and trains low-rank adapter factors instead (a 1000×1000 update becomes ~4,000 parameters at rank 2, a 250x reduction). Rank R=4 is the paper's starting point; rank scales with dataset size and update size; LoRA learning rates run ~10x full fine-tuning. One base model hosts many hot-swappable adapters at zero latency cost; adapters fuse back into the base for identical inference. Rank 1 can even work for RL updates.
+
+**Rewards and preference learning.** RL's core object is the scalar reward. Verifiers (scripts: code compiles, math answer correct) work where correctness is checkable and notably do not care if the reasoning trace is nonsense, only the final answer. Reward models cover the subjective rest: labelers rank outputs, rankings become preference pairs, and the RM learns to maximize r(A) − r(B), with sigmoid of the gap as P(preferred). Decision rule: verifiers for objective goals (factuality, math, code), reward models for subjective ones (alignment, dialogue quality), each with its failure mode (RM → reward hacking; verifiers → compute cost).
+
+**The RL objective and RLHF.** Reward is not differentiable (you cannot backprop through sampling), so the trick is weighting next-token probabilities by reward. Two stabilizers make it practical: a frozen **reference model** anchors updates via the probability ratio between current and reference model, and a **baseline** centers rewards into **advantage** (reward minus expected reward), so tokens learn from beating expectations rather than raw scores. The cost: RL needs the training model, the reference model, a reward model, and possibly a value model in memory at once.
+
+**PPO vs GRPO.** PPO trains a separate value model for per-token baselines (often GAE for smoother credit assignment) and clips the probability ratio so no single update can destabilize training. GRPO deletes the value model: sample a group of outputs per input, use the group's mean reward as the baseline, normalize by standard deviation. Same clipping, sequence-level advantage instead of token-level, substantially less memory, and the algorithm behind DeepSeek's reasoning results. Historical arc: RLHF with PPO → RLAIF (AI feedback) → GRPO with verifiers and reward models.
+
+## Why it matters
+- Loss masking and teacher forcing are the two implementation details everyone gets wrong once. Now I will not.
+- The PPO-vs-GRPO difference is one design decision (where the baseline comes from), and GRPO's answer is why reasoning RL became cheap enough to run outside frontier labs.
+- LoRA rank/placement/LR heuristics are directly actionable for my own runs.
+
+## How I'd use it
+- **Roadmap Phase B (training track):** GRPO on LiveCodeBench with verifiable rewards is this module's exact recipe: frozen tokenizer, group rollouts, group-mean baseline, clipping. LoRA first for the SFT stage (rank 4-8, attention + MLP).
+- **Interview prep:** EvenUp's HM call covers loss functions explicitly. Cross-entropy intuition (why the log, predicted minus target gradient) is a rehearsed answer now.
+- **Flywheel framing:** on-policy distillation sits between SFT and RL in this taxonomy: the teacher is the model itself, the judge is the reward signal.
+
+## Open questions
+- Lesson 9 (Module 2 opener) was still being extracted when this note was written; fold in anything material when it lands.
