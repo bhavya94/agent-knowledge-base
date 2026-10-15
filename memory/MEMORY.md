@@ -13,3 +13,4 @@ One line per memory: `- [Title](file.md) — one-line hook`. Content lives in th
 - [OOP and modular code](oop-modular-code.md) — classes own state + behavior; one subpackage per responsibility; CLI out of library code
 - [Teach code top-down](teach-code-top-down.md) — code labs: one PR at a time, main flow and classes first, edge cases last
 - [Propose before building](propose-before-building.md) — "move ahead" means propose and wait, not build
+- [Course material pipeline](course-material-pipeline.md) — Muse distills courses; raw stays private, own-words notes feed the public roadmap
