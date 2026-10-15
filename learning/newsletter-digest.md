@@ -4,6 +4,71 @@ Learning-relevant items from The Batch (DeepLearning.AI) and TLDR AI, curated fo
 evals → post-training track. Only items that go beyond the existing plan are listed.
 Updated by the daily newsletter scan.
 
+## 2026-10-15 - TLDR AI, "Jev 1.14, Grok Voice 3, RSI"
+
+- **Google Harness²: recursive self-improvement loop (github.com/google-research/harness2)** -
+  agents iteratively refine their prompts, tools, memory, and orchestration with no weight changes;
+  carries evidence-backed lessons forward to improve future tasks.
+  https://github.com/google-research/harness2
+  Relevant: concrete reference implementation of the roadmap's "prompt/harness before weights"
+  principle; an RSI counterpart to the UniEvo-VL self-improvement note on the Oct 5 list.
+- **Agent observability on the Claude Platform (OpenTelemetry)** - send OTel traces from Claude
+  Managed Agents, the Messages API, and Claude SDKs to any OTel tool; GenAI semantic conventions
+  make Claude and other providers' data work in the same dashboards; use for debugging agents,
+  improving agents with production data, and org-wide usage tracking.
+  https://claude.com/resources/articles/agent-observability-on-the-claude-platform
+  Relevant: trajectory-capture/observability tooling for the agentic-eval leg of Track A;
+  pairs with CLiF from the Oct 14 scan.
+- **Google Deep Review (agent document reviewer)** - agent AI system that provides rigorous feedback
+  and technical verification on complex documents; started with CS papers, now multi-domain;
+  PDF and text input with multi-file support coming.
+  https://research.google/blog/analyzing-technical-documents-with-deep-review/
+  Relevant: worked example of an agentic judge/verifier; a design reference for the Track A
+  reviewer/judge agents.
+- **"Routers Are a New AI Primitive" (vals.ai)** - independent comparison of AI routers: same
+  fundamental design, different decision mechanisms; routers vs single models on quality and cost.
+  https://www.vals.ai/blogs/routers-new-ai-primitive
+  Relevant: feeds the model-tier-routing line in the harness design; a router quality-vs-cost datum.
+- **Ling-3.1-flash (inclusionAI, HF)** - native hybrid reasoning model, 560B total / 25B active
+  parameters, 1M-token context, on Hugging Face.
+  https://huggingface.co/inclusionAI/Ling-3.1-flash
+  Relevant: new open-model candidate for the Phase B comparison roster.
+
+## 2026-10-15 - TLDR, "Inside GTA, Anthropic revenue jump, agentic verification"
+
+- **"Agentic Verification" (addyo.substack)** - give agents a way to independently verify their work:
+  end-to-end tests simulating real user flows as ground truth; property-based testing for
+  invariants (what should never happen); fast deterministic tests so agents retry when the loop
+  is slow or unreliable.
+  https://addyo.substack.com/p/agentic-verification
+  Relevant: test-design discipline for the agent-eval leg of Track A; property-based invariants
+  complement the roadmap's judge degradation-test validation note.
+
+## 2026-10-15 - TLDR Data, "Meta Puts Idle Compute to Work, GitHub Counts Stars Faster, Claude Dashboard Security"
+
+- **Arize Phoenix (self-hosted open-source AI observability)** - OTel-based tracing, evaluating,
+  and debugging of LLM apps; retrieval and response evaluations, versioned datasets, experiments,
+  prompt testing and replay; framework- and provider-agnostic.
+  https://github.com/Arize-ai/phoenix
+  Relevant: eval/experiment tooling for Track A judge iteration; an open alternative to the
+  CometML visualization line in the roadmap.
+- **Airbnb CASTLE (CIKM 2026)** - jointly generates synthetic queries and relevance labels from
+  de-identified booking sessions for cold-start NL search training; queries beat InPars/Promptagator
+  baselines 9.2x on KL divergence to real queries; three human SMEs agreed with labels at 91-93%.
+  https://airbnb.tech/ai-ml/castle-training-natural-language-search-before-the-first-real-query/
+  Relevant: production-grade synthetic label-generation datum for the ground-truth-curation track;
+  mirrors the roadmap's "training labels can be synthetic" method note.
+- **Row-level security for Claude Dashboards via MCP (thedatavist)** - PoC enforcing access rules
+  inside an MCP server (DuckDB backend) before data reaches Claude; one dashboard shows different
+  results per user.
+  https://thedatavist.substack.com/p/need-to-know-implementing-row-level
+  Relevant: MCP track; security-enforcement pattern for tool-using agents.
+- **XERJ (Apache-2.0 local search engine)** - Elasticsearch-compatible local engine that
+  auto-indexes code, logs, PDFs, SQLite, and CSVs into typed datasets for agent retrieval and RAG;
+  returns ranked passages with file and line locations; local by default.
+  https://github.com/xerj-org/xerj
+  Relevant: retrieval infra for agent RAG loops, adjacent to the PPLX/EmbeddingGemma retrieval note.
+
 ## 2026-10-14 — TLDR AI, "OpenAI dev arrested 🚨, Pi API 🤖, OpenCode 2.0 🧑‍💻"
 
 - **"How Anthropic's Dynamic Workflows Coordinate Claude Agents" (latent.space)** — Claude writes
