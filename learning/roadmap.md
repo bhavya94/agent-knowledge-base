@@ -107,6 +107,26 @@ Deliverable: a judge with reported κ/α/F1 against humans, plus the prompt-sear
    cheap training judge, frontier gold judge for eval.
 5. **Report** — student vs. frontier: judge scores, answer-F1, cost per 1k queries.
 
+## Foundations labs (added 2026-10-15)
+Three small build-to-learn projects, run alongside Track A. Each ends with a one-page writeup of measured results.
+1. **Metrics from scratch** — implement in numpy and check against sklearn on a synthetic imbalanced set:
+   precision/recall/F1, ROC-AUC and PR-AUC (own curve sweep), confusion matrix, MSE/MAE/R2; bootstrap
+   95% CIs, a two-sample t-test, and power analysis for A/B sample size; Cohen's κ.
+   Writeup: when each metric misleads (accuracy on imbalance, ROC-AUC vs PR-AUC).
+   Feeds Track A step 3 (κ, TPR/TNR) and the paired-bootstrap comparisons in reflective-qa.
+2. **Extraction eval lab** — structured extraction from fictional, synthetic documents into a strict JSON
+   schema (entities, dates, amounts, relations). Compare (a) LLM extraction with schema validation and a
+   repair loop vs (b) a small encoder with BIO token classification. Score exact match and per-field F1,
+   plus a rubric judge; add adversarial cases (missing fields, ambiguous dates, conflicting values).
+   Writeup: winner per field type, cost/latency/accuracy, failure taxonomy. Practice for Track A steps 1-3:
+   code checks first, a judge only where code can't check.
+3. **Embedding lab** — on a few hundred docs: CLS vs mean pooling, cosine vs dot, scored by Recall@k and
+   NDCG; FAISS ANN vs brute-force latency; contrastive fine-tune of a small sentence transformer on
+   synthetic in-domain pairs to measure the domain-shift gap. Writeup also covers dimension trade-offs
+   (64/128/768) for index size and latency. Feeds the retrieval step in reflective-qa and the Phase 3
+   evidence-lookup judge.
+Suggested order: 1 → 2 → 3, since 1 provides the scoring code that 2 and 3 reuse.
+
 ## Learning topics (queue)
 - Alignment at training time — RLHF, DPO, constitutional AI; how alignment is handled during training.
 - RL gyms — simulated environments for testing agents across scenarios (AutoGym, SkillGym).
