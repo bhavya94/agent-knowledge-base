@@ -30,4 +30,4 @@ The flagship of the six-course distillation set, and the one closest to my actua
 None downloaded. The video lessons carry no notebooks; the graded labs sit behind the paid plan and were not started under the read-only constraint. The patterns above capture what matters.
 
 ## Extraction note
-All 43 video lessons were extracted. Lesson 9 (the Module 2 opener) was extracted in a follow-up pass; module 2's note flags anything still to fold in.
+All 43 video lessons extracted and distilled, including lesson 9 (data shapes, splits, and leakage prevention), which was recovered in a follow-up pass and folded into module 2.
