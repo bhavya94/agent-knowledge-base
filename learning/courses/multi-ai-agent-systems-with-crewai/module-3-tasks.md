@@ -21,7 +21,6 @@ Power features:
 ## How I'd use it
 - **Roadmap Phase 2 (judge):** judge agents should emit Pydantic-structured verdicts. Per-criterion scores as typed fields, not prose to parse.
 - **Roadmap Phase 3 (harness):** pipeline stages chained via context, with schemas at each boundary.
-- **Flywheel memory:** the parallel-then-synthesize shape (venue + logistics research feeding marketing) is the same shape as multi-model judge panels feeding a synthesis step.
 
 ## Open questions
 - None. Straightforward module.

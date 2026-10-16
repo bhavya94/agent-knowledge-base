@@ -21,7 +21,6 @@ Mechanics: **custom tools** subclass `BaseTool` with a name, a description (the 
 ## How I'd use it
 - **Roadmap Phase 3 (harness):** my agent harness tool definitions should carry the same discipline: precise descriptions, typed inputs, graceful errors returned to the agent.
 - **Project 01 (extraction eval lab):** the extraction tools get the versatility/fault-tolerance treatment; measure how often the agent recovers vs gives up.
-- **Interview prep:** "how do you design tools for agents" is now an answered question with examples.
 
 ## Open questions
 - None. This module was complete.

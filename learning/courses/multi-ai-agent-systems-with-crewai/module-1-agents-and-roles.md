@@ -23,8 +23,6 @@ The **manager mental model**: design like a manager assembling a team, not a pro
 
 ## How I'd use it
 - **Roadmap Phase 2 (judge):** per-agent evals. If each agent has a crisp role and expected output, you can judge subtasks independently instead of only end to end.
-- **Interview prep:** EvenUp's agent-orchestration questions and Cresta's AI-assisted rounds both reward this vocabulary (role/goal/backstory, delegation, guardrails).
-- **Tempo-style roles:** MCP tool definitions for a hub-and-spoke agent architecture are the same idea as agent-level vs task-level tooling.
 
 ## Open questions
 - How much of the role-playing gain survives when the underlying model gets stronger? Worth an A/B on a real task.

@@ -23,7 +23,7 @@ Foundational vocabulary plus three reusable build templates. The mental models (
 ## Builds to steal
 - **Event planning crew:** async research + context chaining + Pydantic outputs. Template for any parallel-then-synthesize pipeline.
 - **Financial analysis crew:** hierarchical expert team (analyst, strategist, advisor, risk). Template for my judge panel work.
-- **Job application crew:** FileReadTool bridging agents to local documents. Reimplement against my own resume as a build-fast exercise.
+- **Job application crew:** FileReadTool bridging agents to local documents.
 
 ## Notebooks
-Six course notebooks (research article, customer support, outreach, event planning, financial analysis, job application) downloaded to my local workspace `browser_downloads/sess-55229930/`. Not committed here; they are course IP. The patterns above capture what matters.
+Six course notebooks (research article, customer support, outreach, event planning, financial analysis, job application) downloaded locally. Not committed here; they are course IP. The patterns above capture what matters.

@@ -24,8 +24,6 @@ Three builds (all notebooks downloaded to my workspace):
 
 ## How I'd use it
 - **Roadmap Phase 2 (judge):** hierarchical judge panel. Specialist critics (faithfulness, completeness, tone) under a synthesizer, all grounded in retrieved context.
-- **Interview prep:** EvenUp's ambiguous-ML-question round and Cresta's system design both invite a "here is how I would structure the agent team" answer.
-- **Course capstone for me:** reimplement the job-application crew against my own resume and a real posting as a build-fast exercise.
 
 ## Open questions
 - The course claims real Fortune 500 usage of crewAI for financial analysis. Unverified; treat as marketing until I see a case study.
