@@ -15,6 +15,14 @@ that cover the learning goals. The aim is learning by building, not by doing lab
 - Use only download options a site intentionally offers. Public university course slides (Stanford CS229, CS224N,
   CS336, and similar) are a freely downloadable alternative.
 
+- **Cadence (2026-10-15):** Muse distills one new course a day into `learning/courses/<course>/` via PRs, and adds
+  newsletter items worth experimenting with. Bhavya has the main agent review and merge those PRs.
+- **Review check before merging Muse PRs:** Muse writes notes with private context (interview targets, prep framing,
+  ex-employer platform names). Strip those lines before merging; the course content itself is fine. Merged branch
+  commits stay in public history, so scrub on the branch before merge, never after.
+- **Projects (2026-10-15):** each project is a new public repo built from the roadmap. Don't keep reusing QASPER or
+  its Track A/B plan; pick fresh tasks that fit what was just learned.
+
 **Why:** Watching courses live was slower than learning in live Claude sessions. Bhavya wants a bespoke, fast learning
 map with projects as the unit of learning.
 **How to apply:** When reviewing distilled course notes from Muse, updating the roadmap, or proposing the next project.
