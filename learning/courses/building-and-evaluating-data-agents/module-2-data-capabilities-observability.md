@@ -17,7 +17,6 @@ A web-research agent is a demo. Real data agents must answer over internal enter
 
 ## How I'd use it
 - **Roadmap Phase 2 (judge):** my judge harness should consume traces, not just final outputs. Per-step judges on retrieval spans are the design.
-- **Tempo-style roles:** an MCP hub wrapping specialist servers is this same nesting pattern. The failure mode to name in interviews: the router picks the wrong specialist tool.
 - **Project work:** any agent I build gets retrieval instrumentation from day one, because retrofitting spans is miserable.
 
 ## Open questions

@@ -24,7 +24,6 @@ The diagnostic payoff: GPA metrics tell you where in the goal → plan → act c
 ## How I'd use it
 - **Roadmap Phase 2 (judge):** add GPA-style process judges to the eval design: plan quality and plan adherence judges over traces, alongside the triad's output judges.
 - **Roadmap Phase 3 (harness):** inline eval hooks at retrieval steps, with the score wired into the replan decision. This is the sentinel pattern from my agent work, given a concrete implementation.
-- **Interview prep:** EvenUp and Cresta both probe agent reliability. "How do you evaluate an agent beyond its final answer?" now has a named, four-part framework answer.
 
 ## Open questions
 - GPA evaluators are themselves LLM judges here. Their agreement with human process audits is unmeasured in the course; same Kappa caveat as every judge in this distillation set.

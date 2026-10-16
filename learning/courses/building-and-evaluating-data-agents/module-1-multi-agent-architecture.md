@@ -20,7 +20,6 @@ State is a custom class extending LangGraph's MessagesState (user query, enabled
 
 ## How I'd use it
 - **Roadmap Phase 3 (harness):** my agent harness gets the planner-executor split with a hard replan cap and a synthesizer that reads only worker outputs.
-- **Interview prep:** "design a data agent" is now an answered system-design question with named components, state fields, and failure modes (the course is candid that chart summarization quality varies and queries take minutes).
 
 ## Open questions
 - LangGraph vs crewAI for this shape: the course does not compare. My take: the framework matters less than the eval discipline in modules 2 and 3.

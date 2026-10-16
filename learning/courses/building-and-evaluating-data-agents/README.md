@@ -25,7 +25,7 @@ The most architecturally complete of the short courses: a full planner-executor 
 - **Inline eval decorator:** context-relevance scoring attached to retrieval steps, feeding the replan decision.
 
 ## Notebooks
-Five course notebooks (workflow construction, Cortex expansion, observability, GPA measurement, GPA improvement) downloaded to my local workspace `browser_downloads/sess-55229930/`. Not committed here; they are course IP. The patterns above capture what matters.
+Five course notebooks (workflow construction, Cortex expansion, observability, GPA measurement, GPA improvement) downloaded locally. Not committed here; they are course IP. The patterns above capture what matters.
 
 ## Extraction note
 The platform transcript service failed for most lessons during extraction. Lessons 3-7 were covered via the full lesson 3 transcript plus all five notebooks read in full; lessons 1, 2, and 8 (intro, definitions, 1-minute conclusion) were covered from the course page descriptions and the course arc. Nothing material is missing, but fine detail in lessons 1-2 is thinner than elsewhere in this set.
