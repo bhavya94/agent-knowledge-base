@@ -20,8 +20,6 @@ Each metric is an LLM-as-judge feedback function with chain-of-thought reasons, 
 
 ## How I'd use it
 - **Roadmap Phase 2 (judge):** the triad IS a judge design. Context relevance judges retrieval, groundedness judges faithfulness, answer relevance judges utility. My RAG faithfulness replay plan maps one to one onto this.
-- **Flywheel memory:** the Flywheel's judge-scored datasets are the same shape. Per-criterion judges with reasons, not a single holistic score.
-- **Interview prep:** EvenUp's HM call covers eval metrics and embeddings. The triad gives me a crisp framework answer for "how do you evaluate a RAG system?"
 
 ## Open questions
 - TruLens is the course's tool; the framework is tool-agnostic. Worth checking whether my own harness should adopt TruLens or keep the triad as hand-rolled judges. Leaning hand-rolled for control, triad for the metric definitions.

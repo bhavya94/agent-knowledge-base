@@ -23,7 +23,7 @@ Short and dense. The RAG triad alone justifies it; the two retrieval techniques 
 - **Retrieval experiment protocol:** baseline vs sentence-window vs auto-merging on identical questions, triad leaderboard picks the winner. This is my Phase A replay shape.
 
 ## Notebooks
-Four course notebooks (baseline pipeline + eval setup, triad implementation, sentence-window, auto-merging) downloaded to my local workspace `browser_downloads/sess-55229930/`. Not committed here; they are course IP. The patterns above capture what matters.
+Four course notebooks (baseline pipeline + eval setup, triad implementation, sentence-window, auto-merging) downloaded locally. Not committed here; they are course IP. The patterns above capture what matters.
 
 ## Extraction note
 Lesson 6 (an 80-second conclusion video) could not be retrieved due to a platform transcript outage during extraction. Nothing of substance is missing; lessons 2-5 were covered via their full notebooks plus transcripts where available.

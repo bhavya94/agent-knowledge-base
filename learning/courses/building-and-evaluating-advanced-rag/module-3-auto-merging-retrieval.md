@@ -20,7 +20,6 @@ The course builds the hierarchical index, queries it, and compares RAG triad sco
 
 ## How I'd use it
 - **Roadmap Phase 2 (judge):** second retrieval experiment in the replay plan, after sentence-window. Triad scores decide which survives.
-- **Interview prep:** "how do you handle questions that need different amounts of context?" is now an answered question with a mechanism, not a hand-wave.
 
 ## Open questions
 - The hierarchy depths and chunk sizes are presented as given. On a real corpus I would want a selection heuristic; likely corpus structure (headings, sections) should drive it rather than fixed token counts.
