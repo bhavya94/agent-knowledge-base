@@ -96,7 +96,7 @@ Suggested order: 1 → 2 → 3 build the scoring and retrieval basics; 4 → 5 �
    Distillation?" to decide distillation vs GRPO; MiMo-V2.6 GRPO recipe and its 7,000+ RL environments; AREX
    (public agent post-training recipe); Pinterest's fine-tuned 4B model as a small-model case study; Harvey
    wake-sleep (distilling graded trajectories into lessons) as a no-training baseline; LFM2.5-24B-A2B and
-   Beam (open weights planned) as student or teacher candidates.
+   Beam (open weights planned) as student or teacher candidates. CausalMix for choosing the SFT data mixture at small scale before scaling up; Mistral Large 4's mixed-task RL run (rewards from unit tests, reward models, and LLM judges) and "Mo' turns, mo' problems" (agent trajectories go off-policy via subagents, parallel tool calls, and compaction) for the GRPO leg.
 
 ## Standing decisions
 - **Compute:** laptop (M1, 8 GB) for orchestration, labeling, and API calls. Rented single GPU for
