@@ -20,7 +20,6 @@ Knowing the **prompt format** sharpens attacks: injecting an "ADDITIONAL CONTEXT
 
 ## How I'd use it
 - **Roadmap Phase 2 (judge):** adversarial prompt shapes for the eval suite. Test whether my extraction agents resist continuation cues and false-context injection.
-- **Interview prep:** concrete attack examples make the "tell me about LLM security" answer vivid instead of abstract.
 
 ## Open questions
 - The demos are GPT-3.5 era. Modern models with stronger instruction hierarchies resist the naive forms; the shapes still apply but the success rates have shifted. Worth re-testing against current models myself.

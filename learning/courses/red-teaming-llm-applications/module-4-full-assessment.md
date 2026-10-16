@@ -21,8 +21,6 @@ The ByteChapters case study: an e-book store's LLM customer-support bot with rea
 
 ## How I'd use it
 - **Roadmap Phase 3 (harness):** any agent I ship with tools gets a scoped red-team pass: map capabilities, scan for injection, attempt privilege-adjacent actions.
-- **Interview prep:** the ByteChapters chain is a crisp story for "tell me about a security review you would run on an agentic system."
-- **Tempo-style roles:** MCP hub-and-spoke architectures concentrate power in the orchestrator. Excessive agency is the threat model to name.
 
 ## Open questions
 - None. The case study was self-contained and complete.
