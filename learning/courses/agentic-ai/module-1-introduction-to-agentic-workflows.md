@@ -70,7 +70,7 @@ Four reusable design patterns, each illustrated with its own diagram:
 1. **Reflection:** an LLM examines its own output and iterates. Example: generate code, execute it, feed the error message back, fix the bug.
 2. **Tool use:** give the LLM tools (web search, code execution, calculators, APIs) and let the model decide when to invoke them.
 3. **Planning:** the LLM first devises an explicit multi-step plan, then executes it, as the research agent does.
-4. **Multi-agent collaboration:** multiple agents with distinct roles work together. Illustrated by ChatDev, a virtual software company where CEO, programmer, tester, and designer agents converse to build software.
+4. **Multi-agent collaboration:** multiple agents with distinct roles work together. Illustrated by ChatDev, a virtual software company where CEO, programmer, tester, and designer agents converse to build software. My example (not from the course): OpenAI Dots, launched at OpenAI Dev Day 2026.
 
 The patterns are not mutually exclusive; real systems combine them (the research agent uses planning plus tool use plus a reflection-like editor step). Each pattern gets a full module later: reflection in Module 2, tool use in Module 3, planning and multi-agent in Module 5. Practical message: reach for these patterns as starting templates rather than designing from scratch.
 
