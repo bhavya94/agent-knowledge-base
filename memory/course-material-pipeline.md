@@ -17,6 +17,9 @@ that cover the learning goals. The aim is learning by building, not by doing lab
 
 - **Cadence (2026-10-15):** Muse distills one new course a day into `learning/courses/<course>/` via PRs, and adds
   newsletter items worth experimenting with. Bhavya has the main agent review and merge those PRs.
+- **Newsletter items must reach the plan (2026-10-15):** Bhavya asked that TLDR and The Batch learnings be part of
+  the projects. When a digest item lands, add it to the roadmap in the same sync: a "From the newsletters" line
+  under the project it changes, or the learning-topics queue. Pure product news can stay digest-only.
 - **Review check before merging Muse PRs:** Muse writes notes with private context (interview targets, prep framing,
   ex-employer platform names). Strip those lines before merging; the course content itself is fine. Merged branch
   commits stay in public history, so scrub on the branch before merge, never after.

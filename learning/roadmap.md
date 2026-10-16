@@ -6,7 +6,8 @@ Each project is a **new public repo** with a one-page writeup of measured result
 ## How this roadmap is fed
 - **Courses:** one course a day is distilled into [`courses/`](courses/), in our own words (no slides,
   transcripts, or lab code).
-- **Newsletters:** items worth experimenting with go to [`newsletter-digest.md`](newsletter-digest.md).
+- **Newsletters:** items worth experimenting with go to [`newsletter-digest.md`](newsletter-digest.md). Each new
+  item is linked here in the same sync: under the project it changes, or in the learning-topics queue.
 - **Projects:** each project below names its learning goal, its sources, and the repo it becomes.
   Pick fresh tasks and datasets per project; don't reuse an earlier project's dataset by default.
 - Older notes refer to "Track A / Phase 2" (judges), "Phase 3" (harness), and "Track B / Phase B"
@@ -28,6 +29,8 @@ Suggested order: 1 → 2 → 3 build the scoring and retrieval basics; 4 → 5 �
    t-test, power analysis for A/B sample size; Cohen's κ.
    Writeup: when each metric misleads (accuracy on imbalance, ROC-AUC vs PR-AUC).
    Learn: the statistics every later project reports.
+   From the newsletters ([digest](newsletter-digest.md)): independent-evaluator funding (CNBC), as context
+   for why reported metrics need intervals and stated methods.
 2. **Extraction eval lab** — repo `extraction-eval-lab`.
    Structured extraction from fictional, synthetic documents into a strict JSON schema (entities, dates,
    amounts, relations). Compare (a) LLM extraction with schema validation and a repair loop vs (b) a small
@@ -36,12 +39,18 @@ Suggested order: 1 → 2 → 3 build the scoring and retrieval basics; 4 → 5 �
    Writeup: winner per field type, cost/latency/accuracy, failure taxonomy.
    Sources: Agentic AI (tool use, evals), crewAI (structured Pydantic outputs), post-training module 4
    (small seed set, error-driven counter-examples).
+   From the newsletters ([digest](newsletter-digest.md)): Liquid AI d1 and the decision models
+   (single-pass typed outputs) as a cheap third extractor or field validator; Agentic Verification (addyo) for
+   the repair loop checking its own output; Ling-3.1-flash and LFM2.5-24B-A2B as low-cost model candidates.
 3. **Embedding lab** — repo `embedding-lab`.
    On a few hundred docs: CLS vs mean pooling, cosine vs dot, scored by Recall@k and NDCG; FAISS ANN vs
    brute-force latency; contrastive fine-tune of a small sentence transformer on synthetic in-domain pairs
    to measure the domain-shift gap; sentence-window and auto-merging retrieval vs fixed chunks.
    Writeup: pooling/similarity table, domain-shift gap, dimension trade-offs (64/128/768).
    Sources: Advanced RAG (retrieval techniques, RAG triad).
+   From the newsletters ([digest](newsletter-digest.md)): Airbnb CASTLE (synthetic queries plus
+   relevance labels) to build the eval set; EmbeddingGemma 2 and PPLX-EMBED-V2-LATE (multi-vector) as models
+   to compare; XERJ (local Elasticsearch-compatible engine) as the keyword baseline.
 4. **Agent eval harness** — repo `agent-eval-harness`.
    Build a small tool-using agent (planner-executor, 3-4 tools), then evaluate it properly:
    - Trace it with OpenTelemetry (Phoenix or hand-rolled spans).
@@ -56,6 +65,12 @@ Suggested order: 1 → 2 → 3 build the scoring and retrieval basics; 4 → 5 �
    Writeup: judge agreement with humans, where the agent fails, cost per eval run.
    Sources: Evaluating AI Agents, Building and Evaluating Data Agents (GPA, inline evals),
    Advanced RAG (triad), Agentic AI module 4, crewAI (agent design).
+   From the newsletters ([digest](newsletter-digest.md)): Claude Platform OTel tracing and Arize
+   Phoenix for traces; CLiF (full-stack trajectories); Google Deep Review as an agentic-judge reference;
+   Agentic Verification; HYSET (choosing tool sets) for the router eval; decision models cutting agent LLM
+   calls 29.6%, to test as a judge swap; vals.ai on routers and on agent teams (Vibe Code Bench); Exa ATLAS
+   (cheap grading on non-memorized tasks); "Are Harnesses Worth the Cost?" (martinfowler.com) for the
+   cost section of the writeup.
 5. **Red-team harness** — repo `red-team-harness`.
    Point the project 4 agent (or a fresh tool-equipped one) at an automated red-teaming loop:
    hand-written injections with rule-based detection → a jailbreak prompt library → LLM-generated
@@ -64,6 +79,10 @@ Suggested order: 1 → 2 → 3 build the scoring and retrieval basics; 4 → 5 �
    Add a sentinel that watches the trajectory and can block or escalate; compare it with no sentinel.
    Writeup: what got through, which layer caught what, and the safety judge's κ against my labels.
    Sources: Red Teaming LLM Applications, post-training module 3 (red teaming, misalignment).
+   From the newsletters ([digest](newsletter-digest.md)): Gemini 4 Argon safety stack (a
+   production sentinel design) for the sentinel; Anthropic's "Investigating unintended model actions" and
+   self-replication studies for threat categories; the GPT-6.1 Astra deception holdback as a case study;
+   Microsoft Quicksand (VM sandboxing for agents) to run attacks safely.
 6. **Small post-training run** — repo `small-post-training`.
    Small open model (~1.7B, up to ~4B if the gap is large). LoRA SFT on judge-filtered frontier answers
    with reasoning (rejection sampling), then GRPO with verifiable rewards. Candidate eval set:
@@ -73,6 +92,11 @@ Suggested order: 1 → 2 → 3 build the scoring and retrieval basics; 4 → 5 �
    answers and feeds them back into SFT.
    Writeup: student vs frontier on held-out evals, cost per 1k queries, memory and GPU-hour actuals.
    Sources: Fine-tuning & RL for LLMs (all modules), Rubrics as Rewards, on-policy distillation.
+   From the newsletters ([digest](newsletter-digest.md)): NVIDIA "When Do We Need On-Policy
+   Distillation?" to decide distillation vs GRPO; MiMo-V2.6 GRPO recipe and its 7,000+ RL environments; AREX
+   (public agent post-training recipe); Pinterest's fine-tuned 4B model as a small-model case study; Harvey
+   wake-sleep (distilling graded trajectories into lessons) as a no-training baseline; LFM2.5-24B-A2B and
+   Beam (open weights planned) as student or teacher candidates.
 
 ## Standing decisions
 - **Compute:** laptop (M1, 8 GB) for orchestration, labeling, and API calls. Rented single GPU for
@@ -114,6 +138,12 @@ Suggested order: 1 → 2 → 3 build the scoring and retrieval basics; 4 → 5 �
   evidence-first: evidence, limitations, unknowns — eval-harness thinking applied to agent tool use.
   Only point it at software you own or are licensed to analyze. Tinker: run analyze-javascript-application
   against an Electron app; probe where agent conclusions hold vs. need verification.
+- Agent memory and harness engineering (from the newsletters) — Devin Memory (cross-session memory with
+  "Dreaming" reorganization), Leviathan (cited search over large datasets), Elastic's context engine (71% fewer
+  agent tokens), LinkedIn's data context layer, DuckDB 2.0 agent mode, Anthropic's dynamic workflows, Google
+  Agent Skills, AGENT-ENGINEER, UniEvo-VL (one model as teacher and student). Fold into project 4 when its
+  agent needs memory or context management. Also read: "The Expensive-Loop Problem" (LessWrong) and
+  "Releasing AI-generated software" (Mark Seemann), on where agents pay off and how to trust their code.
 
 ## Method notes (general practice, domain-neutral)
 - Error analysis before criteria; label outputs of the system being judged ("criteria drift").
