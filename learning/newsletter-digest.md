@@ -4,6 +4,97 @@ Learning-relevant items from The Batch (DeepLearning.AI) and TLDR AI, curated fo
 evals → post-training track. Only items that go beyond the existing plan are listed.
 Updated by the daily newsletter scan.
 
+## 2026-10-16 - TLDR AI, "Muse Spark Open ✨, Microsoft’s 3T param model 🧠, d1-ultra 💡"
+
+- **Muse Spark Open (Meta)** - 816B-parameter multimodal open-weight model, 42B active
+  parameters, 1M-token context; designed for coding and long-horizon agentic tasks and
+  able to run locally across two Apple M5 Ultra Mac Studios using MLX.
+  https://research.meta.ai/blog/muse-spark-open
+  Relevant: notable open-model release for the agentic track; too large for the Phase B
+  student slot, but a reference point for open-weight agentic capability and local
+  multi-machine inference.
+
+- **"The Gradient Is a Covariance"** - RL, on-policy distillation, and SFT on near-policy
+  data each change only a small fraction of parameters; the expected gradient is a
+  covariance and the Fisher (a variance) caps the gradient for any reward, so what the
+  update needs is a score centered under the sampling distribution, not on-policy
+  sampling itself.
+  Relevant: theory under the Phase B distillation decision; complements the NVIDIA
+  on-policy distillation note from Oct 13 and the Thinking Machines reference in the
+  roadmap sources.
+
+- **"Mo' turns, mo' problems" (Ian Barber)** - agentic RL post-training in practice: one
+  VM with a harness and a fresh model context per problem, tool calls during the run,
+  and a single score at the end; even with a fixed harness, trajectories go off-policy
+  because agents spawn subagents, make parallel tool calls, and compact large sessions.
+  https://ianbarber.blog/2026/10/15/mo-turns-mo-problems/
+  Relevant: RL-gyms and trajectory-eval tracks; a concrete off-policy caveat for the
+  project 6 GRPO design and for scoring multi-turn agent runs.
+
+- **d1-ultra (Liquid AI)** - multimodal decision model for complex real-world tasks;
+  better-calibrated answers and higher accuracy than Jev 1.14; $0.042 per million input
+  tokens on the Liquid API, with Vercel and OpenRouter access coming.
+  https://www.liquid.ai/blog/d1-ultra
+  Relevant: decision-models queue; a calibration-first successor to the d1 already
+  referenced in project 2, and a new entry for the judge-swap cost and agreement
+  comparison.
+
+- **Anthropic expands independent evaluator access (METR)** - Anthropic is giving METR
+  employee-like access to models, training information, safeguards, and other internal
+  material so it can independently assess frontier-model risks and publish its
+  conclusions.
+  https://www.anthropic.com/news/an-update-on-independent-evaluators
+  Relevant: evals-track infrastructure; the access arrangement the Oct 9 open letter
+  asked labs to preserve, now granted by one lab, next to the Oct 12 evaluator-funding
+  note.
+
+- **Perplexity open-sources SPACE** - SPACE is the sandbox infrastructure behind
+  Perplexity's Computer agent, now open source.
+  https://www.perplexity.ai/hub/blog/open-sourcing-space
+  Relevant: agent sandboxing for eval and RL environments; pairs with the Microsoft
+  Quicksand note in project 5 as a reference for running tool-using agents safely.
+
+## 2026-10-15 - The Batch, "Claude Haiku 5.5, Mistral Large 4, and Local Models for Mac and Windows"
+
+- **Andrew Ng letter: verifiable tasks vs judgement tasks** - progress is much faster on
+  verifiable tasks (code, math) because RL gyms can check outcomes automatically
+  against a reward function; judgement tasks have no unambiguous ground truth, only
+  better and worse answers, so gains need domain training data and laboriously crafted
+  reward functions, and easy verifiable test sets make overall progress look better
+  than it is.
+  Relevant: core framing for Track A; why ground-truth curation and rubric design are
+  the hard part of judging judgement tasks, and why RL-gym results transfer unevenly
+  to them.
+
+- **Claude Haiku 5.5 and Sonnet 5.5: reasoning effort is an eval variable** - Sonnet 5.5
+  tops independent indices at max effort but scores lower on FrontierCode at max than
+  at xhigh (46.2 percent vs 52.1 percent), and its cost per task varies more than 18x
+  across reasoning levels; Sonnet 5.5 also ships classifiers that block reasoning
+  extraction, with reasoning blocks bound to the account that generated them, to make
+  distillation of its outputs harder.
+  Relevant: agent-eval methodology for projects 4 and 6; sweep effort levels and report
+  cost per task alongside accuracy, and note the new anti-distillation constraint on
+  using frontier reasoning traces as SFT data.
+
+- **Mistral Large 4: post-training recipe** - 1.05T-parameter MoE (52B active), weights
+  promised by end of month; after pretraining, SFT then a single RL run mixing chat,
+  science, safety, factual accuracy, and long-running tool use in shared environments
+  (code sandboxes, web search, APIs), with rewards from unit tests, reward models,
+  language model judges, and static code checks, updated asynchronously while parallel
+  attempts are still running; 82 percent on CyberGym-E2E-AA, best among publicly
+  available models.
+  Relevant: post-training track; a frontier-scale reference recipe for reward sourcing
+  in RL, and an open-weight release to watch for the comparison roster.
+
+- **CausalMix: data mixing for fine-tuning, minus the guesswork** - causal method that
+  separates a dataset's mixture effect (domain proportions) from its quality effect;
+  built from 512 subsets of Tulu 3 fine-tuning Qwen2.5-0.5B, the mixture it selects
+  transfers to Qwen2.5-7B and to Qwen3-4B on a distilled code and math set, beating Data
+  Mixing Optimization on the selection benchmarks, with weaker results on a held-out
+  Tulu 3 subset as the caveat.
+  Relevant: SFT track; a principled way to set domain proportions for the project 6
+  training set at small scale before committing GPU budget.
+
 ## 2026-10-15 - TLDR AI, "Jev 1.14, Grok Voice 3, RSI"
 
 - **Google Harness²: recursive self-improvement loop (github.com/google-research/harness2)** -
