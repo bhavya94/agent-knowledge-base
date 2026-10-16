@@ -27,7 +27,6 @@ Selection rule: how qualitative is the metric, and how accurate must it be? Qual
 ## How I'd use it
 - **Roadmap Phase 2 (judge):** my judges emit discrete labels with explanations; code-based checks run first wherever ground truth exists; humans reserved for calibration sets that measure judge agreement (Kappa).
 - **Project 01 (extraction eval lab):** extraction correctness gets code-based checks where schemas allow, judges for faithfulness, exactly per this selection rule.
-- **Interview prep:** EvenUp's HM call covers eval metrics. Evaluator families + selection rule + the 83-vs-79 point is a complete, concrete answer.
 
 ## Open questions
 - Judge improvement (model swaps, rubrics, few-shot examples, calibration against human labels) is covered in module 4.

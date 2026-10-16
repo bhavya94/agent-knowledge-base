@@ -26,7 +26,7 @@ The most directly applicable course in the set for my Phase 2 judge work. It tea
 - **Experiment harness shape:** dataset → task → evaluator suite, one evaluator per component, mixed families by ground-truth availability.
 
 ## Notebooks
-Five course notebooks (agent build, tracing, router/skill evals, trajectory evals, structured evals) downloaded to my local workspace `browser_downloads/`. Not committed here; they are course IP. The patterns above capture what matters.
+Five course notebooks (agent build, tracing, router/skill evals, trajectory evals, structured evals) downloaded locally. Not committed here; they are course IP. The patterns above capture what matters.
 
 ## Extraction note
 All 15 lessons extracted. Lessons 11, 13, 14, and 15 initially failed during a platform transcript outage and were recovered in a follow-up pass; lesson 12 was covered via its full lab notebook. The notes are complete.

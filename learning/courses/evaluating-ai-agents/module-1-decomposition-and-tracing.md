@@ -21,7 +21,6 @@ The course builds its running example in Lab 1 (a conversational agent over a du
 ## How I'd use it
 - **Roadmap Phase 2 (judge):** my eval harness adopts the three levels explicitly: skill judges, trajectory checks, end-to-end judges. The Data Agents course's GPA framework slots in as the trajectory layer (plan adherence is trajectory evaluation with a plan).
 - **Roadmap Phase 3 (harness):** instrument first, with an outer run span and per-tool spans, so evals have material to consume from day one.
-- **Interview prep:** "how do you evaluate an agent?" gets the structured answer: decompose into skills, trace, evaluate at three levels.
 
 ## Open questions
 - Phoenix is the course's platform (Arize built it). The method is platform-agnostic; my harness choice stays open, with span structure as the portable part.

@@ -20,7 +20,6 @@ Evals scattered across notebooks do not compound. Teams guess where to improve, 
 ## How I'd use it
 - **Roadmap Phase 2 (judge):** calibration becomes a formal step: human-label a sample, measure agreement (Kappa), iterate the judge prompt with few-shot examples and a rubric until agreement clears a bar, then scale. This answers the open question I flagged in the Red Teaming and post-training notes.
 - **Roadmap Phase A replay:** the eval set gets built comprehensive-not-exhaustive, with production-style prompts feeding new cases over time.
-- **Interview prep:** "how do you know your judge is any good?" is now a rehearsed answer: sample, human review, agreement rate, iterate.
 
 ## Open questions
 - None. The course is complete and self-consistent.
