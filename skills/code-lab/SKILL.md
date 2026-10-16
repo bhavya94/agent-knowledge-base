@@ -36,12 +36,15 @@ then verify it against recon. Recon wins on drift.
 ## 3. Setup
 
 - Clone and install per the README. Open in the IDE (`cursor <dir>`; Bhavya uses Cursor).
-- Prove the debugger works on one trivial breakpoint before the tour. If broken,
+- Bhavya explores with `breakpoint()` and `print` from the terminal, not the IDE debugger UI. Each step
+  names the line to add `breakpoint()` on, the exact command to run (for pytest, `-k <test>`), and the pdb
+  commands to type (`p x`, `pp x`, `n`, `s`, `c`, `q`). The user removes the line with undo before moving on.
+- Prove the setup works on one trivial `breakpoint()` before the tour. If broken,
   fix that first — nothing else works without it.
 
 ## 4. The session
 
-One step per message: one action ("open X, breakpoint on Y, run Z") + what to
+One step per message: one action ("open X, add `breakpoint()` on Y, run Z") + what to
 observe + one question. Wait for the reply. Offer "deeper / move on" at
 checkpoints. Have the user explain each part back before advancing.
 

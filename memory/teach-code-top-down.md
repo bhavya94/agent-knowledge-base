@@ -15,4 +15,4 @@ first and then smaller details later".
 **How to apply:** The `code-lab` skill holds the order and the one-PR scope. `AGENTS.md` step 6 offers a lab
 after each PR. In any code explanation, give the main path before a helper or an edge case. If Bhavya says
 "you tell me" or is lost, answer briefly and zoom out to the map. Related: [[user-profile]],
-[[oop-modular-code]], [[reflective-qa-project]].
+[[oop-modular-code]], [[reflective-qa-project]], [[code-lab-breakpoint-print]].
