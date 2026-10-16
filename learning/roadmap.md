@@ -23,7 +23,8 @@ Each project is a **new public repo** with a one-page writeup of measured result
 ## Projects (queue)
 Suggested order: 1 → 2 → 3 build the scoring and retrieval basics; 4 → 5 → 6 build on them.
 
-1. **Metrics from scratch** — repo `metrics-from-scratch`.
+1. **Metrics from scratch** — repo [`metrics-from-scratch`](https://github.com/bhavya94/metrics-from-scratch).
+   Started 2026-10-16: repo live (initial commit); build in progress.
    Implement in numpy and check against sklearn on a synthetic imbalanced set: precision/recall/F1,
    ROC-AUC and PR-AUC (own curve sweep), confusion matrix, MSE/MAE/R2; bootstrap 95% CIs, a two-sample
    t-test, power analysis for A/B sample size; Cohen's κ.
@@ -111,6 +112,13 @@ Suggested order: 1 → 2 → 3 build the scoring and retrieval basics; 4 → 5 �
   side-by-side on a real task. Muse Wonder (API) joins Sonnet/Haiku 5.5 as a judge candidate;
   cost/latency/agreement decide.
 - **Courses:** auditing is free (videos only); certificates don't matter. Distilled so far: see [`courses/`](courses/).
+- **Course queue (2026-10-16):** the 6 priority courses were all distilled on 2026-10-15 (crewAI
+  multi-agent systems, Evaluating AI Agents, Advanced RAG, Fine-tuning and RL for LLMs,
+  Building and Evaluating Data Agents, Red Teaming LLM Applications). The enrolled queue then
+  runs one per day: Agentic AI (extraction in progress; retry kicked off 2026-10-16 after a
+  sign-in block), Post-training of LLMs, Finetuning Large Language Models, Build and Train an
+  LLM with JAX, Spec-Driven Development with Coding Agents, ChatGPT Prompt Engineering for
+  Developers, and Transformers in Practice (added 2026-10-15, last in the queue).
 
 ## Learning topics (queue)
 - Alignment at training time — RLHF, DPO, constitutional AI; how alignment is handled during training.
