@@ -19,7 +19,7 @@ Skill evals say each part works. They do not say the agent takes a sane path (pr
 
 ## How I'd use it
 - **Roadmap Phase 2 (judge):** adopt the experiment shape (dataset → task → evaluator suite) for my harness; add a convergence-style path-length metric for any multi-step agent I evaluate.
-- **Roadmap Phase 3 (harness):** prompt changes ship only with a same-evaluators comparison run. This is the Flywheel discipline at prompt scale.
+- **Roadmap Phase 3 (harness):** prompt changes ship only with a same-evaluators comparison run.
 
 ## Open questions
 - Minimum-observed-path as "optimal" is a proxy; a hand-specified golden trajectory would be stricter for critical flows. Worth combining both where the stakes justify it.
