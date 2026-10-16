@@ -1,179 +1,133 @@
-# Learning Roadmap — Evals → Post-Training
+# Learning Roadmap — Learn by Building
 
-Goal: build concrete, public, end-to-end projects in evals and post-training.
-Track A produces the judge that Track B depends on, so do A first.
+Goal: learn evals, agents, and post-training by shipping small, public, end-to-end projects.
+Each project is a **new public repo** with a one-page writeup of measured results.
 
-## Track A — Evals and LLM judges
-1. **Error analysis** — generate outputs from the system being judged, read ~100, open-code what goes
-   wrong, cluster into failure modes. Criteria come from observed outputs, not a priori ("criteria drift").
-2. **Ground truth** — one trusted domain expert labels outputs Pass/Fail per failure mode (~50 Pass /
-   ~50 Fail each, ≥30% negatives). Code checks first; LLM judges only for what code can't check.
-3. **Agreement** — judge vs. expert: TPR/TNR (not raw accuracy) plus Cohen's κ; dev split to iterate,
-   test split once. Ceiling = the expert's self-agreement (blind re-label). Fleiss' κ / α only if
-   more raters join.
-4. **Judge prompt** — baseline hand-written judge, then optimize with DSPy (MIPROv2), GEPA
-   (reflective prompt evolution), and Agentic Context Engineering (evolving playbooks).
-5. **Tracking** — log every candidate prompt and its metrics to Comet ML / Opik (or W&B Weave, MLflow);
-   select the judge on held-out agreement with humans, not on the optimization set.
-6. **Agentic judges** — judges that call tools (code execution, retrieval, search) to verify claims;
-   compare against the plain judge on cost and agreement.
+## How this roadmap is fed
+- **Courses:** one course a day is distilled into [`courses/`](courses/), in our own words (no slides,
+  transcripts, or lab code).
+- **Newsletters:** items worth experimenting with go to [`newsletter-digest.md`](newsletter-digest.md).
+- **Projects:** each project below names its learning goal, its sources, and the repo it becomes.
+  Pick fresh tasks and datasets per project; don't reuse an earlier project's dataset by default.
+- Older notes refer to "Track A / Phase 2" (judges), "Phase 3" (harness), and "Track B / Phase B"
+  (post-training). Those now map to projects 4, 5, and 6.
 
-Deliverable: a judge with reported κ/α/F1 against humans, plus the prompt-search history.
+## Done
+- **reflective-qa** ([repo](https://github.com/bhavya94/reflective-qa), 2026-10-09 to 2026-10-11) — reflection
+  agent (writer + critic + one revise round) for grounded QA on QASPER. Result: no setup changed answer-F1
+  measurably (all 95% CIs include zero). Critics fixed wrong "Unanswerable" answers, but rewording correct
+  answers lost score, and the two cancelled out. Lesson: score each component, and use a metric that
+  understands meaning, not word overlap.
 
-## Track B — Post-training with the judge
-1. **Base** — small open model (Qwen or Liquid LFM); optionally warm-start by distilling from a
-   frontier model.
-2. **SFT warm start** — frontier answers with reasoning, filtered by the judge (rejection sampling).
-3. **Self-correction** — student answers below threshold are repaired by a frontier "council"
-   (judge or vote selects) and fed back into SFT.
-4. **GRPO** — reward = per-question checklist rubric graded by a cheap training judge (Rubrics as
-   Rewards). The validated frontier judge is a separate gold judge, never the reward; watch for
-   train-vs-gold divergence (reward hacking); consider rubric dropout.
-   On-policy distillation (per-token teacher logprobs) needs an open-weight same-family teacher —
-   stretch goal.
-5. **Evaluate** — compare student vs. frontier on held-out judge evals; report cost per query and
-   quality gap.
+## Projects (queue)
+Suggested order: 1 → 2 → 3 build the scoring and retrieval basics; 4 → 5 → 6 build on them.
 
-## Decisions (2026-10-07)
-- **Task:** grounded QA over research papers — [QASPER](https://huggingface.co/datasets/allenai/qasper)
-  (Dasigi et al., 2021; CC BY 4.0; 5,049 questions over 1,585 NLP papers; extractive / abstractive /
-  yes-no / unanswerable answers with evidence; ~44% of questions have >1 human answer).
-- **Input format:** retrieve-then-answer — question + top-k retrieved paragraphs (~2–3k tokens), not the
-  full paper. Keeps GRPO affordable; faithfulness is judged against the provided context.
-- **Annotation (revised 2026-10-09):** single domain expert (me) — standard practice, not a compromise.
-  Binary Pass/Fail per failure mode on *model outputs*; judge reported as TPR/TNR + κ vs. my labels.
-  Ceiling = my blind re-label agreement. QASPER human answers + evidence are references and the
-  source for per-question checklist rubrics, not the items being labeled.
-- **Compute:** laptop (M1, 8 GB) for orchestration, labeling, and API calls only. Rented single GPU for
-  student inference, SFT, and GRPO.
-- **Stack (proposed):** DSPy (MIPROv2, GEPA) for the judge; MLflow for tracking; Arize Phoenix
-  (2026-10-15 digest; github.com/Arize-ai/phoenix) as an open alternative for OTel eval tracing,
-  versioned datasets, experiments, and prompt replay; TRL + vLLM for SFT/GRPO
-  (Unsloth if memory-tight); small open student (~1.7B, step up to ~4B if the gap is large).
-- **Phase B eval set (2026-10-09):** LiveCodeBench filtered to post-model-cutoff problems —
-  unit-test-verifiable for clean GRPO rewards and contamination-resistant via time-sliced releases.
-  Paired with QASPER: QASPER covers the judge track (faithfulness needs a judge), LiveCodeBench
-  covers the verifiable training track. Train and eval slices stay disjoint from day one.
-- **Early start: reflective-qa (approved 2026-10-09):** turns roadmap Phases 0–1 into real work
-  early without skipping the error-analysis-first order, as practice for Agentic AI Module 2 (reflection).
-  Public repo: [bhavya94/reflective-qa](https://github.com/bhavya94/reflective-qa); a reflection agent for
-  grounded QA on QASPER (dev split, text-only questions). Milestones M0–M3 all done 2026-10-11
-  (18 PRs, #2–#18 merged, #1 closed unmerged): M0 setup; M1 BM25 recall@k + one-shot/closed-book
-  baselines (Sonnet 5.5 0.512 answer-F1, Haiku 5.5 0.425, closed-book 0.274); M2 reflection agent
-  (code checks + critic + one revise round); M3 experiment one-shot vs code-feedback vs self-critique
-  vs separate critic. Headline result (negative, done right — paired comparison, bootstrap CI):
-  one reflection round did NOT measurably move answer-F1, all 95% CIs include zero. Critics catch
-  wrong "Unanswerable" answers (+0.07 to +0.18 F1 on those), but rewording already-given answers
-  usually scores lower (−0.07 to −0.14); the two effects cancel. Code-feedback shortening of long
-  answers helps where it applies (+0.106 F1 on 15 long Sonnet answers). Scope limits: QASPER test
-  split stays untouched; DSPy/GEPA, MLflow, tool-using critics, sentinels deferred to later roadmap phases.
-  Model access: Anthropic API key held by me in a git-ignored .env; agents never handle it; cost approval
-  before any paid run.
-- **Models / tooling (2026-10-13):** trialing **Muse Code** ($5/mo, vs Claude Max ~$100+/mo) as the
-  cheaper daily driver - trial task is a real reflective-qa task (known expected outputs, so model
-  quality differences show immediately); the switch decision waits on the comparison. Also
-  experimenting with **Muse Wonder** via API ($4/$20 per 1M tokens, 1M context, Active Memory) as
-  a **writer/judge candidate for the evals track** - it joins Sonnet/Haiku 5.5 in the judge
-  candidate set; cost/latency/agreement will decide.
-
-## Plan
-- **Prerequisite (started 2026-10-08):** DeepLearning.AI coursework before Phase 0.
-  Ranked shortlist (~20–25h): 1. Agentic AI (Ng) → 2. DSPy → 3. Evaluating AI Agents →
-  4. Fine-tuning & RL for LLMs → 5. GRPO → 6. Post-training of LLMs → 7. MCP → 8. LangGraph.
-  Courses #2–#3 feed Phase A; #4–#6 feed Phase B. Agentic AI modules 1–3 done (module 3: tool use),
-  notes in learning/courses/agentic-ai/. Reflection-module practice spun out as reflective-qa
-  (see Decisions 2026-10-10) instead of lab-only exercises. Dropped Pro ($30/mo), auditing free
-  (videos only), certificates don't matter. Log takeaways that change the plan here.
-  **Tooling order (2026-10-12):** DSPy first. It is a program optimizer (typed signatures,
-  MIPROv2/GEPA prompt search), not an agent framework; ReAct is a 2022 paper pattern, not a library.
-  LangGraph later, when loops stop being fixed pipelines: hand-rolled module-level code breaks down
-  with retries, conditional edges, multi-step tool calls, or parallel branches (the reflective-qa
-  design verdict). First DSPy porting exercise at course #2: reflective-qa's revise_request assembly.
-0. **Scope** — verify current small-model options and GPU/API prices; task spec; retrieval baseline.
-1. **Error analysis** — answers from frontier, small, and deliberately weak models; read and annotate
-   ~100; cluster into failure modes (expected: unfaithful claims, wrong vs. evidence, incomplete,
-   wrong answer type, "unanswerable" shortcut). Answer-F1 vs. gold reported alongside.
-2. **Judges** — code checks first (format, unanswerable, quote-in-context, F1); one binary judge per
-   remaining failure mode, ~100 labels each; baseline → MIPROv2 → GEPA → ACE scored on TPR/TNR;
-   dev to iterate, test once; blind re-label for the ceiling; degradation tests.
-3. **Agentic + cheap judge** — tool-using judge (evidence lookup) vs. plain on agreement and cost; a cheap
-   judge for use as the GRPO reward. Open design decision: offline eval (scores completed outputs)
-   vs live sentinel (watches the trajectory, can intervene) — same architecture, different trust model.
-   Reflection is self-critique (correlated blind spots, optimizes quality); a sentinel is a separate
-   watcher (optimizes safety: block/halt/escalate). Decide explicitly.
-4. **Post-train** — baseline student; frontier-prompt baseline; closed-book (question-only) baseline for
-   contamination; SFT on judge-filtered frontier answers with reasoning → council repair of student
-   failures → GRPO with per-question checklist reward (rubrics built from QASPER references + evidence),
-   cheap training judge, frontier gold judge for eval.
-5. **Report** — student vs. frontier: judge scores, answer-F1, cost per 1k queries.
-
-## Foundations labs (added 2026-10-15)
-Three small build-to-learn projects, run alongside Track A. Each ends with a one-page writeup of measured results.
-1. **Metrics from scratch** — implement in numpy and check against sklearn on a synthetic imbalanced set:
-   precision/recall/F1, ROC-AUC and PR-AUC (own curve sweep), confusion matrix, MSE/MAE/R2; bootstrap
-   95% CIs, a two-sample t-test, and power analysis for A/B sample size; Cohen's κ.
+1. **Metrics from scratch** — repo `metrics-from-scratch`.
+   Implement in numpy and check against sklearn on a synthetic imbalanced set: precision/recall/F1,
+   ROC-AUC and PR-AUC (own curve sweep), confusion matrix, MSE/MAE/R2; bootstrap 95% CIs, a two-sample
+   t-test, power analysis for A/B sample size; Cohen's κ.
    Writeup: when each metric misleads (accuracy on imbalance, ROC-AUC vs PR-AUC).
-   Feeds Track A step 3 (κ, TPR/TNR) and the paired-bootstrap comparisons in reflective-qa.
-2. **Extraction eval lab** — structured extraction from fictional, synthetic documents into a strict JSON
-   schema (entities, dates, amounts, relations). Compare (a) LLM extraction with schema validation and a
-   repair loop vs (b) a small encoder with BIO token classification. Score exact match and per-field F1,
-   plus a rubric judge; add adversarial cases (missing fields, ambiguous dates, conflicting values).
-   Writeup: winner per field type, cost/latency/accuracy, failure taxonomy. Practice for Track A steps 1-3:
-   code checks first, a judge only where code can't check.
-3. **Embedding lab** — on a few hundred docs: CLS vs mean pooling, cosine vs dot, scored by Recall@k and
-   NDCG; FAISS ANN vs brute-force latency; contrastive fine-tune of a small sentence transformer on
-   synthetic in-domain pairs to measure the domain-shift gap. Writeup also covers dimension trade-offs
-   (64/128/768) for index size and latency. Feeds the retrieval step in reflective-qa and the Phase 3
-   evidence-lookup judge.
-Suggested order: 1 → 2 → 3, since 1 provides the scoring code that 2 and 3 reuse.
+   Learn: the statistics every later project reports.
+2. **Extraction eval lab** — repo `extraction-eval-lab`.
+   Structured extraction from fictional, synthetic documents into a strict JSON schema (entities, dates,
+   amounts, relations). Compare (a) LLM extraction with schema validation and a repair loop vs (b) a small
+   encoder with BIO token classification. Score exact match and per-field F1, plus a rubric judge; add
+   adversarial cases (missing fields, ambiguous dates, conflicting values).
+   Writeup: winner per field type, cost/latency/accuracy, failure taxonomy.
+   Sources: Agentic AI (tool use, evals), crewAI (structured Pydantic outputs), post-training module 4
+   (small seed set, error-driven counter-examples).
+3. **Embedding lab** — repo `embedding-lab`.
+   On a few hundred docs: CLS vs mean pooling, cosine vs dot, scored by Recall@k and NDCG; FAISS ANN vs
+   brute-force latency; contrastive fine-tune of a small sentence transformer on synthetic in-domain pairs
+   to measure the domain-shift gap; sentence-window and auto-merging retrieval vs fixed chunks.
+   Writeup: pooling/similarity table, domain-shift gap, dimension trade-offs (64/128/768).
+   Sources: Advanced RAG (retrieval techniques, RAG triad).
+4. **Agent eval harness** — repo `agent-eval-harness`.
+   Build a small tool-using agent (planner-executor, 3-4 tools), then evaluate it properly:
+   - Trace it with OpenTelemetry (Phoenix or hand-rolled spans).
+   - Evaluate at three levels: per skill, trajectory (convergence, GPA process judges), end to end.
+     Use RAG-triad judges on retrieval steps.
+   - Code checks first; one binary judge per failure mode, with discrete labels and explanations.
+   - Error analysis before criteria: read ~100 traces, cluster failure modes, then write judges.
+   - Calibrate judges against my own labels: TPR/TNR plus Cohen's κ, a dev split to iterate, a test split
+     once, my blind re-label as the ceiling. Validate with degradation tests.
+   - Optimize judge prompts: hand-written baseline → DSPy (MIPROv2) → GEPA. Log every candidate.
+   - Try an agentic judge (tool calls to verify claims) against the plain judge on cost and agreement.
+   Writeup: judge agreement with humans, where the agent fails, cost per eval run.
+   Sources: Evaluating AI Agents, Building and Evaluating Data Agents (GPA, inline evals),
+   Advanced RAG (triad), Agentic AI module 4, crewAI (agent design).
+5. **Red-team harness** — repo `red-team-harness`.
+   Point the project 4 agent (or a fresh tool-equipped one) at an automated red-teaming loop:
+   hand-written injections with rule-based detection → a jailbreak prompt library → LLM-generated
+   adversarial probes with an LLM safety judge. Run a scoped assessment: categories, threat actors,
+   rounds, and a chained exploit attempt on an action with real effects (e.g. refund or delete).
+   Add a sentinel that watches the trajectory and can block or escalate; compare it with no sentinel.
+   Writeup: what got through, which layer caught what, and the safety judge's κ against my labels.
+   Sources: Red Teaming LLM Applications, post-training module 3 (red teaming, misalignment).
+6. **Small post-training run** — repo `small-post-training`.
+   Small open model (~1.7B, up to ~4B if the gap is large). LoRA SFT on judge-filtered frontier answers
+   with reasoning (rejection sampling), then GRPO with verifiable rewards. Candidate eval set:
+   LiveCodeBench filtered to post-model-cutoff problems, with train and eval slices disjoint from day one.
+   A cheap training judge or verifier is the reward; a separate gold judge is used only for eval.
+   Watch train-vs-gold divergence (reward hacking). Optional: a frontier "council" repairs failed student
+   answers and feeds them back into SFT.
+   Writeup: student vs frontier on held-out evals, cost per 1k queries, memory and GPU-hour actuals.
+   Sources: Fine-tuning & RL for LLMs (all modules), Rubrics as Rewards, on-policy distillation.
+
+## Standing decisions
+- **Compute:** laptop (M1, 8 GB) for orchestration, labeling, and API calls. Rented single GPU for
+  training and student inference.
+- **Model access:** I hold API keys in a git-ignored `.env`; agents never handle them. Approve cost before
+  any paid run; each repo sets a dollar cap.
+- **Tooling order (2026-10-12):** DSPy first; it is a program optimizer, not an agent framework. LangGraph
+  only when loops stop being fixed pipelines (retries, conditional edges, parallel branches).
+- **Stack (proposed):** DSPy (MIPROv2, GEPA) for judges; MLflow or Arize Phoenix for tracking and traces;
+  TRL + vLLM for SFT/GRPO (Unsloth if memory-tight).
+- **Models / tooling (2026-10-13):** trialing Muse Code as a cheaper daily driver; the switch waits on a
+  side-by-side on a real task. Muse Wonder (API) joins Sonnet/Haiku 5.5 as a judge candidate;
+  cost/latency/agreement decide.
+- **Courses:** auditing is free (videos only); certificates don't matter. Distilled so far: see [`courses/`](courses/).
 
 ## Learning topics (queue)
 - Alignment at training time — RLHF, DPO, constitutional AI; how alignment is handled during training.
 - RL gyms — simulated environments for testing agents across scenarios (AutoGym, SkillGym).
-- Red teaming agents — adversarial verification that an agent does what it's supposed to do.
 - Recursive self-improvement vs self-healing — self-healing fixes outputs in a fixed capability
-  envelope; RSI improves the improvement machinery itself.
-- Sentinel / oversight agents — a monitor agent watching the main agent's trajectory for safety
-  and policy compliance; catches deceptive or out-of-bounds actions.
+  envelope; RSI improves the improvement machinery itself. Reference loop: Google Harness²
+  (github.com/google-research/harness2) — agents refine prompts, tools, memory, and orchestration with
+  evidence carried across tasks, no weight changes.
 - Decision models — fast, structured decisions inside agent loops (tool selection, completion checks,
   Pass/Fail scoring) via typed outputs in one pass, not open-ended generation. Hot as of Oct 2026:
   Jev (TypeSafe, $0.042/M in), StartLux-Decision (open-source, tops Decision Index 0.2.1),
   AutoTrust JEV/GEV family (Apache-2.0 adapters; GEV-26B-Decide escalates low-confidence calls to System 2).
   Learn: decision-head architectures, calibration, and where they beat frontier LLMs (high-volume typed
-  decisions, ~40x cheaper, 3-5x faster) vs hard-coded rules. Implement: swap one high-frequency judge
-  call in reflective-qa for a decision model; compare cost/latency/agreement. Framing (2026-10-11):
-  harness-level, not training — phase one is integration work (model-tier routing, low-confidence
-  escalation, cost-latency budgets in the agent loop), zero training needed. The cheap-judge-as-GRPO-reward
-  step and the sentinel pattern are both decision-model-shaped; training decision models themselves is phase two.
+  decisions, ~40x cheaper, 3-5x faster) vs hard-coded rules. Try: swap one high-frequency judge call in
+  project 4 for a decision model; compare cost/latency/agreement. Phase one is harness work (model-tier
+  routing, low-confidence escalation, cost-latency budgets), no training needed.
 - How GPT actually works (foundations, do early) — context window, transformer architecture, the
   attention mechanism, the role of probability (next-token prediction; sampling via temperature/top-p/top-k),
   KV cache (what it is, how it makes decoding fast, why prompt caching and prefix matching behave the way
-  they do). Then extend to Jev-like decision models: how typed/non-autoregressive outputs differ from
+  they do). Then extend to decision models: how typed/non-autoregressive outputs differ from
   autoregressive generation, decision heads, and why the same transformer backbone serves both.
 - REA — Reverse Engineer Anything ([morluto/rea](https://github.com/morluto/rea), [rea.tools](https://rea.tools))
   — open-source MCP server + CLI giving coding agents decompiler access (Ghidra/Hopper/IDA/JADX
   backends; analysis runs locally, nothing uploaded; native paths are read-only). Output format is
   evidence-first: evidence, limitations, unknowns — eval-harness thinking applied to agent tool use.
-  Hit #1 on GitHub Trending Oct 2026 (~57k stars in 8 days). Adjacent to red-teaming: only point it
-  at software you own or are licensed to analyze. Tinker: run analyze-javascript-application against
-  an Electron app; probe where agent conclusions hold vs. need verification.
-
+  Only point it at software you own or are licensed to analyze. Tinker: run analyze-javascript-application
+  against an Electron app; probe where agent conclusions hold vs. need verification.
 
 ## Method notes (general practice, domain-neutral)
-- Error analysis before criteria; label outputs of the system being judged.
+- Error analysis before criteria; label outputs of the system being judged ("criteria drift").
 - One trusted expert labeling beats many outsourced labelers; low self-agreement means the criterion is ambiguous.
 - Judge target: agree with the expert about as well as the expert agrees with themselves (TPR/TNR, not accuracy).
 - Prefer several small binary per-failure-mode judges over one monolithic Likert judge.
 - RL against a judge gets hacked: keep a separate gold judge and watch for divergence.
 - Validate a judge with degradation tests: deliberately worsen one behavior; only its criterion should drop.
 - Training labels can be synthetic (frontier models + automated checks); humans label the held-out test set.
-- Optimize prompt/harness first; move to weights only once that plateaus. Concrete RSI loop to
-  study (2026-10-15 digest): Google Harness² (github.com/google-research/harness2) — agents refine
-  prompts, tools, memory, and orchestration with evidence carried across tasks, no weight changes.
+- Optimize prompt/harness first; move to weights only once that plateaus.
 - SFT on full reasoning traces, not just final answers. Report cost per 1k queries alongside quality.
-- Hands-on labs (code-lab skill, built 2026-10-11, refined 2026-10-12): the user drives in the IDE,
-  the agent navigates one step per message. Teach top-down (main flow end-to-end first, then
-  details); scope a lab to one PR; reflective-qa is the worked example.
+- Score each component, not just the end-to-end answer (the reflective-qa lesson).
+- Hands-on labs (code-lab skill): I drive in the IDE, the agent navigates one step per message.
+  Teach top-down (main flow end-to-end first, then details); scope a lab to one PR.
 
 ## Sources (industry practice, 2026-10-09)
 - [Shankar et al. — Who Validates the Validators? (criteria drift)](https://arxiv.org/pdf/2404.12272)

@@ -9,7 +9,7 @@ Shared, version-controlled memory, notes, and skills for my AI coding agents.
 | `skills/` | Agent skills: `explainer`, `reviewer`, `demo`, `remember`, `kb-sync`, `kb-lint`, `stakeholder-comms`, `learn-org-patterns`, `experiment-loop`, `visualize`, `debug`, `write-skill`, `code-lab` |
 | `conventions/` | Code structure and style conventions |
 | `notes/` | Longer-form notes: AI coding, communication |
-| `learning/` | Course and paper notes, plus the evals → post-training roadmap |
+| `learning/` | Course and paper notes, plus the learn-by-building project roadmap |
 | `THIRD_PARTY_NOTICES.md` | Licenses for material adapted from other repos |
 | `examples/` | Worked runs of the Build → Explainer → Reviewer → Demo loop |
 | `projects/` | Per-project PR explainers (public projects only), e.g. `projects/reflective-qa/explainers/` |

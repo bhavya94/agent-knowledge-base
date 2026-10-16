@@ -4,7 +4,7 @@ Courses, papers, and the project roadmap, all in my own words.
 
 | Path | What |
 |---|---|
-| [`roadmap.md`](roadmap.md) | Evals → post-training plan and locked decisions |
+| [`roadmap.md`](roadmap.md) | Project queue (one public repo each) and standing decisions |
 | `courses/<course>/` | One note per module, written after finishing that module |
 | `papers/` | One note per paper, from [`papers/paper-template.md`](papers/paper-template.md) |
 
