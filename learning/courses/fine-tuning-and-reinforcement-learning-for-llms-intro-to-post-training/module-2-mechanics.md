@@ -29,8 +29,6 @@ Fine-tuning and RL look like black boxes from the API surface: pass data, get mo
 
 ## How I'd use it
 - **Roadmap Phase B (training track):** GRPO on LiveCodeBench with verifiable rewards is this module's exact recipe: frozen tokenizer, group rollouts, group-mean baseline, clipping. LoRA first for the SFT stage (rank 4-8, attention + MLP).
-- **Interview prep:** EvenUp's HM call covers loss functions explicitly. Cross-entropy intuition (why the log, predicted minus target gradient) is a rehearsed answer now.
-- **Flywheel framing:** on-policy distillation sits between SFT and RL in this taxonomy: the teacher is the model itself, the judge is the reward signal.
 
 ## Open questions
 - None. Lesson 9 (data shapes, splits, leakage prevention) folded in 2026-10-15; the module is complete.

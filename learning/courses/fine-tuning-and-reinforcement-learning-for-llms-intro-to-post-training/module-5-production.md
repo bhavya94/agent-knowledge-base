@@ -23,10 +23,8 @@ A model that trains well can still fail in production: it games an uncaught rewa
 ## Why it matters
 - Promotion rules turn evals from dashboards into contracts. Zero-regression slices are the difference between "looks better" and "safe to ship."
 - The intervention ladder is an incident-response skill: knowing which fix takes a day versus a week, and which failure class maps to which lever.
-- The flywheel framing (logs → clustered failures → targeted data → next model) is exactly the system I worked on at Shopify, described in public vocabulary.
 
 ## How I'd use it
-- **Interview prep:** Cresta and EvenUp both reward production judgment. Promotion rules, canary slices, and the day-vs-week intervention ladder are concrete answers, not abstractions.
 - **Roadmap Phase B:** GRPO memory math (170-190 GB for 13B) sets my hardware expectations before I scope any run.
 - **My own projects:** the five-item checklist becomes the ship gate for anything I post-train.
 

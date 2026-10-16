@@ -1,6 +1,6 @@
 # Module 3 — Evaluation as the North Star
 
-**Course:** Fine-tuning & RL for LLMs: Intro to Post-training (DeepLearning.AI, Sharon Zhou, AMD) **Date:** 2026-10-15 **Verdict:** the module closest to my day job. Error analysis plus eval investment is the whole game.
+**Course:** Fine-tuning & RL for LLMs: Intro to Post-training (DeepLearning.AI, Sharon Zhou, AMD) **Date:** 2026-10-15 **Verdict:** the core module. Error analysis plus eval investment is the whole game.
 
 ## What problem?
 Teams treat evals as a passive final exam: train, score, done. A thin eval (only 1+1 and 2+2) makes a broken model look finished. Meanwhile RL training quietly games its reward model, and a headline "80% accuracy" says nothing about what to fix next.
@@ -28,7 +28,6 @@ Evals are an **active steering mechanism**, not a ranking ceremony. Design them 
 ## How I'd use it
 - **Roadmap Phase 2 (judge):** track judge-vs-human agreement (Kappa) as my alignment-tax proxy. Add rollout inspection to the judge loop, not just scores.
 - **Roadmap Phase A replay:** RAG faithfulness evals get the representativeness treatment: prompts drawn from realistic usage, not just convenient ones.
-- **Interview prep:** EvenUp's HM call covers eval metrics explicitly. Alignment tax + error decomposition is a staff-level answer.
 
 ## Open questions
 - The module asserts LLM-based failure categorization works at 10K+ scale. I want to verify categorization stability (same failures, same buckets across runs) before building on it.

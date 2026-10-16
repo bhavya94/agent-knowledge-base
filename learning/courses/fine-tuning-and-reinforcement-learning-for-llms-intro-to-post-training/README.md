@@ -5,7 +5,7 @@
 **Course page:** https://learn.deeplearning.ai/courses/fine-tuning-and-rl-for-llms-intro-to-post-training
 
 ## Verdict
-The flagship of the six-course distillation set, and the one closest to my actual work. It is the public-vocabulary version of the Flywheel: SFT, rejection sampling, judge/reward signals, GRPO. Modules 3 (evaluation) and 4 (data) are the re-reads; module 2 is the reference I will keep open during Phase B.
+The flagship of the six-course distillation set: SFT, rejection sampling, judge/reward signals, GRPO. Modules 3 (evaluation) and 4 (data) are the re-reads; module 2 is the reference I will keep open during Phase B.
 
 ## Modules
 1. [Foundations](module-1-foundations.md) — what post-training is, imitation vs optimization, reasoning and Constitutional AI examples, lab recipes (R1, Qwen, Llama).

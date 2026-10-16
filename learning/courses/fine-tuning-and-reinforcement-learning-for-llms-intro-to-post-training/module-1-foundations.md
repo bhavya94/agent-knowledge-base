@@ -24,9 +24,7 @@ In the wild, labs pipeline the techniques repeatedly: DeepSeek R1 and Qwen both 
 - Cooking analogy worth keeping: fine-tuning is following a recipe step by step; RL is "produce the final dish, any path allowed," which can find superhuman routes and weird ones.
 
 ## How I'd use it
-- **My Flywheel work, named:** on-policy self-distillation is this module's pipeline with judge-scored rejection sampling. The course gives me the public vocabulary (SFT, RLHF, RLAIF, rejection sampling, DPO) for what I built at Shopify.
 - **Roadmap Phase B (training track):** SFT then GRPO on LiveCodeBench is exactly the two-phase recipe. The course validates the sequencing.
-- **Interview prep:** EvenUp's HM call asks about loss functions and tradeoffs. "Imitation vs optimization" is the crisp frame for SFT-vs-RL questions.
 
 ## Open questions
 - None for the framing. The mechanics modules carry the detail.

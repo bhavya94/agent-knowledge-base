@@ -19,7 +19,7 @@ Teams treat data as a fixed input: collect a big dataset, train, hope. Failures 
 **The DeepSeek v3 recipe** ties it together: cold-start long-CoT seed data, ~600K filtered reasoning samples (rejection sampling, no mixed languages, no stray code), ~800K total fine-tuning samples at roughly 75% reasoning / 25% non-reasoning. Production pipelines assemble many datasets, each feeding a specific stage.
 
 ## Why it matters
-- The error-driven data loop is the Flywheel pattern at dataset scale: observe failure, generate targeted data, retrain, re-measure.
+- The error-driven data loop: observe failure, generate targeted data, retrain, re-measure.
 - Template engineering reframes data work from labeling to programming. Hundreds of editable templates beat thousands of hand samples.
 - The rollout scale numbers give me concrete planning anchors for Phase B instead of guesses.
 
