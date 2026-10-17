@@ -116,6 +116,7 @@ Suggested order: 1 → 2 → 3 build the scoring and retrieval basics; 4 → 5 �
   side-by-side on a real task. Muse Wonder (API) joins Sonnet/Haiku 5.5 as a judge candidate;
   cost/latency/agreement decide.
 - **Courses:** auditing is free (videos only); certificates don't matter. Distilled so far: see [`courses/`](courses/).
+- **Course queue (2026-10-17):** 7 of 13 distilled. The 6 priority courses were all distilled on 2026-10-15 (crewAI multi-agent systems, Evaluating AI Agents, Advanced RAG, Fine-tuning and RL for LLMs, Building and Evaluating Data Agents, Red Teaming LLM Applications), and Agentic AI followed on 2026-10-16. Post-training of LLMs is next: extraction complete on 2026-10-17 (all 9 video lessons, 3 notebooks), awaiting distillation via PR; lessons 5, 7 and 9 were covered from chapter structures after a transcript stall, flagged in that course README. Then, one per day: Finetuning Large Language Models, Build and Train an LLM with JAX, Spec-Driven Development with Coding Agents, ChatGPT Prompt Engineering for Developers, and Transformers in Practice (added 2026-10-15, last in the queue).
 
 ## Learning topics (queue)
 - Alignment at training time — RLHF, DPO, constitutional AI; how alignment is handled during training.
@@ -161,8 +162,9 @@ Suggested order: 1 → 2 → 3 build the scoring and retrieval basics; 4 → 5 �
 - Optimize prompt/harness first; move to weights only once that plateaus.
 - SFT on full reasoning traces, not just final answers. Report cost per 1k queries alongside quality.
 - Score each component, not just the end-to-end answer (the reflective-qa lesson).
-- Hands-on labs (code-lab skill): I drive in the IDE, the agent navigates one step per message.
+- Hands-on labs (code-lab skill): I drive, the agent navigates one step per message.
   Teach top-down (main flow end-to-end first, then details); scope a lab to one PR.
+  Exploration is by breakpoint() and print in the terminal, not the IDE debugger UI (adopted 2026-10-16).
 
 ## Sources (industry practice, 2026-10-09)
 - [Shankar et al. — Who Validates the Validators? (criteria drift)](https://arxiv.org/pdf/2404.12272)
