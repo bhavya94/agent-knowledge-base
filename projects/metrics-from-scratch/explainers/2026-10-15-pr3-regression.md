@@ -8,6 +8,11 @@ match sklearn, including its conventions for a constant target and for a single 
 delaying 2% of deliveries by an hour makes MSE 5 times larger, but moves MAE by about one minute. R2 is 0 for
 predicting the mean and negative for anything worse.
 
+## The metric, drawn
+![regression chart](img/regression.png)
+
+With a 2% chance of an hour's delay, the delayed orders carry 80% of the MSE but 25% of the MAE. MSE grows 5 times; MAE grows 1.3 times. The chart comes from `docs/views/index.html` in the repo.
+
 ## How it works
 
 ```mermaid

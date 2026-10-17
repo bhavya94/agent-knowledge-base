@@ -8,6 +8,11 @@ any statistic and resamples paired arrays with the same rows. It also adds Welch
 two models' separate F1 intervals overlap, but the paired interval of their difference excludes 0. A simulated
 A/B test with a real 1-minute lift gets p = 0.43, which sets up the power analysis in PR 5.
 
+## The metric, drawn
+![bootstrap chart](img/bootstrap.png)
+
+The separate F1 intervals of models A and B overlap. The paired interval of the gap, B minus A, excludes zero. The chart comes from `docs/views/index.html` in the repo.
+
 ## How it works
 
 ```mermaid

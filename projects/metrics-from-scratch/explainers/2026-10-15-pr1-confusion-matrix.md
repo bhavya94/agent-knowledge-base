@@ -8,6 +8,11 @@ This PR adds a seeded recipe for imbalanced binary data and a `ConfusionMatrix` 
 precision, recall, F1 and macro-F1. Each metric matches sklearn to 1e-12. The demo shows the first trap: at a 1%
 positive rate, a model scores 99% accuracy while it finds 8% of the positives.
 
+## The metric, drawn
+![confusion chart](img/confusion.png)
+
+At a 1% positive rate, accuracy climbs toward 99% as the threshold rises. At 0.9 the model finds 7 of 89 positives. The confusion matrix shows where the errors are. The chart comes from `docs/views/index.html` in the repo.
+
 ## How it works
 
 ```mermaid

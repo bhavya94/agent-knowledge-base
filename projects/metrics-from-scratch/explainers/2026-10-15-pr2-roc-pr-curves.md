@@ -8,6 +8,11 @@ Point metrics need a threshold. Ranking metrics score the whole ordering instead
 1e-12. The demo shows the second trap: as positives get rarer, ROC-AUC stays at about 0.85, while average
 precision falls toward the positive rate.
 
+## The metric, drawn
+![curves chart](img/curves.png)
+
+The four ROC curves lie on top of each other. The precision-recall curves drop as positives get rarer. Average precision tracks that drop, and ROC-AUC does not. The chart comes from `docs/views/index.html` in the repo.
+
 ## How it works
 
 ```mermaid
