@@ -19,11 +19,16 @@ Each project is a **new public repo** with a one-page writeup of measured result
   measurably (all 95% CIs include zero). Critics fixed wrong "Unanswerable" answers, but rewording correct
   answers lost score, and the two cancelled out. Lesson: score each component, and use a metric that
   understands meaning, not word overlap.
+- **metrics-from-scratch** ([repo](https://github.com/bhavya94/metrics-from-scratch), 2026-10-15 to
+  2026-10-16): project 1 below. Classification, regression and agreement metrics in numpy, plus bootstrap
+  CIs, Welch's t-test and power analysis. Every metric matches sklearn or scipy in tests (62 tests). The
+  README shows when each number misleads, with seeded runs. Example: 99% accuracy at 8% recall when 1% of
+  examples are positive, and an F1 gap that separate CIs miss but a paired bootstrap finds.
 
 ## Projects (queue)
 Suggested order: 1 → 2 → 3 build the scoring and retrieval basics; 4 → 5 → 6 build on them.
 
-1. **Metrics from scratch** — repo `metrics-from-scratch`.
+1. **Metrics from scratch** — repo `metrics-from-scratch`. **Done 2026-10-16** (see Done).
    Implement in numpy and check against sklearn on a synthetic imbalanced set: precision/recall/F1,
    ROC-AUC and PR-AUC (own curve sweep), confusion matrix, MSE/MAE/R2; bootstrap 95% CIs, a two-sample
    t-test, power analysis for A/B sample size; Cohen's κ.
